@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Paper Log Parser</title>
     <link href="https://bootswatch.com/5/darkly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <!-- Thanks EterNity for the favicon -->
+    <link rel="icon" href="https://paper-chan.moe/content/images/size/w256h256/2022/06/Emoji-paperOhhh.png" type="image/png">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -72,6 +74,12 @@
         crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 <script>
+    // On load check if #logUrl has a value and trigger the parse button
+    $(document).ready(function () {
+        if ($("#logUrl").val()) {
+            $("#parseButton").trigger("click");
+        }
+    });
     // Hijack our form submission
     document.querySelector("#logSubmissionForm").addEventListener("submit", function (e) {
         console.log("Form submitted");
