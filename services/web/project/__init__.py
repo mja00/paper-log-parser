@@ -9,7 +9,9 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "CHANGEME")
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    # check url params for a url arg
+    url = request.args.get('url', None)
+    return render_template("index.html", url=url)
 
 
 @app.route("/parse", methods=["POST"])

@@ -36,15 +36,21 @@
                 </div>
                 <div class="card-body text-center">
                     <h5 class="card-title">Put the URL of your logs in the box below and press on the parse button!</h5>
-                    <p class="card-text">
-                    <form action="#" id="logSubmissionForm">
-                        <div class="mb-3">
-                            <label for="logUrl" class="form-label">Log URL</label>
-                            <input type="text" class="form-control" id="logUrl" placeholder="https://pastes.dev/rorythecat">
-                        </div>
-                        <button type="submit" class="btn btn-primary" id="parseButton">Parse</button>
-                    </form>
-                    </p>
+                    <div class="card-text">
+                        <form action="#" id="logSubmissionForm">
+                            <div class="mb-3">
+                                <label for="logUrl" class="form-label">Log URL</label>
+                                {% if url %}
+                                <input type="text" class="form-control" id="logUrl" name="logUrl" value="{{ url }}">
+                                {% else %}
+                                <input type="text" class="form-control" id="logUrl" placeholder="https://pastes.dev/rorythecat">
+                                {% endif %}
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="parseButton">Parse</button>
+                        </form>
+                    </div>
+                    <br>
+                    <p class="text-muted text-center">Currently only supports logs from these hosts: <code>paste.gg</code>, <code>pastes.dev</code></p>
                 </div>
             </div>
         </div>
