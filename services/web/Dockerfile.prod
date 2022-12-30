@@ -1,0 +1,69 @@
+###########
+# BUILDER #
+###########
+
+# Python 3.11 slim buster
+FROM python:3.11-slim-buster as builder
+
+# Work dir
+WORKDIR /usr/src/app
+
+# Python env vars
+ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE 1
+
+# System dependencies
+RUN apt update && apt install -y --no-install-recommends gcc
+
+# lint
+RUN pip install --upgrade pip
+RUN pip install flake8
+COPY . /usr/src/app/
+RUN flake8 --ignore=E501,F401 --exclude venv,migrations .
+
+# install python dependencies
+COPY ./requirements.txt .
+RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requirements.txt
+
+
+#########
+# FINAL #
+#########
+
+FROM python:3.11-slim-buster
+
+# App user home dir
+RUN mkdir -p /home/app
+
+# Create the app user
+RUN addgroup --system app && adduser --system --group app
+
+# create the appropriate directories
+ENV HOME=/home/app
+ENV APP_HOME=/home/app/web
+RUN mkdir $APP_HOME
+WORKDIR $APP_HOME
+
+# Install deps
+RUN apt update && apt install -y --no-install-recommends netcat dos2unix
+COPY --from=builder /usr/src/app/wheels /wheels
+COPY --from=builder /usr/src/app/requirements.txt .
+RUN pip install --upgrade pip
+RUN pip install --no-cache /wheels/*
+
+# Copy entrypoint
+COPY ./entrypoint.prod.sh $APP_HOME
+# Make sure it's executable and dos2unix it
+RUN chmod +x $APP_HOME/entrypoint.prod.sh && dos2unix $APP_HOME/entrypoint.prod.sh
+
+# Copy project
+COPY . $APP_HOME
+
+# Chown all the files to the app user
+RUN chown -R app:app $APP_HOME
+
+# Change user
+USER app
+
+# Entrypoint
+ENTRYPOINT ["/home/app/web/entrypoint.prod.sh"]
