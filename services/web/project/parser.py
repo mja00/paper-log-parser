@@ -1,6 +1,5 @@
 import sys
 import requests
-import re
 import bs4
 import os
 import re
