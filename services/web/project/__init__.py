@@ -25,7 +25,10 @@ def parse():
         return jsonify({"error": "No log URL provided", "success": False}), 400
     # Create a new LogFile object
     log_file = LogFile(log_url)
-    log_file.run_checks()
+    try:
+        log_file.run_checks()
+    except Exception as e:
+        return jsonify({"error": "Ran into an issue parsing the logs. Possible incomplete log file.", "success": False}), 500
     if len(log_file.lines) == 0:
         return jsonify({"error": "No log lines found. Most likely caused by an unsupported URL.", "success": False}), 400
     output = log_file.get_report_as_string()

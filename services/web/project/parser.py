@@ -4,6 +4,7 @@ import re
 import bs4
 import os
 from colorama import Fore
+from urllib.parse import urlparse
 
 
 class Plugin:
@@ -51,6 +52,7 @@ class Plugin:
 class LogFile:
     def __init__(self, url):
         self.url = url
+        self.host = ""
         self.max_lines = int(os.environ.get("MAX_LOG_LENGTH", 1000))
         self.headers = {
             "User-Agent": "Minecraft Latest.log Parser v1"
@@ -88,6 +90,7 @@ class LogFile:
         self.exceptions = []
 
     def run_checks(self):
+        self.get_host_from_url()
         self.read_url_into_memory()
         if len(self.lines) == 0:
             return
@@ -101,31 +104,46 @@ class LogFile:
         self.check_for_mising_dependencies()
         self.find_exceptions()
 
+    def get_host_from_url(self):
+        # Parse the host from the given url
+        parsed = urlparse(self.url)
+        self.host = parsed.netloc
+
     def read_url_into_memory(self):
-        # Check if the url is a paste.gg that isn't raw
-        if "paste.gg" in self.url and not self.url.endswith("raw"):
-            # WE need to use bs4 to get the raw url
-            resp = requests.get(url=self.url, headers=self.headers)
-            soup = bs4.BeautifulSoup(resp.text, "html.parser")
-            raw_url = soup.find("a", {"class": "is-pulled-right button"}).get("href")
-            # Now we can handle the raw url
-            resp = requests.get(url=f"https://paste.gg{raw_url}", headers=self.headers)
-            self.lines = resp.text.splitlines()
-            return resp.text
-        elif "pastes.dev" in self.url and "api" not in self.url:
-            # The raw url is just the url with api.pastes.dev
-            raw_url = self.url.replace("pastes.dev", "api.pastes.dev")
-            resp = requests.get(url=raw_url, headers=self.headers)
-            self.lines = resp.text.splitlines()
-            return resp.text
-        elif "api.pastes.dev" in self.url:
-            # No need to get the raw url
-            resp = requests.get(url=self.url, headers=self.headers)
-            self.lines = resp.text.splitlines()
-            return resp.text
-        else:
-            # Not a site we support
-            self.lines = []
+        resp = None
+        match self.host:
+            case "paste.gg":
+                if not self.url.endswith("raw"):
+                    # WE need to use bs4 to get the raw url
+                    resp = requests.get(url=self.url, headers=self.headers)
+                    soup = bs4.BeautifulSoup(resp.text, "html.parser")
+                    raw_url = soup.find("a", {"class": "is-pulled-right button"}).get("href")
+                    # Now we can handle the raw url
+                    resp = requests.get(url=f"https://paste.gg{raw_url}", headers=self.headers)
+                else:
+                    # Already a raw url
+                    resp = requests.get(url=self.url, headers=self.headers)
+            case "pastes.dev":
+                # The raw url is just the url with api.pastes.dev
+                raw_url = self.url.replace("pastes.dev", "api.pastes.dev")
+                resp = requests.get(url=raw_url, headers=self.headers)
+            case "api.pastes.dev":
+                # No need to get the raw url
+                resp = requests.get(url=self.url, headers=self.headers)
+            case "pastebin.com":
+                raw_url = self.url.replace("pastebin.com", "pastebin.com/raw")
+                resp = requests.get(url=raw_url, headers=self.headers)
+            case "mclo.gs":
+                # We'll want to get the ID of the logs, which is the last element of the url
+                id = self.url.split("/")[-1]
+                raw_url = f"https://api.mclo.gs/1/raw/{id}"
+                resp = requests.get(url=raw_url, headers=self.headers)
+            case _:
+                # Not a site we support
+                self.lines = []
+                return ""
+        self.lines = resp.text.splitlines()
+        return resp.text
 
     def get_flavor_line(self):
         # Iterate over the lines looking for: This server is running
