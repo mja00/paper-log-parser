@@ -99,7 +99,7 @@ class LogFile:
         self.exceptions = []
         self.ignored_exceptions = [
             "UnknownDependencyException"
-            ]
+        ]
         self.has_ambiguous_plugins = False
         self.ambiguous_plugins = []
         self.attempting_to_downgrade = False
