@@ -22,9 +22,11 @@ def parse():
     # We'll need the log URL
     log_url = body.get('logUrl', None)
     if log_url is None:
-        return jsonify({"error": "No log URL provided"}), 400
+        return jsonify({"error": "No log URL provided", "success": False}), 400
     # Create a new LogFile object
     log_file = LogFile(log_url)
     log_file.run_checks()
+    if len(log_file.lines) == 0:
+        return jsonify({"error": "No log lines found. Most likely caused by an unsupported URL.", "success": False}), 400
     output = log_file.get_report_as_string()
-    return jsonify({"output": output})
+    return jsonify({"output": output, "success": True}), 200

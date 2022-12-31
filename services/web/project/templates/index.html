@@ -98,23 +98,31 @@
                 logUrl: logUrl
             })
         }).then(response => response.json()).then(data => {
-            // Set the output
-            var output = data.output;
-            // We want to loop through the lines of the output and then append them to the output element
-            var outputElement = document.querySelector("#output");
-            outputElement.innerHTML = "";
-            output.forEach(line => {
-                var convertedLine = ansiColorParse(line);
-                // Parse the convertedLine using jQuery
-                var parsedLine = $.parseHTML(convertedLine);
-                outputElement.appendChild(parsedLine[0]);
-                outputElement.appendChild(document.createElement("br"));
-            });
-            // Re-enable the button
-            document.querySelector("#parseButton").disabled = false;
-            // Update the output header to be "Output - <logUrl> - <date>"
-            var outputHeader = document.querySelector("#outputHeader");
-            outputHeader.innerHTML = "Output - " + logUrl + " - " + new Date().toLocaleString();
+            // Check response code
+            if (data.success) {
+                // Set the output
+                var output = data.output;
+                // We want to loop through the lines of the output and then append them to the output element
+                var outputElement = document.querySelector("#output");
+                outputElement.innerHTML = "";
+                output.forEach(line => {
+                    var convertedLine = ansiColorParse(line);
+                    // Parse the convertedLine using jQuery
+                    var parsedLine = $.parseHTML(convertedLine);
+                    outputElement.appendChild(parsedLine[0]);
+                    outputElement.appendChild(document.createElement("br"));
+                });
+                // Re-enable the button
+                document.querySelector("#parseButton").disabled = false;
+                // Update the output header to be "Output - <logUrl> - <date>"
+                var outputHeader = document.querySelector("#outputHeader");
+                outputHeader.innerHTML = "Output - " + logUrl + " - " + new Date().toLocaleString();
+            } else {
+                // Set the output to the error message
+                document.querySelector("#output").innerHTML = data.error;
+                // Re-enable the button
+                document.querySelector("#parseButton").disabled = false;
+            }
         });
     });
 

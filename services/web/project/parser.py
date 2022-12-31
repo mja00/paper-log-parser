@@ -87,6 +87,8 @@ class LogFile:
 
     def run_checks(self):
         self.read_url_into_memory()
+        if len(self.lines) == 0:
+            return
         self.get_flavor_line()
         self.get_plugins()
         self.check_offline_mode()
@@ -108,17 +110,20 @@ class LogFile:
             resp = requests.get(url=f"https://paste.gg{raw_url}", headers=self.headers)
             self.lines = resp.text.splitlines()
             return resp.text
-        if "pastes.dev" in self.url and "api" not in self.url:
+        elif "pastes.dev" in self.url and "api" not in self.url:
             # The raw url is just the url with api.pastes.dev
             raw_url = self.url.replace("pastes.dev", "api.pastes.dev")
             resp = requests.get(url=raw_url, headers=self.headers)
             self.lines = resp.text.splitlines()
             return resp.text
-        if "api.pastes.dev" in self.url:
+        elif "api.pastes.dev" in self.url:
             # No need to get the raw url
             resp = requests.get(url=self.url, headers=self.headers)
             self.lines = resp.text.splitlines()
             return resp.text
+        else:
+            # Not a site we support
+            self.lines = []
 
     def get_flavor_line(self):
         # Iterate over the lines looking for: This server is running
