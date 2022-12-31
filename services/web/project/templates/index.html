@@ -101,11 +101,15 @@
             $("#parseButton").trigger("click");
         }
     });
+
+    let loadingSpinner = '<div class="spinner-border text-warning" role="status"><span class="visually-hidden">Parsing...</span></div>';
     // Hijack our form submission
     document.querySelector("#logSubmissionForm").addEventListener("submit", function (e) {
         console.log("Form submitted");
         // Disable button
         document.querySelector("#parseButton").disabled = true;
+        // Make the button a spinner
+        document.querySelector("#parseButton").innerHTML = loadingSpinner;
         e.preventDefault();
         // Get the log URL
         const logUrl = document.querySelector("#logUrl").value;
@@ -135,12 +139,14 @@
                 });
                 // Re-enable the button
                 document.querySelector("#parseButton").disabled = false;
+                document.querySelector("#parseButton").innerHTML = "Parse";
 
             } else {
                 // Set the output to the error message
                 document.querySelector("#output").innerHTML = data.error;
                 // Re-enable the button
                 document.querySelector("#parseButton").disabled = false;
+                document.querySelector("#parseButton").innerHTML = "Parse";
             }
             // Update the output header to be "Output - <logUrl> - <date>"
             var outputHeader = document.querySelector("#outputHeader");

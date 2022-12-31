@@ -12,6 +12,7 @@ latest_paper_versions = {}
 
 # Constants
 ambiguous_plugin_regex = r"\[(\d\d:\d\d:\d\d)\] \[Server thread/ERROR\]: Ambiguous plugin name `([^']+)' for files `([^']+)' and `([^']+)' in `plugins'"
+attempted_downgrade_regex = r".*java\.lang\.RuntimeException: Server attempted to load chunk saved with newer version of minecraft! (\d+) > (\d+)"
 
 
 class Plugin:
@@ -96,8 +97,13 @@ class LogFile:
         self.missing_dependencies = []
         self.has_exceptions = False
         self.exceptions = []
+        self.ignored_exceptions = [
+            "UnknownDependencyException"
+            ]
         self.has_ambiguous_plugins = False
         self.ambiguous_plugins = []
+        self.attempting_to_downgrade = False
+        self.downgraded_versions = []
 
     def run_checks(self):
         self.get_host_from_url()
@@ -115,6 +121,7 @@ class LogFile:
         self.check_for_pirated_plugins()
         self.check_for_mising_dependencies()
         self.find_exceptions()
+        self.check_for_attempted_downgrade()
 
     def get_host_from_url(self):
         # Parse the host from the given url
@@ -272,6 +279,7 @@ class LogFile:
         output = []
         for plugin in self.plugins:
             output.append(f"{plugin.get_color()}{plugin}{Fore.RESET}")
+        output.append(f"{Fore.GREEN}==============================")
         return output
 
     def check_for_paper(self):
@@ -313,6 +321,9 @@ class LogFile:
         # Iterate over lines and keep an index
         for i, line in enumerate(self.lines):
             if "Exception" in line and "lost connection" not in line:
+                # Ensure it's not in our ignored exceptions list
+                if any(word in line for word in self.ignored_exceptions):
+                    continue
                 self.has_exceptions = True
                 self.exceptions.append({
                     "line": line,
@@ -336,6 +347,17 @@ class LogFile:
                         "plugin_name": plugin_name,
                         "plugin_filenames": plugin_filenames
                     })
+            if i > self.max_lines:
+                return
+
+    def check_for_attempted_downgrade(self):
+        for i, line in enumerate(self.lines):
+            match = re.search(attempted_downgrade_regex, line)
+            if match:
+                self.attempting_to_downgrade = True
+                version1 = match.group(1)
+                version2 = match.group(2)
+                self.downgraded_versions = [version1, version2]
             if i > self.max_lines:
                 return
 
@@ -384,10 +406,14 @@ class LogFile:
         output.append(f"{color}Paper Version: {self.paper_version}{Fore.RESET}")
         color = Fore.GREEN if not self.is_offline else Fore.RED
         output.append(f"{color}Offline Mode: {self.is_offline}{Fore.RESET}")
+        if self.attempting_to_downgrade:
+            output.append(f"{Fore.RED}Server is attempting to downgrade. This is not supported! You're going from {self.downgraded_versions[0]} to {self.downgraded_versions[1]}{Fore.RESET}")
         output.append(f"{Fore.GREEN}============PLUGINS============{Fore.RESET}")
         for line in self.output_plugins_for_report():
             output.append(line)
         if self.has_ambiguous_plugins:
+            # Get rid of the last line in the output
+            output.pop()
             output.append(f"{Fore.YELLOW}==========AMBIGUOUS PLUGINS=========={Fore.RESET}")
             for plugin in self.ambiguous_plugins:
                 output.append(f"{Fore.YELLOW}Plugin Name: {plugin['plugin_name']}")
