@@ -3,8 +3,13 @@ import requests
 import re
 import bs4
 import os
+import re
+from datetime import datetime as dt, timedelta
 from colorama import Fore
 from urllib.parse import urlparse
+
+# We'll do some in-memory caching here for various things
+latest_paper_versions = {}
 
 
 class Plugin:
@@ -62,6 +67,7 @@ class LogFile:
         ]
         self.plugins = []
         self.mc_version = None
+        self.paper_version = None
         self.flavor = None
         self.flavor_line = None
         self.supported = False
@@ -95,6 +101,7 @@ class LogFile:
         if len(self.lines) == 0:
             return
         self.get_flavor_line()
+        self.get_paper_version()
         self.get_plugins()
         self.check_offline_mode()
         self.check_for_weird_plugins()
@@ -168,8 +175,58 @@ class LogFile:
         return self.mc_version
 
     def get_server_flavor(self):
-        self.flavor = self.flavor_line.split("This server is running ")[1]
+        self.flavor = self.flavor_line.split("This server is running ")[1].split("(Implementing")[0].strip()
         return self.flavor
+
+    def get_paper_version(self):
+        # Get the Flavor line and match against a regex string
+        match = re.search(r"git-Paper-(\d+)", self.flavor)
+        if match:
+            try:
+                self.paper_version = int(match.group(1))
+            except ValueError:
+                self.paper_version = None
+            self.running_paper = True
+        return self.paper_version
+
+    def get_from_api(self):
+        api_url = f"https://api.papermc.io/v2/projects/paper/versions/{self.mc_version}"
+        resp = requests.get(url=api_url, headers=self.headers)
+        if resp.status_code == 200:
+            # Get the json
+            data = resp.json()
+            # Get the last element in the "builds" list
+            return data["builds"][-1]
+        return None
+
+    def get_latest_paper_version(self):
+        # Check our latest_paper_versions dict for the latest version, if it's not there, get it
+        if self.mc_version not in latest_paper_versions:
+            print("Pulling from Paper API")
+            build = self.get_from_api()
+            if build:
+                # Add it to the dict
+                latest_paper_versions[self.mc_version] = {
+                    "build": build,
+                    "timestamp": dt.utcnow()
+                }
+                return build
+        else:
+            # It's in there so lets grab the object
+            build = latest_paper_versions[self.mc_version]
+            # Check the timestamp to see if it's older than 30 minutes
+            if build["timestamp"] < (dt.utcnow() - timedelta(seconds=30)):
+                print("Cache expired, getting new build")
+                # It's older than 30 minutes, so we need to get a new one
+                build = self.get_from_api()
+                if build:
+                    # Update the dict
+                    latest_paper_versions[self.mc_version] = {
+                        "build": build,
+                        "timestamp": dt.utcnow()
+                    }
+            print("Using cached build")
+            return latest_paper_versions[self.mc_version]["build"]
 
     def get_plugins(self):
         # We want to iterate over the lines until we hit "Preparing level"
@@ -296,6 +353,8 @@ class LogFile:
         output.append(f"{color}Minecraft Version: {self.mc_version}{Fore.RESET}")
         color = Fore.GREEN if self.running_paper else Fore.RED
         output.append(f"{color}Server Flavor: {self.flavor}{Fore.RESET}")
+        color = Fore.GREEN if self.paper_version == self.get_latest_paper_version() else Fore.RED
+        output.append(f"{color}Paper Version: {self.paper_version}{Fore.RESET}")
         color = Fore.GREEN if not self.is_offline else Fore.RED
         output.append(f"{color}Offline Mode: {self.is_offline}{Fore.RESET}")
         output.append(f"{Fore.GREEN}============PLUGINS============{Fore.RESET}")
