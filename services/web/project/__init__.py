@@ -28,6 +28,7 @@ def parse():
     try:
         log_file.run_checks()
     except Exception as e:
+        print(f"Ran into error parsing log file: {e}")
         return jsonify({"error": "Ran into an issue parsing the logs. Possible incomplete log file.", "success": False}), 500
     if len(log_file.lines) == 0:
         return jsonify({"error": "No log lines found. Most likely caused by an unsupported URL.", "success": False}), 400
