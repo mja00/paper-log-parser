@@ -19,7 +19,7 @@ RUN apt update && apt install -y --no-install-recommends gcc
 RUN pip install --upgrade pip
 RUN pip install flake8
 COPY . /usr/src/app/
-RUN flake8 --ignore=E501,F401 --exclude venv,migrations .
+RUN flake8 --ignore=E501,F401,W605 --exclude venv,migrations .
 
 # install python dependencies
 COPY ./requirements.txt .

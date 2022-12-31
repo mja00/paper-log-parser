@@ -108,7 +108,7 @@ class LogFile:
             resp = requests.get(url=f"https://paste.gg{raw_url}", headers=self.headers)
             self.lines = resp.text.splitlines()
             return resp.text
-        if "pastes.dev" in self.url and not "api" in self.url:
+        if "pastes.dev" in self.url and "api" not in self.url:
             # The raw url is just the url with api.pastes.dev
             raw_url = self.url.replace("pastes.dev", "api.pastes.dev")
             resp = requests.get(url=raw_url, headers=self.headers)
@@ -213,7 +213,7 @@ class LogFile:
     def find_exceptions(self):
         # Iterate over lines and keep an index
         for i, line in enumerate(self.lines):
-            if "Exception" in line and not "lost connection" in line:
+            if "Exception" in line and "lost connection" not in line:
                 self.has_exceptions = True
                 self.exceptions.append({
                     "line": line,
@@ -272,14 +272,16 @@ class LogFile:
                 output.append(f"{Fore.CYAN}{line}{Fore.RESET}")
             output.append(f"{Fore.GREEN}=============================={Fore.RESET}")
         if self.has_missing_dependencies:
-            output.append(f"{Fore.CYAN}Server has missing dependencies. The following dependencies are missing: {Fore.RESET}")
+            output.append(
+                f"{Fore.CYAN}Server has missing dependencies. The following dependencies are missing: {Fore.RESET}")
             for dependency in self.missing_dependencies:
                 output.append(f"{Fore.CYAN}{dependency}{Fore.RESET}")
             output.append(f"{Fore.GREEN}=============================={Fore.RESET}")
         if self.has_exceptions:
             output.append(f"{Fore.CYAN}Server has exceptions. The following exceptions were found: {Fore.RESET}")
             for exception in self.exceptions:
-                output.append(f"{Fore.CYAN}Line {exception['line_number']}: {Fore.YELLOW}{exception['line']}{Fore.RESET}")
+                output.append(
+                    f"{Fore.CYAN}Line {exception['line_number']}: {Fore.YELLOW}{exception['line']}{Fore.RESET}")
             output.append(f"{Fore.GREEN}=============================={Fore.RESET}")
         return output
 
