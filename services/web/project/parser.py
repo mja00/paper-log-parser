@@ -51,6 +51,7 @@ class Plugin:
 class LogFile:
     def __init__(self, url):
         self.url = url
+        self.max_lines = int(os.environ.get("MAX_LOG_LENGTH", 1000))
         self.headers = {
             "User-Agent": "Minecraft Latest.log Parser v1"
         }
@@ -130,7 +131,6 @@ class LogFile:
         # Iterate over the lines looking for: This server is running
         # This should be within the first 30 lines
         line_count = 0
-        max_lines = os.environ.get("MAX_LOG_LENGTH", 1000)
         for line in self.lines:
             if "This server is running" in line:
                 # We've found the flavor line
@@ -139,7 +139,7 @@ class LogFile:
                 self.get_server_flavor()
                 return
             line_count += 1
-            if line_count > max_lines:
+            if line_count > self.max_lines:
                 return
 
     def get_mc_version(self):
@@ -156,7 +156,6 @@ class LogFile:
     def get_plugins(self):
         # We want to iterate over the lines until we hit "Preparing level"
         checked_lines = 0
-        max_lines = os.environ.get("MAX_LOG_LENGTH", 1000)
         for line in self.lines:
             if "Preparing level" in line:
                 return
@@ -166,7 +165,7 @@ class LogFile:
             if match:
                 self.plugins.append(Plugin(match.group(2), match.group(3)))
             checked_lines += 1
-            if checked_lines > max_lines:
+            if checked_lines > self.max_lines:
                 return
 
     def check_offline_mode(self):
@@ -203,19 +202,17 @@ class LogFile:
 
     def check_for_pirated_plugins(self):
         lines_checked = 0
-        max_lines = os.environ.get("MAX_LOG_LENGTH", 1000)
         for line in self.lines:
             if any(word in line for word in self.pirate_giveaways):
                 self.potentially_pirated_lines.append(line)
                 self.has_pirated_plugins = True
             lines_checked += 1
-            if lines_checked > max_lines:
+            if lines_checked > self.max_lines:
                 return
 
     def check_for_mising_dependencies(self):
         # Iterate over the lines looking for lines containing "org.bukkit.plugin.UnknownDependencyException"
         lines_checked = 0
-        max_lines = os.environ.get("MAX_LOG_LENGTH", 1000)
         for line in self.lines:
             if "org.bukkit.plugin.UnknownDependencyException" in line:
                 self.has_missing_dependencies = True
@@ -230,11 +227,10 @@ class LogFile:
                 else:
                     self.missing_dependencies.append(dependencies)
             lines_checked += 1
-            if lines_checked > max_lines:
+            if lines_checked > self.max_lines:
                 return
 
     def find_exceptions(self):
-        max_lines = os.environ.get("MAX_LOG_LENGTH", 1000)
         # Iterate over lines and keep an index
         for i, line in enumerate(self.lines):
             if "Exception" in line and "lost connection" not in line:
@@ -243,7 +239,7 @@ class LogFile:
                     "line": line,
                     "line_number": i
                 })
-            if i > max_lines:
+            if i > self.max_lines:
                 return
 
     def print_report(self):
