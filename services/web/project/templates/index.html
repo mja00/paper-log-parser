@@ -138,6 +138,8 @@
                 // Update the output header to be "Output - <logUrl> - <date>"
                 var outputHeader = document.querySelector("#outputHeader");
                 outputHeader.innerHTML = "Output - " + logUrl + " - " + new Date().toLocaleString();
+                // Lets be cool and append the logUrl to the URL
+                window.history.pushState("object or string", "Title", "?url=" + logUrl);
             } else {
                 // Set the output to the error message
                 document.querySelector("#output").innerHTML = data.error;
