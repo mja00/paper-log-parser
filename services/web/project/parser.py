@@ -10,6 +10,9 @@ from urllib.parse import urlparse
 # We'll do some in-memory caching here for various things
 latest_paper_versions = {}
 
+# Constants
+ambiguous_plugin_regex = r"\[(\d\d:\d\d:\d\d)\] \[Server thread/ERROR\]: Ambiguous plugin name `([^']+)' for files `([^']+)' and `([^']+)' in `plugins'"
+
 
 class Plugin:
     def __init__(self, name, version):
@@ -93,6 +96,8 @@ class LogFile:
         self.missing_dependencies = []
         self.has_exceptions = False
         self.exceptions = []
+        self.has_ambiguous_plugins = False
+        self.ambiguous_plugins = []
 
     def run_checks(self):
         self.get_host_from_url()
@@ -102,6 +107,7 @@ class LogFile:
         self.get_flavor_line()
         self.get_paper_version()
         self.get_plugins()
+        self.check_for_ambiguous_plugin()
         self.check_offline_mode()
         self.check_for_weird_plugins()
         self.check_for_paper()
@@ -214,7 +220,7 @@ class LogFile:
             # It's in there so lets grab the object
             build = latest_paper_versions[self.mc_version]
             # Check the timestamp to see if it's older than 30 minutes
-            if build["timestamp"] < (dt.utcnow() - timedelta(seconds=30)):
+            if build["timestamp"] < (dt.utcnow() - timedelta(minutes=30)):
                 print("Cache expired, getting new build")
                 # It's older than 30 minutes, so we need to get a new one
                 build = self.get_from_api()
@@ -266,7 +272,6 @@ class LogFile:
         output = []
         for plugin in self.plugins:
             output.append(f"{plugin.get_color()}{plugin}{Fore.RESET}")
-        output.append(f"{Fore.GREEN}=============================={Fore.RESET}")
         return output
 
     def check_for_paper(self):
@@ -316,6 +321,24 @@ class LogFile:
             if i > self.max_lines:
                 return
 
+    def check_for_ambiguous_plugin(self):
+        for i, line in enumerate(self.lines):
+            if "Ambiguous plugin name" in line:
+                self.has_ambiguous_plugins = True
+                # Parse out the plugin name
+                matches = re.search(ambiguous_plugin_regex, line)
+                if matches:
+                    # The 2nd match is the plugin name
+                    plugin_name = matches.group(2)
+                    # The 3rd, and onward matches are the filenames of the plugins
+                    plugin_filenames = [plugin for plugin in matches.groups()[2:] if plugin is not None]
+                    self.ambiguous_plugins.append({
+                        "plugin_name": plugin_name,
+                        "plugin_filenames": plugin_filenames
+                    })
+            if i > self.max_lines:
+                return
+
     def print_report(self):
         color = Fore.GREEN if self.supported else Fore.RED
         print(f"{color}Minecraft Version: {self.mc_version}{Fore.RESET}")
@@ -325,6 +348,11 @@ class LogFile:
         print(f"{color}Offline Mode: {self.is_offline}{Fore.RESET}")
         print(f"{Fore.GREEN}============PLUGINS============")
         self.print_plugins_for_report()
+        if self.has_ambiguous_plugins:
+            print(f"{Fore.YELLOW}==========AMBIGUOUS PLUGINS==========")
+            for plugin in self.ambiguous_plugins:
+                print(f"{Fore.YELLOW}Plugin Name: {plugin['plugin_name']}")
+                print(f"{Fore.YELLOW}Plugin Filenames: {plugin['plugin_filenames']}")
         if self.possibly_cracked:
             print(f"{Fore.CYAN}Server is possibly cracked. The following plugins suggest this: ")
             for plugin in self.weird_plugins_acquired:
@@ -359,6 +387,18 @@ class LogFile:
         output.append(f"{Fore.GREEN}============PLUGINS============{Fore.RESET}")
         for line in self.output_plugins_for_report():
             output.append(line)
+        if self.has_ambiguous_plugins:
+            output.append(f"{Fore.YELLOW}==========AMBIGUOUS PLUGINS=========={Fore.RESET}")
+            for plugin in self.ambiguous_plugins:
+                output.append(f"{Fore.YELLOW}Plugin Name: {plugin['plugin_name']}")
+                output.append(f"{Fore.YELLOW}Plugin Filenames: {plugin['plugin_filenames']}")
+            output.append(f"{Fore.GREEN}=============================={Fore.RESET}")
+        if self.has_missing_dependencies:
+            output.append(
+                f"{Fore.CYAN}Server has missing dependencies. The following dependencies are missing: {Fore.RESET}")
+            for dependency in self.missing_dependencies:
+                output.append(f"{Fore.CYAN}{dependency}{Fore.RESET}")
+            output.append(f"{Fore.GREEN}=============================={Fore.RESET}")
         if self.possibly_cracked:
             output.append(f"{Fore.CYAN}Server is possibly cracked. The following plugins suggest this: {Fore.RESET}")
             for plugin in self.weird_plugins_acquired:
@@ -368,12 +408,6 @@ class LogFile:
             output.append(f"{Fore.CYAN}Server has pirated plugins. The following lines suggest this: {Fore.RESET}")
             for line in self.potentially_pirated_lines:
                 output.append(f"{Fore.CYAN}{line}{Fore.RESET}")
-            output.append(f"{Fore.GREEN}=============================={Fore.RESET}")
-        if self.has_missing_dependencies:
-            output.append(
-                f"{Fore.CYAN}Server has missing dependencies. The following dependencies are missing: {Fore.RESET}")
-            for dependency in self.missing_dependencies:
-                output.append(f"{Fore.CYAN}{dependency}{Fore.RESET}")
             output.append(f"{Fore.GREEN}=============================={Fore.RESET}")
         if self.has_exceptions:
             output.append(f"{Fore.CYAN}Server has exceptions. The following exceptions were found: {Fore.RESET}")
