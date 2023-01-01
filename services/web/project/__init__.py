@@ -1,4 +1,7 @@
+import binascii
 import os
+import base64
+import json
 from flask import Flask, render_template, jsonify, request
 from .parser import LogFile
 
@@ -48,3 +51,31 @@ def parse():
         return jsonify({"error": "No log lines found. Most likely caused by an unsupported URL.", "success": False}), 400
     output = log_file.get_report_as_string()
     return jsonify({"output": output, "success": True}), 200
+
+
+@app.route("/decode_image/<b64>")
+def decode_image(b64):
+    # We'll first want to decode this b64 string
+    try:
+        decoded = base64.b64decode(b64)
+    except binascii.Error:
+        return jsonify({"error": "Invalid base64 string", "success": False}), 400
+    # Attempt to decode the bytes as a string
+    try:
+        decoded = decoded.decode('utf-8')
+    except UnicodeDecodeError:
+        return jsonify({"error": "Invalid base64 string", "success": False}), 400
+    # Now we can try to load the json
+    try:
+        data = json.loads(decoded)
+    except json.JSONDecodeError:
+        return jsonify({"error": "Invalid JSON string", "success": False}), 400
+    # Now we can handle the data
+    if data['secret'] == app.config.get("SECRET_KEY"):
+        # Decode the image
+        image = base64.b64decode(data['image'].split(',')[1])
+        # Serve the image
+        return image, 200, {'Content-Type': 'image/png'}
+    else:
+        return jsonify({"error": "Invalid secret key", "success": False}), 401
+
