@@ -11,6 +11,20 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "CHANGEME")
 def index():
     # check url params for a url arg
     url = request.args.get('url', None)
+    if url:
+        # We can do some fancy pre-parsing of the url here
+        log_file = LogFile(url)
+        try:
+            log_file.run_checks()
+        except Exception as e:
+            print(f"Error: {e}")
+        data = {
+            "mc_version": log_file.mc_version,
+            "paper_version": log_file.paper_version,
+            "offline": log_file.is_offline,
+            "plugin_count": len(log_file.plugins),
+        }
+        return render_template('index.html', url=url, data=data)
     return render_template("index.html", url=url)
 
 

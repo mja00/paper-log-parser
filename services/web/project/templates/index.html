@@ -7,6 +7,14 @@
     <link href="https://bootswatch.com/5/darkly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <!-- Thanks EterNity for the favicon -->
     <link rel="icon" href="https://paper-chan.moe/content/images/size/w256h256/2022/06/Emoji-paperOhhh.png" type="image/png">
+
+    <!-- Embed -->
+    {% if data %}
+        <meta property="og:title" content="Paper Log Parser">
+        <meta property="og:url" content="https://paper.theairplan.com/?url={{url}}">
+        <meta property="og:description" content="MC Version: {{data.mc_version}}\nPaper Version: {{data.paper_version}}">
+        <meta name="description" content="MC Version: {{data.mc_version}}&#x0A;Paper Version: {{data.paper_version}}&#x0A;Offline: {{data.offline}}&#x0A;Plugins: {{data.plugin_count}}">
+    {% endif %}
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
