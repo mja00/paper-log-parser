@@ -78,4 +78,3 @@ def decode_image(b64):
         return image, 200, {'Content-Type': 'image/png'}
     else:
         return jsonify({"error": "Invalid secret key", "success": False}), 401
-
