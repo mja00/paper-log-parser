@@ -289,7 +289,7 @@ class LogFile:
     def check_for_pirated_plugins(self):
         lines_checked = 0
         for line in self.lines:
-            if any(word in line for word in self.pirate_giveaways):
+            if any(word in line for word in self.pirate_giveaways) and "STDOUT" in line:
                 self.potentially_pirated_lines.append(line)
                 self.has_pirated_plugins = True
             lines_checked += 1
