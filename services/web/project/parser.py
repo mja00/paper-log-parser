@@ -25,7 +25,6 @@ class Plugin:
             "nLogin",
             "ClearLagg",
             "FastClearLag",
-            "FastAsyncWorldEdit",
             "PlugMan",
             "Skript"
         ]
