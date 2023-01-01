@@ -6,6 +6,7 @@ import re
 from datetime import datetime as dt, timedelta
 from colorama import Fore
 from urllib.parse import urlparse
+from .constants import data_version_to_mc
 
 # We'll do some in-memory caching here for various things
 latest_paper_versions = {}
@@ -13,6 +14,13 @@ latest_paper_versions = {}
 # Constants
 ambiguous_plugin_regex = r"\[(\d\d:\d\d:\d\d)\] \[Server thread/ERROR\]: Ambiguous plugin name `([^']+)' for files `([^']+)' and `([^']+)' in `plugins'"
 attempted_downgrade_regex = r".*java\.lang\.RuntimeException: Server attempted to load chunk saved with newer version of minecraft! (\d+) > (\d+)"
+
+
+def get_mc_from_data_version(data_version):
+    try:
+        return data_version_to_mc[int(data_version)]
+    except KeyError:
+        return data_version
 
 
 class Plugin:
@@ -356,7 +364,7 @@ class LogFile:
                 self.attempting_to_downgrade = True
                 version1 = match.group(1)
                 version2 = match.group(2)
-                self.downgraded_versions = [version1, version2]
+                self.downgraded_versions = [get_mc_from_data_version(version1), get_mc_from_data_version(version2)]
             if i > self.max_lines:
                 return
 
