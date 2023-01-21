@@ -14,6 +14,7 @@ latest_paper_versions = {}
 # Constants
 ambiguous_plugin_regex = r"\[(\d\d:\d\d:\d\d)\] \[Server thread/ERROR\]: Ambiguous plugin name `([^']+)' for files `([^']+)' and `([^']+)' in `plugins'"
 attempted_downgrade_regex = r".*java\.lang\.RuntimeException: Server attempted to load chunk saved with newer version of minecraft! (\d+) > (\d+)"
+malware1_regex = r"at Updater.a\(:\d+\)"
 
 
 def get_mc_from_data_version(data_version):
@@ -111,6 +112,8 @@ class LogFile:
         self.ambiguous_plugins = []
         self.attempting_to_downgrade = False
         self.downgraded_versions = []
+        self.has_malware = False
+        self.malware_count = 0
 
     def run_checks(self):
         self.get_host_from_url()
@@ -129,6 +132,7 @@ class LogFile:
         self.check_for_mising_dependencies()
         self.find_exceptions()
         self.check_for_attempted_downgrade()
+        self.check_for_malware()
 
     def get_host_from_url(self):
         # Parse the host from the given url
@@ -368,6 +372,15 @@ class LogFile:
             if i > self.max_lines:
                 return
 
+    def check_for_malware(self):
+        # Scan the entire log for any matches of the malware regex
+        for i, line in enumerate(self.lines):
+            if re.search(malware1_regex, line):
+                self.has_malware = True
+                self.malware_count += 1
+            if i > self.max_lines:
+                return
+
     def print_report(self):
         color = Fore.GREEN if self.supported else Fore.RED
         print(f"{color}Minecraft Version: {self.mc_version}{Fore.RESET}")
@@ -413,6 +426,8 @@ class LogFile:
         output.append(f"{color}Paper Version: {self.paper_version}{Fore.RESET}")
         color = Fore.GREEN if not self.is_offline else Fore.RED
         output.append(f"{color}Offline Mode: {self.is_offline}{Fore.RESET}")
+        color = Fore.GREEN if not self.has_malware else Fore.RED
+        output.append(f"{color}Malware Detected: {self.has_malware}{Fore.RESET}")
         if self.attempting_to_downgrade:
             output.append(f"{Fore.RED}Server is attempting to downgrade. This is not supported! You're going from {self.downgraded_versions[0]} to {self.downgraded_versions[1]}{Fore.RESET}")
         output.append(f"{Fore.GREEN}============PLUGINS============{Fore.RESET}")

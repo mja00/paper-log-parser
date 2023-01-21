@@ -12,8 +12,12 @@
     {% if data %}
         <meta property="og:title" content="Paper Log Parser">
         <meta property="og:url" content="https://paper.theairplan.com/?url={{url}}">
+        {% if data.has_malware %}
+            <meta property="og:description" content="Congrats! You have malware!">
+        {% else %}
         <meta property="og:description" content="MC Version: {{data.mc_version}}&#x0A;Paper Version: {{data.paper_version}}&#x0A;Offline: {{data.offline}}&#x0A;Plugins: {{data.plugin_count}}">
         <meta name="description" content="MC Version: {{data.mc_version}}&#x0A;Paper Version: {{data.paper_version}}&#x0A;Offline: {{data.offline}}&#x0A;Plugins: {{data.plugin_count}}">
+        {% endif %}
         {% if data.offline %}
         <meta name="theme-color" content="#ff0000">
         {% else %}
@@ -33,6 +37,7 @@
         .output {
             background-color: black;
             border-radius: 5px;
+            margin-bottom: 0;
         }
     </style>
 </head>

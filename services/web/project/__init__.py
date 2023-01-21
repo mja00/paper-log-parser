@@ -23,6 +23,7 @@ def index():
             "paper_version": log_file.paper_version,
             "offline": log_file.is_offline,
             "plugin_count": len(log_file.plugins),
+            "has_malware": log_file.has_malware,
         }
         return render_template('index.html', url=url, data=data)
     return render_template("index.html", url=url)
