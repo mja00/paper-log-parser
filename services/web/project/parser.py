@@ -98,7 +98,7 @@ class LogFile:
             "leak",
             "leaked",
             "cracked",
-            "directleaks.com"
+            "directleaks"
         ]
         self.has_missing_dependencies = False
         self.missing_dependencies = []
