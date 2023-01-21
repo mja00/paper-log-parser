@@ -7,9 +7,6 @@
     <link href="https://bootswatch.com/5/darkly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <!-- Thanks EterNity for the favicon -->
     <link rel="icon" href="https://paper-chan.moe/content/images/size/w256h256/2022/06/Emoji-paperOhhh.png" type="image/png">
-    <link rel="stylesheet" href="{{ url_for('static', filename='node_modules/xterm/css/xterm.css') }}"/>
-    <script src="{{ url_for('static', filename='node_modules/xterm/lib/xterm.js') }}"></script>
-    <script src="{{ url_for('static', filename='node_modules/xterm-addon-fit/lib/xterm-addon-fit.js') }}"></script>
 
     <!-- Embed -->
     {% if data %}
@@ -23,6 +20,21 @@
         <meta name="theme-color" content="#00ff00">
         {% endif %}
     {% endif %}
+    <style>
+        .scrollable {
+            overflow-y: scroll;
+        }
+
+        .card-full-height {
+            height: 0;
+            flex-grow: 1;
+        }
+
+        .output {
+            background-color: black;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -93,15 +105,14 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-8">
+        <div class="col-lg-8 d-flex flex-column">
             <!-- Output -->
-            <div class="card">
+            <div class="card card-full-height">
                 <div class="card-header" id="outputHeader">
                     Output
                 </div>
-                <div class="card-body">
-                    <!--<pre id="output"></pre>-->
-                    <div id="terminal"></div>
+                <div class="card-body scrollable">
+                    <pre id="output" class="output"></pre>
                 </div>
             </div>
         </div>
@@ -119,69 +130,10 @@
         }
     });
 
-    function debounce(func, timeout = 300){
-        let timer;
-        return (...args) => {
-            clearTimeout(timer);
-            timer = setTimeout(() => { func.apply(this, args); }, timeout);
-        };
-    }
-
-    const zIndex = `
-    .xterm-search-bar__addon {
-        z-index: 10;
-    }`;
-
-    const theme = {
-        cursor: 'rgba(0,0,0,0)',
-        black: "black",
-        red: '#AA0000',
-        green: '#00AA00',
-        yellow: '#FFAA00',
-        blue: '#0000AA',
-        magenta: '#AA00AA',
-        cyan: '#00AAAA',
-        white: '#FFFFFF',
-        brightBlack: 'rgba(255, 255, 255, 0.2)',
-        brightRed: '#FF5555',
-        brightGreen: '#55FF55',
-        brightYellow: '#FFFF55',
-        brightBlue: '#5555FF',
-        brightMagenta: '#FF55FF',
-        brightCyan: '#55FFFF',
-        brightWhite: '#ffffff',
-        selectionBackground: '#FAF089',
-    };
-
-    const rows = 55;
-
-    let term = new Terminal({
-        disableStdin: true,
-        cursorStyle: "underline",
-        allowTransparency: true,
-        theme: theme,
-        fontSize: 12,
-        fontFamily: "monospace",
-        allowProposedApi: false,
-        scrollOnUserInput: false,
-        rows
-    });
-    const fitAddon = new FitAddon.FitAddon();
-    term.loadAddon(fitAddon);
-    term.open(document.getElementById('terminal'));
-    fitAddon.fit();
-
-    // Create a resize event listener
-    window.addEventListener('resize', debounce(() => {
-        fitAddon.fit();
-    }, 250));
-
     let loadingSpinner = '<div class="spinner-border text-warning" role="status"><span class="visually-hidden">Parsing...</span></div>';
     // Hijack our form submission
     document.querySelector("#logSubmissionForm").addEventListener("submit", function (e) {
         console.log("Form submitted");
-        // Clear terminal
-        term.clear();
         // Disable button
         document.querySelector("#parseButton").disabled = true;
         // Make the button a spinner
@@ -205,8 +157,13 @@
                 var output = data.output;
                 // We want to loop through the lines of the output and then append them to the output element
                 var outputElement = document.querySelector("#output");
+                outputElement.innerHTML = "";
                 output.forEach(line => {
-                    term.writeln(line)
+                    var convertedLine = ansiColorParse(line);
+                    // Parse the convertedLine using jQuery
+                    var parsedLine = $.parseHTML(convertedLine);
+                    outputElement.appendChild(parsedLine[0]);
+                    outputElement.appendChild(document.createElement("br"));
                 });
                 // Re-enable the button
                 document.querySelector("#parseButton").disabled = false;
@@ -214,7 +171,7 @@
 
             } else {
                 // Set the output to the error message
-                term.writeln(data.error);
+                document.querySelector("#output").innerHTML = data.error;
                 // Re-enable the button
                 document.querySelector("#parseButton").disabled = false;
                 document.querySelector("#parseButton").innerHTML = "Parse";
@@ -229,18 +186,18 @@
 
     var foregroundColors = {
         '30': 'black',
-        '31': 'red',
-        '32': '#00ff00',
-        '33': 'yellow',
-        '34': '#2e62e6',
-        '35': 'purple',
-        '36': 'cyan',
+        '31': '#FF5555',
+        '32': '#55FF55',
+        '33': '#FFFF55',
+        '34': '#5555FF',
+        '35': '#AA00AA',
+        '36': '#55FFFF',
         '37': 'white'
     };
 
     function ansiColorParse(line) {
         Object.keys(foregroundColors).forEach(function (ansi) {
-            let span = '<code style="color: ' + foregroundColors[ansi] + '">';
+            let span = '<code style="color: ' + foregroundColors[ansi] + '; padding-left: 2px;">';
 
             //
             // `\033[Xm` == `\033[0;Xm` sets foreground color to `X`.
