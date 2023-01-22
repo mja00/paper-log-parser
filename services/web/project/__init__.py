@@ -30,8 +30,8 @@ def generate_output_image(log_data, url):
     # Hash the url
     url_hash = sha256(url.encode()).hexdigest()
     # Check if the image already exists
-    # if os.path.exists(f"project/static/parses/{url_hash}.png"):
-    #     return f"parses/{url_hash}.png"
+    if os.path.exists(f"project/static/parses/{url_hash}.png"):
+        return f"parses/{url_hash}.png"
     img = Image.new("RGBA", (1200, 320), (48, 49, 54))
 
     drawer = ImageDraw.Draw(img)
