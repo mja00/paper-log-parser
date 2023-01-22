@@ -20,9 +20,9 @@ def make_rectangle_to_fit_text(text, color, backgound_color=(48, 49, 54)):
     # This'll center the text, for strings without Ys and Qs it'll be too low, we need to fix that
     # This shit is jank but I suck at Pillow so it works
     if "y" in text.lower() or "q" in text.lower():
-        draw.text(((W-w)/2, (H-h)/2), text, fill="white", font=font)
+        draw.text(((W - w) / 2, (H - h) / 2), text, fill="white", font=font)
     else:
-        draw.text(((W-w)/2, ((H-h)/2)-5), text, fill="white", font=font)
+        draw.text(((W - w) / 2, ((H - h) / 2) - 5), text, fill="white", font=font)
     return im
 
 
