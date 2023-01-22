@@ -7,6 +7,7 @@
     <link href="https://bootswatch.com/5/darkly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <!-- Thanks EterNity for the favicon -->
     <link rel="icon" href="https://paper-chan.moe/content/images/size/w256h256/2022/06/Emoji-paperOhhh.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Embed -->
     {% if data %}
@@ -66,11 +67,17 @@
     </div>
 </nav>
 <div class="container-fluid mt-3">
+    <!-- Add sticky button to the left side of the screen to open the sidebar -->
+    <button data-bs-toggle="tooltip" data-bs-placement="right" title="Open sidebar"
+            id="sidebarButton" type="button" class="btn btn-primary btn-sm"
+            style="position: fixed; left: 0; top: 10%; z-index: 1000" onclick="showSidebar()" hidden><i class="fa-solid fa-chevron-right"></i></button>
     <div class="row">
-        <div class="col">
+        <div class="col" id="sidebar">
             <div class="card">
                 <div class="card-header">
                     Paper Log Parser
+                    <!-- X button on right side -->
+                    <button type="button" class="btn-close" aria-label="Close" style="float: right" onclick="hideSidebar()"></button>
                 </div>
                 <div class="card-body text-center">
                     <h5 class="card-title">Put the URL of your logs in the box below and press on the parse button!</h5>
@@ -113,9 +120,9 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-8 d-flex flex-column">
+        <div class="col-lg-8 d-flex flex-column" id="content">
             <!-- Output -->
-            <div class="card card-full-height">
+            <div class="card card-full-height" style="min-height: 830px;">
                 <div class="card-header" id="outputHeader">
                     Output
                 </div>
@@ -135,6 +142,16 @@
     $(document).ready(function () {
         if ($("#logUrl").val()) {
             $("#parseButton").trigger("click");
+        }
+        let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+
+        // Query sidebar state
+        let sidebarState = localStorage.getItem("sidebarState");
+        if (sidebarState === "hidden") {
+            hideSidebar();
         }
     });
 
@@ -232,6 +249,30 @@
         line = line.replace(/\033\[m/g, '</code>');
         line = line.replace(/\033\[0m/g, '</code>');
         return line.replace(/\033\[39m/g, '</code>');
+    }
+
+    function hideSidebar() {
+        // Set sidebar to hidden
+        document.querySelector("#sidebar").hidden = true;
+        // Swap content's col-lg-8 to just a col
+        document.querySelector("#content").classList.remove("col-lg-8");
+        document.querySelector("#content").classList.add("col");
+        // Show button
+        document.querySelector("#sidebarButton").hidden = false;
+        // Store the sidebar state
+        localStorage.setItem("sidebarState", "hidden");
+    }
+
+    function showSidebar() {
+        // Set sidebar to visible
+        document.querySelector("#sidebar").hidden = false;
+        // Swap content's col to col-lg-8
+        document.querySelector("#content").classList.remove("col");
+        document.querySelector("#content").classList.add("col-lg-8");
+        // Hide button
+        document.querySelector("#sidebarButton").hidden = true;
+        // Store the sidebar state
+        localStorage.setItem("sidebarState", "visible");
     }
 </script>
 </body>
