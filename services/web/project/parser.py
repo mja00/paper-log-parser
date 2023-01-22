@@ -15,6 +15,7 @@ latest_paper_versions = {}
 ambiguous_plugin_regex = r"\[(\d\d:\d\d:\d\d)\] \[Server thread/ERROR\]: Ambiguous plugin name `([^']+)' for files `([^']+)' and `([^']+)' in `plugins'"
 attempted_downgrade_regex = r".*java\.lang\.RuntimeException: Server attempted to load chunk saved with newer version of minecraft! (\d+) > (\d+)"
 malware1_regex = r"at Updater.a\(:\d+\)"
+bad_config_regex = r"(\[(.*?)\]|java\.lang\.([a-zA-Z]+))"
 
 
 def get_mc_from_data_version(data_version):
@@ -106,7 +107,8 @@ class LogFile:
         self.has_exceptions = False
         self.exceptions = []
         self.ignored_exceptions = [
-            "UnknownDependencyException"
+            "UnknownDependencyException",
+            "CoercionFailedException"
         ]
         self.has_ambiguous_plugins = False
         self.ambiguous_plugins = []
@@ -114,6 +116,9 @@ class LogFile:
         self.downgraded_versions = []
         self.has_malware = False
         self.malware_count = 0
+        self.invalid_config = False
+        self.invalid_config_locations = []
+        self.mock_config = ""
 
     def run_checks(self):
         self.get_host_from_url()
@@ -133,6 +138,7 @@ class LogFile:
         self.find_exceptions()
         self.check_for_attempted_downgrade()
         self.check_for_malware()
+        self.check_config()
 
     def get_host_from_url(self):
         # Parse the host from the given url
@@ -381,6 +387,58 @@ class LogFile:
             if i > self.max_lines:
                 return
 
+    def check_config(self):
+        # Scan the logs for a line starting with org.spongepowered.configurate.serialize.CoercionFailedException
+        for i, line in enumerate(self.lines):
+            if "org.spongepowered.configurate.serialize.CoercionFailedException" in line:
+                self.invalid_config = True
+                # Pull out our needed information from the line
+                matches = re.findall(bad_config_regex, line)
+                # Our first match will be where in the config the error is
+                config_location = matches[0][1].split(", ")
+                self.invalid_config_locations = config_location
+                valid_type = matches[1][2]
+                invalid_type = matches[2][2]
+                # We want to make a mock config to show the user
+                # We'll start with the config location
+                mock_config = f"{Fore.WHITE}"
+                # For each location in the config it's a new json object
+                for loc_i, location in enumerate(config_location):
+                    # If it's the first location, we don't need to add a comma
+                    if loc_i == 0:
+                        mock_config += f'"{location}": {{'
+                    elif loc_i == len(config_location) - 1:
+                        # Last location, this is out invalid value
+                        mock_config += f'\n{" " * (loc_i * 4)}"{location}": '
+                    else:
+                        mock_config += f'\n{" " * (loc_i * 4)}"{location}": {{'
+                match invalid_type:
+                    case "String":
+                        mock_config += f'"{invalid_type}"'
+                    case "Integer":
+                        mock_config += f"{invalid_type}"
+                    case "Boolean":
+                        mock_config += f"{invalid_type}"
+                    case _:
+                        mock_config += f'"{invalid_type}"'
+                # Add a cool arrow to show where the error is
+                mock_config += f", <-- {Fore.RED}ERROR"
+                # Add the valid type
+                mock_config += f" (should be {valid_type}){Fore.RESET}"
+                # Close out the json objects, loop through the config location backwards
+                for loc_i, location in enumerate(config_location[::-1]):
+                    # Our first element should be the trouble maker, so we don't need to close it
+                    if loc_i == 0:
+                        continue
+                    # We need to indent by the number of locations we have, minus the current location
+                    mock_config += f'\n{" " * ((len(config_location) - (loc_i + 1)) * 4)}}}'
+
+                self.mock_config = mock_config
+                return
+
+            if i > self.max_lines:
+                return
+
     def print_report(self):
         color = Fore.GREEN if self.supported else Fore.RED
         print(f"{color}Minecraft Version: {self.mc_version}{Fore.RESET}")
@@ -462,6 +520,11 @@ class LogFile:
             for exception in self.exceptions:
                 output.append(
                     f"{Fore.CYAN}Line {exception['line_number']}: {Fore.YELLOW}{exception['line']}{Fore.RESET}")
+            output.append(f"{Fore.GREEN}=============================={Fore.RESET}")
+        if self.invalid_config:
+            output.append(f"{Fore.RED}Server has an invalid config. Use the following info to fix it! {Fore.RESET}")
+            output.append(self.mock_config)
+            output.append(f"{Fore.YELLOW}You should find lines like look like this in your Paper configs.")
             output.append(f"{Fore.GREEN}=============================={Fore.RESET}")
         return output
 

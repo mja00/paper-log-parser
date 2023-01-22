@@ -70,8 +70,11 @@ def generate_output_image(log_data, url):
     drawer.text((40, 180), f"{server_jar} server '{flavor_version}'", (255, 255, 255), font=text_font)
     # Add the plugin count
     drawer.text((40, 230), f"Using {len(log_data.plugins)} plugins", (255, 255, 255), font=text_font)
-    # Add the exception count
-    drawer.text((40, 280), f"Encountered {len(log_data.exceptions)} exceptions", (255, 255, 255), font=text_font)
+    if log_data.invalid_config:
+        drawer.text((40, 280), "Invalid config at: " + ".".join(log_data.invalid_config_locations), (255, 200, 200), font=text_font)
+    else:
+        # Add the exception count
+        drawer.text((40, 280), f"Encountered {len(log_data.exceptions)} exceptions", (255, 255, 255), font=text_font)
     # Save the image
     img.save(f"project/static/parses/{url_hash}.png")
     return f"parses/{url_hash}.png"
