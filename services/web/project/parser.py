@@ -16,6 +16,7 @@ ambiguous_plugin_regex = r"\[(\d\d:\d\d:\d\d)\] \[Server thread/ERROR\]: Ambiguo
 attempted_downgrade_regex = r".*java\.lang\.RuntimeException: Server attempted to load chunk saved with newer version of minecraft! (\d+) > (\d+)"
 malware1_regex = r"at Updater.a\(:\d+\)"
 bad_config_regex = r"(\[(.*?)\]|java\.lang\.([a-zA-Z]+))"
+common_leak_regex = r"\[\d{2}:\d{2}:\d{2}\] \[Server thread\/INFO\]: \[[A-Za-z]+\] \[[A-Za-z]+\] Leaked by [A-Za-z]+ @ [A-Za-z.]+"
 
 
 def get_mc_from_data_version(data_version):
@@ -307,7 +308,7 @@ class LogFile:
     def check_for_pirated_plugins(self):
         lines_checked = 0
         for line in self.lines:
-            if any(word in line for word in self.pirate_giveaways) and "STDOUT" in line:
+            if any(word in line for word in self.pirate_giveaways) and ("STDOUT" in line or re.search(common_leak_regex, line)):
                 self.potentially_pirated_lines.append(line)
                 self.has_pirated_plugins = True
             lines_checked += 1
