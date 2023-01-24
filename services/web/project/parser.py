@@ -308,7 +308,11 @@ class LogFile:
     def check_for_pirated_plugins(self):
         lines_checked = 0
         for line in self.lines:
-            if any(word in line for word in self.pirate_giveaways) and ("STDOUT" in line or re.search(common_leak_regex, line)):
+            matches = re.search(common_leak_regex, line)
+            if matches:
+                self.potentially_pirated_lines.append(matches[0])
+                self.has_pirated_plugins = True
+            elif any(word in line for word in self.pirate_giveaways) and "STDOUT" in line:
                 self.potentially_pirated_lines.append(line)
                 self.has_pirated_plugins = True
             lines_checked += 1
