@@ -120,6 +120,8 @@ class LogFile:
         self.invalid_config = False
         self.invalid_config_locations = []
         self.mock_config = ""
+        self.proxy_flavor = ""
+        self.using_proxy = False
 
     def run_checks(self):
         self.get_host_from_url()
@@ -265,7 +267,10 @@ class LogFile:
             if "Preparing level" in line:
                 return
             # Do a regex check on the line for "\[(.*)\] Loading (.*) v(.*)" and then grab the 2nd and 3rd group
-            regex = re.compile("\[(.*)\] Loading (.*) v(.*)")
+            if "server plugin" in line:
+                regex = re.compile("\[(.*)\] Loading server plugin (.*) v(.*)")
+            else:
+                regex = re.compile("\[(.*)\] Loading (.*) v(.*)")
             match = regex.search(line)
             if match:
                 self.plugins.append(Plugin(match.group(2), match.group(3)))
@@ -276,6 +281,16 @@ class LogFile:
     def check_offline_mode(self):
         for i, line in enumerate(self.lines):
             if "SERVER IS RUNNING IN OFFLINE/INSECURE MODE!" in line:
+                # Check the next 10 lines for a mention of BungeeCord or Velocity
+                for j in range(i, i + 10):
+                    if "BungeeCord" in self.lines[j]:
+                        self.proxy_flavor = "BungeeCord"
+                        self.using_proxy = True
+                        return False
+                    if "Velocity" in self.lines[j]:
+                        self.proxy_flavor = "Velocity"
+                        self.using_proxy = True
+                        return False
                 self.is_offline = True
         return False
 
@@ -490,9 +505,12 @@ class LogFile:
         color = Fore.GREEN if not self.is_offline else Fore.RED
         output.append(f"{color}Offline Mode: {self.is_offline}{Fore.RESET}")
         color = Fore.GREEN if not self.has_malware else Fore.RED
+        if self.using_proxy:
+            output.append(f"{Fore.CYAN}Using {self.proxy_flavor} proxy")
         output.append(f"{color}Malware Detected: {self.has_malware}{Fore.RESET}")
         if self.attempting_to_downgrade:
-            output.append(f"{Fore.RED}Server is attempting to downgrade. This is not supported! You're going from {self.downgraded_versions[0]} to {self.downgraded_versions[1]}{Fore.RESET}")
+            output.append(
+                f"{Fore.RED}Server is attempting to downgrade. This is not supported! You're going from {self.downgraded_versions[0]} to {self.downgraded_versions[1]}{Fore.RESET}")
         output.append(f"{Fore.GREEN}============PLUGINS============{Fore.RESET}")
         for line in self.output_plugins_for_report():
             output.append(line)
