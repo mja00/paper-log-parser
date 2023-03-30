@@ -76,7 +76,7 @@ class LogFile:
             "User-Agent": "Minecraft Latest.log Parser v1"
         }
         self.supported_versions = [
-            "1.19.3"
+            "1.19.4"
         ]
         self.plugins = []
         self.mc_version = None
