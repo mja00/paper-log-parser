@@ -101,7 +101,8 @@ class LogFile:
             "leak",
             "leaked",
             "cracked",
-            "directleaks"
+            "directleaks",
+            "blackspigot"
         ]
         self.has_missing_dependencies = False
         self.missing_dependencies = []
