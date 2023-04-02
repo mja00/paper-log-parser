@@ -82,6 +82,7 @@ def generate_output_image(log_data, url):
 
 @app.route("/")
 def index():
+    version = "1.0.0"
     # check url params for a url arg
     url = request.args.get('url', None)
     if url:
@@ -99,8 +100,8 @@ def index():
             "has_malware": log_file.has_malware,
         }
         image_path = generate_output_image(log_file, url)
-        return render_template('index.html', url=url, data=data, image_url=url_for('static', filename=image_path))
-    return render_template("index.html", url=url)
+        return render_template('index.html', url=url, data=data, image_url=url_for('static', filename=image_path), version=version)
+    return render_template("index.html", url=url, version=version)
 
 
 @app.route("/parse", methods=["POST"])
