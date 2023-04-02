@@ -16,7 +16,6 @@ ambiguous_plugin_regex = r"\[(\d\d:\d\d:\d\d)\] \[Server thread/ERROR\]: Ambiguo
 attempted_downgrade_regex = r".*java\.lang\.RuntimeException: Server attempted to load chunk saved with newer version of minecraft! (\d+) > (\d+)"
 malware1_regex = r"at Updater.a\(:\d+\)"
 bad_config_regex = r"(\[(.*?)\]|java\.lang\.([a-zA-Z]+))"
-common_leak_regex = r"\[\d{2}:\d{2}:\d{2}\] \[Server thread\/INFO\]: \[[\w]+\] \[[\w]+\] \[[\w]+\] Leaked by [\w]+ @ [A-Za-z.]+"
 
 
 def get_mc_from_data_version(data_version):
@@ -102,7 +101,16 @@ class LogFile:
             "leaked",
             "cracked",
             "directleaks",
-            "blackspigot"
+            "blackspigot",
+            "spigotunlocked",
+            "nulled",
+            "mined.to"
+        ]
+        self.pirate_regexes = [
+            # Common leak message
+            r"\[\d{2}:\d{2}:\d{2}\] \[Server thread\/INFO\]: \[[\w]+\] \[[\w]+\] \[[\w]+\] Leaked by [\w]+ @ [A-Za-z.]+",
+            # [06:10:18] [Server thread/INFO]: [LifestealCore] [36m[Spigotunlocked.net] - COSMO
+            r"\[\d{2}:\d{2}:\d{2}\] \[Server thread\/INFO\]: \[[\w]+\] [36m\[Spigotunlocked\.net\] - [\w]+"
         ]
         self.has_missing_dependencies = False
         self.missing_dependencies = []
@@ -324,7 +332,12 @@ class LogFile:
     def check_for_pirated_plugins(self):
         lines_checked = 0
         for line in self.lines:
-            matches = re.search(common_leak_regex, line)
+            # Search through our multiple regexes
+            matches = False
+            for regex in self.pirate_regexes:
+                matches = re.search(regex, line)
+                if matches:
+                    break
             if matches:
                 self.potentially_pirated_lines.append(matches[0])
                 self.has_pirated_plugins = True
