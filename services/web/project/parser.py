@@ -277,7 +277,7 @@ class LogFile:
                 return
             # Do a regex check on the line for "\[(.*)\] Loading (.*) v(.*)" and then grab the 2nd and 3rd group
             if "server plugin" in line:
-                regex = re.compile("\[(.*)\] Loading server plugin (.*) v(.*)")
+                regex = re.compile("\[(.*)\](?:|:) Loading server plugin (.*) v(.*)")
             else:
                 regex = re.compile("\[(.*)\] Loading (.*) v(.*)")
             match = regex.search(line)
