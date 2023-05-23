@@ -32,6 +32,75 @@
     <meta property="og:description" content="Minecraft {{ version }} released {{ age }} ago! {% if birthday %}Happy Birthday! 🥳{% endif %}">
 </head>
 <body>
+    <script>
+        // We want this to parse out the age of the version and tick it up every second
+        var current_age = {{ raw_seconds }};
+        var version = "{{ version }}";
+
+        function parseAge(secondsToParse, version) {
+            // Get the "theage" element
+            var theage = document.getElementById("theage");
+
+            // Get the number of years
+            var years = Math.floor(secondsToParse / 31536000);
+            var months = Math.floor((secondsToParse % 31536000) / 2592000);
+            var days = Math.floor(((secondsToParse % 31536000) % 2592000) / 86400);
+            var hours = Math.floor((((secondsToParse % 31536000) % 2592000) % 86400) / 3600);
+            var minutes = Math.floor(((((secondsToParse % 31536000) % 2592000) % 86400) % 3600) / 60);
+            var seconds = Math.floor((((((secondsToParse % 31536000) % 2592000) % 86400) % 3600) % 60));
+
+            // Build the string
+            var age = "Minecraft " + version + " released ";
+            if (years !== 0) {
+                age += years + " years, ";
+            }
+            // If there is only months left we need to remove the comma and add an and
+            if (months !== 0 && days === 0 && hours === 0 && minutes === 0 && seconds === 0) {
+                age = age.substring(0, age.length - 2);
+                age += " and " + months + " months";
+            } else if (months !== 0) {
+                age += months + " months, ";
+            }
+
+            if (days !== 0 && hours === 0 && minutes === 0 && seconds === 0) {
+                age = age.substring(0, age.length - 2);
+                age += " and " + days + " days";
+            } else if (days !== 0) {
+                age += days + " days, ";
+            }
+
+            if (hours !== 0 && minutes === 0 && seconds === 0) {
+                age = age.substring(0, age.length - 2);
+                age += " and " + hours + " hours";
+            } else if (hours !== 0) {
+                age += hours + " hours, ";
+            }
+
+            if (minutes !== 0 && seconds === 0) {
+                age = age.substring(0, age.length - 2);
+                age += " and " + minutes + " minutes";
+            } else if (minutes !== 0) {
+                age += minutes + " minutes, ";
+            }
+
+            if (seconds !== 0) {
+                age = age.substring(0, age.length - 2);
+                age += " and " + seconds + " seconds";
+            }
+
+            age += " ago!";
+            theage.innerHTML = age;
+        }
+
+        // Once the page loads we want to run the parsing function every second
+        window.onload = function() {
+            // Increment the age every second
+            setInterval(function() {
+                current_age++;
+                parseAge(current_age, version);
+            }, 1000);
+        }
+    </script>
     <div id="thecontent">
         <h1 id="theage">Minecraft {{ version }} released {{ age }} ago!</h1>
         {% if birthday %}

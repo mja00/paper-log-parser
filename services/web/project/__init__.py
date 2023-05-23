@@ -186,7 +186,7 @@ def age(version):
         # Check if it's the release's birthday
         if release_date.day == now.day and release_date.month == now.month:
             birthday = True
-        return render_template("age.html", version=version, age=delta, birthday=birthday)
+        return render_template("age.html", version=version, age=delta, birthday=birthday, raw_seconds=diff.total_seconds())
     except KeyError:
         # Return just a 404 if we don't have the version
         return "Unknown version", 404
