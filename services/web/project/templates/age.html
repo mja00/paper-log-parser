@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Minecraft {{ version }}'s Age</title>
+    <style>
+        #thecontent {
+            text-align: center;
+            position: relative;
+            transform: translateY(43vh);
+        }
+
+        #theage {
+            margin: 0;
+            font-size: 2.5vw;
+        }
+
+        #bday {
+            margin: 0;
+            font-size: 2.5vw;
+        }
+    </style>
+    <meta property="og:title" content="Minecraft {{ version }}'s Age">
+    <meta property="og:url" content="https://paper.theairplan.com/age/{{ version }}">
+    <meta property="og:description" content="Minecraft {{ version }} released {{ age }} ago! {% if birthday %}Happy Birthday! 🥳{% endif %}">
+</head>
+<body>
+    <div id="thecontent">
+        <h1 id="theage">Minecraft {{ version }} released {{ age }} ago!</h1>
+        {% if birthday %}
+        <h2 id="bday">Today is the version's birthday! 🥳</h2>
+        {% endif %}
+    </div>
+</body>
+</html>

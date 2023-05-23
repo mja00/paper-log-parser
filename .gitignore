@@ -30,3 +30,5 @@ Network Trash Folder
 Temporary Items
 .apdisk
 services/web/project/static/parses/
+
+services/web/project/static/mc_manifest.json

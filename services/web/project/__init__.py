@@ -3,10 +3,21 @@ from flask import Flask, render_template, jsonify, request, url_for
 from .parser import LogFile
 from PIL import Image, ImageDraw, ImageFont
 from hashlib import sha256
+import requests
+import json
+from datetime import datetime as dt
+from datetime import timezone
+import humanize
 
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "CHANGEME")
+LAST_MANIFEST_UPDATE = None
+MANIFEST_INFO = {}
+headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) ",
+    "Content-Type": "application/json",
+}
 
 
 def make_rectangle_to_fit_text(text, color, backgound_color=(48, 49, 54)):
@@ -80,6 +91,36 @@ def generate_output_image(log_data, url):
     return f"parses/{url_hash}.png"
 
 
+def parse_manifest_for_dates(manifest):
+    global MANIFEST_INFO
+    for version in manifest["versions"]:
+        version_name = version["id"]
+        release_time = version["releaseTime"]
+        # Parse the time "2023-03-14T12:56:18+00:00"
+        release_time = dt.strptime(release_time, "%Y-%m-%dT%H:%M:%S+00:00").replace(tzinfo=timezone.utc)
+        # Add it to the dict
+        MANIFEST_INFO[version_name] = release_time
+
+
+def get_mc_manifest_and_cache_it():
+    global LAST_MANIFEST_UPDATE
+    # If it's been more than an hour since we last updated the manifest, update it
+    if LAST_MANIFEST_UPDATE is None or (dt.now() - LAST_MANIFEST_UPDATE).seconds > 3600:
+        LAST_MANIFEST_UPDATE = dt.now()
+        manifest_url = "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json"
+        manifest = requests.get(manifest_url, headers=headers).json()
+        with open("project/static/mc_manifest.json", "w") as f:
+            json.dump(manifest, f)
+        # We'll want to re-parse the manifest for dates
+        parse_manifest_for_dates(manifest)
+    else:
+        # Otherwise we just read the file from disk
+        with open("project/static/mc_manifest.json", "r") as f:
+            manifest = json.load(f)
+
+    return manifest
+
+
 @app.route("/")
 def index():
     version = "1.0.0"
@@ -124,3 +165,28 @@ def parse():
         return jsonify({"error": "No log lines found. Most likely caused by an unsupported URL.", "success": False}), 400
     output = log_file.get_report_as_string()
     return jsonify({"output": output, "success": True}), 200
+
+
+@app.route("/age/<string:version>", methods=["GET"])
+def age(version):
+    global MANIFEST_INFO
+    birthday = False
+    # Make sure we have the latest manifest info
+    get_mc_manifest_and_cache_it()
+    try:
+        # Get our version's release date
+        release_date = MANIFEST_INFO[version]
+        # We've got the date, now we just need to get a human readable string
+        # Get the current time
+        now = dt.now(timezone.utc)
+        # Get the difference between the two
+        diff = now - release_date
+        # Precise delta
+        delta = humanize.precisedelta(diff, minimum_unit="seconds", format="%0.0f")
+        # Check if it's the release's birthday
+        if release_date.day == now.day and release_date.month == now.month:
+            birthday = True
+        return render_template("age.html", version=version, age=delta, birthday=birthday)
+    except KeyError:
+        # Return just a 404 if we don't have the version
+        return "Unknown version", 404
