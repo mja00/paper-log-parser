@@ -110,7 +110,9 @@ class LogFile:
             # Common leak message
             r"\[\d{2}:\d{2}:\d{2}\] \[Server thread\/INFO\]: \[[\w]+\] \[[\w]+\] \[[\w]+\] Leaked by [\w]+ @ [A-Za-z.]+",
             # [06:10:18] [Server thread/INFO]: [LifestealCore] [36m[Spigotunlocked.net] - COSMO
-            r"\[\d{2}:\d{2}:\d{2}\] \[Server thread\/INFO\]: \[[\w]+\] [36m\[Spigotunlocked\.net\] - [\w]+"
+            r"\[\d{2}:\d{2}:\d{2}\] \[Server thread\/INFO\]: \[[\w]+\] [36m\[Spigotunlocked\.net\] - [\w]+",
+            # Matches a "Downloaded from directleaks.*" message
+            r"\[\d{2}:\d{2}:\d{2}\] \[Server thread\/INFO\]: \[[\w]+\] Downloaded from (?:.*directleaks.*)"
         ]
         self.has_missing_dependencies = False
         self.missing_dependencies = []
