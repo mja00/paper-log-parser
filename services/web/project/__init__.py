@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, jsonify, request, url_for
+from flask import Flask, render_template, jsonify, request, url_for, redirect
 from .parser import LogFile
 from PIL import Image, ImageDraw, ImageFont
 from hashlib import sha256
@@ -169,24 +169,5 @@ def parse():
 
 @app.route("/age/<string:version>", methods=["GET"])
 def age(version):
-    global MANIFEST_INFO
-    birthday = False
-    # Make sure we have the latest manifest info
-    get_mc_manifest_and_cache_it()
-    try:
-        # Get our version's release date
-        release_date = MANIFEST_INFO[version]
-        # We've got the date, now we just need to get a human readable string
-        # Get the current time
-        now = dt.now(timezone.utc)
-        # Get the difference between the two
-        diff = now - release_date
-        # Precise delta
-        delta = humanize.precisedelta(diff, minimum_unit="seconds", format="%0.0f")
-        # Check if it's the release's birthday
-        if release_date.day == now.day and release_date.month == now.month:
-            birthday = True
-        return render_template("age.html", version=version, age=delta, birthday=birthday, raw_seconds=diff.total_seconds(), release=release_date.isoformat())
-    except KeyError:
-        # Return just a 404 if we don't have the version
-        return "Unknown version", 404
+    # We'll just redirect to our new site that handles this
+    return redirect(f"https://minecraftishowold.today/{version}")
