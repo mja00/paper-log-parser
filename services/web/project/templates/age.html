@@ -30,74 +30,57 @@
     <meta property="og:title" content="Minecraft {{ version }}'s Age">
     <meta property="og:url" content="https://paper.theairplan.com/age/{{ version }}">
     <meta property="og:description" content="Minecraft {{ version }} released {{ age }} ago! {% if birthday %}Happy Birthday! 🥳{% endif %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
     <script>
         // We want this to parse out the age of the version and tick it up every second
-        var current_age = {{ raw_seconds }};
-        var version = "{{ version }}";
+        const version = "{{ version }}";
+        const release_date = "{{ release }}";
 
-        function parseAge(secondsToParse, version) {
-            // Get the "theage" element
-            var theage = document.getElementById("theage");
+        function parseAge(date, version) {
+            const theAge = document.getElementById("theage");
+            const unitArray = [];
 
-            // Get the number of years
-            var years = Math.floor(secondsToParse / 31536000);
-            var months = Math.floor((secondsToParse % 31536000) / 2592000);
-            var days = Math.floor(((secondsToParse % 31536000) % 2592000) / 86400);
-            var hours = Math.floor((((secondsToParse % 31536000) % 2592000) % 86400) / 3600);
-            var minutes = Math.floor(((((secondsToParse % 31536000) % 2592000) % 86400) % 3600) / 60);
-            var seconds = Math.floor((((((secondsToParse % 31536000) % 2592000) % 86400) % 3600) % 60));
+            // This is ISO 8601 format
+            const momentParsed = moment(date, "YYYY-MM-DDTHH:mm:ssZ").utc();
+            const momentNow = moment().utc();
+            const diff = momentNow.diff(momentParsed, "milliseconds");
+            const duration = moment.duration(diff);
 
-            // Build the string
-            var age = "Minecraft " + version + " released ";
-            if (years !== 0) {
-                age += years + " years, ";
-            }
-            // If there is only months left we need to remove the comma and add an and
-            if (months !== 0 && days === 0 && hours === 0 && minutes === 0 && seconds === 0) {
-                age = age.substring(0, age.length - 2);
-                age += " and " + months + " months";
-            } else if (months !== 0) {
-                age += months + " months, ";
-            }
+            const years = duration.years();
+            const months = duration.months();
+            const days = duration.days();
+            const hours = duration.hours();
+            const minutes = duration.minutes();
+            const seconds = duration.seconds();
 
-            if (days !== 0 && hours === 0 && minutes === 0 && seconds === 0) {
-                age = age.substring(0, age.length - 2);
-                age += " and " + days + " days";
-            } else if (days !== 0) {
-                age += days + " days, ";
-            }
+            const yearUnit = years === 1 ? "year" : "years";
+            const monthUnit = months === 1 ? "month" : "months";
+            const dayUnit = days === 1 ? "day" : "days";
+            const hourUnit = hours === 1 ? "hour" : "hours";
+            const minuteUnit = minutes === 1 ? "minute" : "minutes";
+            const secondUnit = seconds === 1 ? "second" : "seconds";
 
-            if (hours !== 0 && minutes === 0 && seconds === 0) {
-                age = age.substring(0, age.length - 2);
-                age += " and " + hours + " hours";
-            } else if (hours !== 0) {
-                age += hours + " hours, ";
-            }
+            // Push all the units to an array
+            if (years > 0) unitArray.push(years + " " + yearUnit);
+            if (months > 0) unitArray.push(months + " " + monthUnit);
+            if (days > 0) unitArray.push(days + " " + dayUnit);
+            if (hours > 0) unitArray.push(hours + " " + hourUnit);
+            if (minutes > 0) unitArray.push(minutes + " " + minuteUnit);
+            if (seconds > 0) unitArray.push(seconds + " " + secondUnit);
 
-            if (minutes !== 0 && seconds === 0) {
-                age = age.substring(0, age.length - 2);
-                age += " and " + minutes + " minutes";
-            } else if (minutes !== 0) {
-                age += minutes + " minutes, ";
-            }
-
-            if (seconds !== 0) {
-                age = age.substring(0, age.length - 2);
-                age += " and " + seconds + " seconds";
-            }
-
-            age += " ago!";
-            theage.innerHTML = age;
+            // Pop the last out of the array and store it, we'll be appending it with an and
+            const last = unitArray.pop();
+            // Build our string
+            theAge.innerText = "Minecraft " + version + " released " + unitArray.join(", ") + " and " + last + " ago!";
         }
 
         // Once the page loads we want to run the parsing function every second
         window.onload = function() {
             // Increment the age every second
             setInterval(function() {
-                current_age++;
-                parseAge(current_age, version);
+                parseAge(release_date, version);
             }, 1000);
         }
     </script>
