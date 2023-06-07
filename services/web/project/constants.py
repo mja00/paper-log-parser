@@ -1,5 +1,5 @@
 data_version_to_mc = {
-    9999: "1.20", # Update once released
+    3463: "1.20",
     3462: "1.20-rc1"
     3461: "1.20-pre7",
     3460: "1.20-pre6",
