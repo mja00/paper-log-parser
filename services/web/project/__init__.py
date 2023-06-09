@@ -7,7 +7,7 @@ import requests
 import json
 from datetime import datetime as dt
 from datetime import timezone
-import humanize
+import random
 
 app = Flask(__name__)
 
@@ -171,3 +171,54 @@ def parse():
 def age(version):
     # We'll just redirect to our new site that handles this
     return redirect(f"https://minecraftishowold.today/{version}")
+
+
+@app.route('/bingo', methods=["GET"])
+def bingo():
+    bingo_squares = [
+        "I use authme for added security",
+        "My country's laws allow it",
+        "My players are all young children with no money",
+        "My country has bad economy and very poor",
+        "Everyone pirate the game in my country",
+        "My country has weak currency",
+        "One of my player cannot afford the game, I dont want him to feel left out",
+        "An old Notch tweet",
+        "I can't get players without it",
+        "I don't want to rely on Microsoft's servers",
+        "There are bigger offline networks, so why not me?",
+        "Microsoft is bad",
+        "I'm actually using bungee (timings/Spark says otherwise)",
+        "Stop being toxic and shut up if you dont want to help",
+        "Minecraft is not available for sale in my country",
+        "Culture in (region)",
+        "I use SkinRestorer so my players can change skins",
+        "Mojang provides it so it must be ok",
+        "It promotes the game so when people get money they'll buy it",
+        "But you have to fix this bug. (The bug is due to offline mode)",
+        "Most of my players are too busy to justify buying the game",
+        "Mojang makes enough money already",
+        "I don't know what offline mode is, one of my friends told me to use it",
+        'I own the "premium" version'
+    ]
+    # Check for a seed url param
+    seed = request.args.get('seed', None)
+
+    if seed:
+        try:
+            seed = int(seed)
+        except ValueError:
+            seed = random.randint(0, 1000000000)
+        # We'll use the seed to generate a new bingo card
+        random.seed(seed)
+        random.shuffle(bingo_squares)
+    else:
+        # Generate a random seed to use
+        seed = random.randint(0, 1000000000)
+        random.seed(seed)
+        random.shuffle(bingo_squares)
+    # Get the first 24 elements
+    wanted_squares = bingo_squares[:24]
+    # Add the free space after the first 12
+    wanted_squares.insert(12, "Free")
+    return render_template("bingo.html", bingo_squares=wanted_squares, seed=seed)

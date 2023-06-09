@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Offline Mode Bingo</title>
+    <link href="https://bootswatch.com/5/darkly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <!-- Thanks EterNity for the favicon -->
+    <link rel="icon" href="https://paper-chan.moe/content/images/size/w256h256/2022/06/Emoji-paperOhhh.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Embed -->
+    <meta property="og:title" content="Offline Mode Bingo">
+    <meta property="og:url" content="https://paper.theairplan.com/bingo">
+    <meta name="theme-color" content="#00ff00">
+    <meta property="og:description" content="Come play Offline Mode bingo!">
+</head>
+<style>
+    .flex-grid {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        width: 560px;
+        padding: 15px;
+        background: #d54f34;
+        border-radius: 20px;
+        border: 1px solid;
+        font-size: 12px;
+        font-weight: 700;
+        font-family: 'Roboto', sans-serif;
+        margin: 0 auto;
+
+    }
+    .flex-row, .flex-header {
+        position: relative;
+        flex-direction: row;
+        display: flex;
+    }
+    .flex-header .flex-cell {
+        height: 50px;
+        font-family: 'Roboto Slab', serif;
+        font-weight: 700;
+        font-size: 3.5em;
+        background: #d54f34;
+        color: white;
+        text-shadow: -1px -1px 0 #898989,
+        1px -1px 0  #898989,
+        -1px 1px 0  #898989,
+        1px 1px 0   #898989;
+    }
+    .flex-cell {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        width: 105px;
+        height: 105px;
+        padding: 5px;
+        border: 2px solid #d54f34;
+        background: white;
+        cursor: pointer;
+        user-select: none;
+        color: black;
+    }
+    .flex-grid .free-space {
+        /*   margin-top: -10px;
+          margin-left: 1px; */
+        font-size: 4em;
+        color: #d54f34;
+        margin-bottom: 10px;
+    }
+
+    .flex-cell.chip:after {
+        content: "";
+        position: absolute;
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+    .flex-cell.chip.orange:after {
+        background: radial-gradient(ellipse at 53% 53%, #fff0 35px, hsla(0, 0%, 100%, 0.75) 37px, #fff0 40px),
+        radial-gradient(ellipse at 47% 49%, #fff0 35px, hsla(27, 100%, 38%, 0.75) 37px, #fff0 40px),
+        radial-gradient(ellipse at 40% 40%, hsla(33, 100%, 64%, 0.8) 0%, hsla(27, 93%, 47%, 0.8) 100%);
+    }
+    .flex-cell.chip.green:after {
+        background: radial-gradient(ellipse at 53% 53%, #fff0 35px, hsla(0, 0%, 100%, 0.75) 37px, #fff0 40px),
+        radial-gradient(ellipse at 47% 49%, #fff0 35px, hsla(123, 100%, 30%, 0.75) 37px, #fff0 40px),
+        radial-gradient(ellipse at 40% 40%, hsla(123, 100%, 64%, 0.8) 0%, hsla(112, 93%, 47%, 0.8) 100%);
+    }
+    .flex-cell.chip.blue:after {
+        background: radial-gradient(ellipse at 53% 53%, #fff0 35px, hsla(0, 0%, 100%, 0.75) 37px, #fff0 40px),
+        radial-gradient(ellipse at 47% 49%, #fff0 35px, hsla(214, 100%, 38%, 0.75) 37px, #fff0 40px),
+        radial-gradient(ellipse at 40% 40%, hsla(229, 100%, 64%, 0.8) 0%, hsla(214, 93%, 47%, 0.8) 100%);
+    }
+    .flex-cell.chip.pink:after {
+        background: radial-gradient(ellipse at 53% 53%, #fff0 35px, hsla(0, 0%, 100%, 0.75) 37px, #fff0 40px),
+        radial-gradient(ellipse at 47% 49%, #fff0 35px, hsla(303, 100%, 38%, 0.75) 37px, #fff0 40px),
+        radial-gradient(ellipse at 40% 40%, hsla(309, 100%, 64%, 0.8) 0%, hsla(303, 93%, 47%, 0.8) 100%);
+    }
+
+    /* row win */
+    .flex-row:after {
+        content: "";
+        position: absolute;
+        top: 54px;
+        left: 10px;
+        width: 0%;
+        height: 10px;
+        background: #00571fc4;
+        border-radius: 15px;
+        transition: width .5s ease;
+        pointer-events: none;
+    }
+    .flex-row.win:after {
+        width: 94%;
+    }
+
+
+    /* col win */
+    .flex-row .flex-cell:before {
+        content: "";
+        position: absolute;
+        top: 10px;
+        width: 10px;
+        height: 0;
+        background: #00571fc4;
+        border-radius: 15px;
+        transition: height .5s ease;
+        z-index: 1;
+        pointer-events: none;
+    }
+    .flex-row .flex-cell.win:before {
+        height: 500%;
+    }
+
+
+
+    /* diag down win */
+    .flex-header .flex-cell:first-child:before,
+    .flex-header .flex-cell:last-child:before {
+        content: "";
+        position: absolute;
+        top: 81px;
+        width: 10px;
+        height: 0;
+        background: #00571fc4;
+        border-radius: 15px;
+        transition: height .5s ease;
+        z-index: 4;
+        transform: rotate(-45deg);
+        transform-origin: top;
+        pointer-events: none;
+    }
+    .flex-header .flex-cell:first-child:before {
+        left: 5px;
+        transform: rotate(-45deg);
+    }
+    .flex-header .flex-cell:last-child:before {
+        right: 5px;
+        transform: rotate(45deg);
+    }
+    .flex-header .flex-cell.win:before {
+        height: 1435%;
+    }
+
+</style>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Paper Log Parser</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('index') }}">Home
+                        <span class="visually-hidden">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/mja00/paper-log-parser" target="_blank">Source</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ url_for('bingo') }}">Bingo</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid mt-3">
+    <div class="row justify-content-center">
+        <div class="col-5">
+            <div class="card">
+                <div class="card-header">Bingo Card #<a href="{{ url_for('bingo', seed=seed) }}">{{ seed }}</a> | <a href="{{ url_for('bingo') }}">New Card</a> | <a href="#" onclick="clearStorage()">Clear Storage</a></div>
+                <div class="card-body">
+                    <div class="flex-grid">
+                        <div class="flex-header">
+                            <div class="flex-cell">P</div>
+                            <div class="flex-cell">A</div>
+                            <div class="flex-cell">P</div>
+                            <div class="flex-cell">E</div>
+                            <div class="flex-cell">R</div>
+                        </div>
+                        {% for row in bingo_squares | batch(5) %}
+                        <div class="flex-row">
+                            {% for square in row %}
+                                {% if square == 'Free' %}
+                                    <div class="flex-cell"><span class="free-space"><img src="https://cdn.discordapp.com/emojis/1018366673423695872.webp?size=128&quality=lossless" alt="Paperchan" width="100" height="100"></span></div>
+                                {% else %}
+                                <div class="flex-cell">{{ square }}</div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+<script>
+    // Now for our bingo logic
+    let chipColors = ["orange","green","blue","pink"]
+    $(".flex-grid").on("click", ".flex-row .flex-cell", function() {
+        let randColor = chipColors[Math.floor(Math.random() * chipColors.length)];
+        $(this).toggleClass("chip");
+        $(this).removeClass("orange green blue pink");
+        $(this).toggleClass(randColor, $(this).is(".chip"));
+
+        // Get our game board
+        let $board = $(this).closest(".flex-grid");
+        // remove all wins
+        $board.find(".win").removeClass("win")
+
+        // Little diagram of the board
+        //       0    1    2    3    4
+        //     ╔════╦════╦════╦════╦════╗
+        //  0  ║    ║    ║    ║    ║    ║
+        //     ╠════╬════╬════╬════╬════╣
+        //  1  ║    ║    ║    ║    ║    ║
+        //     ╠════╬════╬════╬════╬════╣
+        //  2  ║    ║    ║    ║    ║    ║
+        //     ╠════╬════╬════╬════╬════╣
+        //  3  ║    ║    ║    ║    ║    ║
+        //     ╠════╬════╬════╬════╬════╣
+        //  4  ║    ║    ║    ║    ║    ║
+        //     ╚════╩════╩════╩════╩════╝
+
+        let board = $.map($(".flex-row"), function(row, i) {
+            let cells = $.map($(row).find(".flex-cell"), function(cell, j) {
+                return $(cell).hasClass("chip")
+            });
+            return [cells];
+        });
+
+        console.log(board);
+        let rowCount = board.length
+        let colCount = board[0].length;
+
+        // Save our board and current seed to local storage so we can reload it later
+        // Get our localStorage, if it's empty then just make an empty object
+        let bingoStorage = JSON.parse(localStorage.getItem("bingo"));
+        if (bingoStorage === null) {
+            bingoStorage = {};
+        }
+        // Save our board to local storage
+        bingoStorage[{{ seed }}] = board;
+        localStorage.setItem("bingo", JSON.stringify(bingoStorage));
+
+        // Check for winning rows
+        for (let i = 0; i < rowCount; i++) {
+            let rowValues = board[i];
+            let rowWin = rowValues.every(function(val) { return val;});
+            if (rowWin) {
+                console.log("Row " + i + " is a win");
+                $board.find(".flex-row").eq(i).addClass("win")
+            }
+        }
+        // Check for winning columns
+        for (let i = 0; i < colCount; i++) {
+            let colValues = $.map(board, function(row) { return row[i]; });
+            let colWin = colValues.every(function(val) { return val;});
+            if (colWin) {
+                console.log("Column " + i + " is a win");
+                $board.find(".flex-row:eq(0) .flex-cell").eq(i).addClass("win")
+            }
+        }
+        // Diagonal down
+        let diagDownValues = board.map(function(row, i) {return board[i][i]})
+        let diagDownWin = diagDownValues.every(function(val) { return val});
+        if (diagDownWin) {
+            console.log("Win on Down Diagonal");
+            $board.find(".flex-header .flex-cell:first-child").addClass("win")
+        }
+        // check diagonal up
+        let diagUpValues = board.map(function(row, i) {return board[i][rowCount - i - 1]})
+        let diagUpWin = diagUpValues.every(function(val) { return val});
+        if (diagUpWin) {
+            console.log("Win on Up Diagonal");
+            $board.find(".flex-header .flex-cell:last-child").addClass("win")
+        }
+    });
+    // Load our board from local storage
+    let bingoStorage = JSON.parse(localStorage.getItem("bingo"));
+    if (bingoStorage !== null) {
+        let board = bingoStorage[{{ seed }}];
+        console.log("Pulled board from storage", board);
+        if (board !== undefined) {
+            $.each(board, function(i, row) {
+                $.each(row, function(j, cell) {
+                    if (cell) {
+                        console.log("Updated cell ", i, j);
+                        // Just click on the cell to toggle it
+                        $(".flex-row").eq(i).find(".flex-cell").eq(j).click();
+                    }
+                });
+            });
+        }
+    }
+
+    function clearStorage() {
+        // Alert the user
+        if (confirm("Are you sure you want to clear ALL bingo boards?")) {
+            // Clear the storage
+            localStorage.removeItem("bingo");
+            // Reload the page
+            location.reload();
+        }
+    }
+</script>
+</body>
+</html>
