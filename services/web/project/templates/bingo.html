@@ -261,7 +261,6 @@
             return [cells];
         });
 
-        console.log(board);
         let rowCount = board.length
         let colCount = board[0].length;
 
@@ -280,7 +279,6 @@
             let rowValues = board[i];
             let rowWin = rowValues.every(function(val) { return val;});
             if (rowWin) {
-                console.log("Row " + i + " is a win");
                 $board.find(".flex-row").eq(i).addClass("win")
             }
         }
@@ -289,7 +287,6 @@
             let colValues = $.map(board, function(row) { return row[i]; });
             let colWin = colValues.every(function(val) { return val;});
             if (colWin) {
-                console.log("Column " + i + " is a win");
                 $board.find(".flex-row:eq(0) .flex-cell").eq(i).addClass("win")
             }
         }
@@ -297,14 +294,12 @@
         let diagDownValues = board.map(function(row, i) {return board[i][i]})
         let diagDownWin = diagDownValues.every(function(val) { return val});
         if (diagDownWin) {
-            console.log("Win on Down Diagonal");
             $board.find(".flex-header .flex-cell:first-child").addClass("win")
         }
         // check diagonal up
         let diagUpValues = board.map(function(row, i) {return board[i][rowCount - i - 1]})
         let diagUpWin = diagUpValues.every(function(val) { return val});
         if (diagUpWin) {
-            console.log("Win on Up Diagonal");
             $board.find(".flex-header .flex-cell:last-child").addClass("win")
         }
     });
@@ -312,12 +307,10 @@
     let bingoStorage = JSON.parse(localStorage.getItem("bingo"));
     if (bingoStorage !== null) {
         let board = bingoStorage[{{ seed }}];
-        console.log("Pulled board from storage", board);
         if (board !== undefined) {
             $.each(board, function(i, row) {
                 $.each(row, function(j, cell) {
                     if (cell) {
-                        console.log("Updated cell ", i, j);
                         // Just click on the cell to toggle it
                         $(".flex-row").eq(i).find(".flex-cell").eq(j).click();
                     }
