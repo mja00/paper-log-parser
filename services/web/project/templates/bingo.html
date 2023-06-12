@@ -325,17 +325,57 @@
         if (diagUpWin) {
             $board.find(".flex-header .flex-cell:last-child").addClass("win")
         }
+
+        // We'll also store the current selected squares in the URL using a binary number converted to hex, we only need 25 bits
+        let selected = board.map(function(row) { return row.map(function(cell) { return cell ? 1 : 0; }).join(""); }).join("");
+        // Convert our binary string to hex
+        let hex = parseInt(selected, 2).toString(16);
+        // Pad it with zeros to 6 digits
+        hex = hex.padStart(7, "0");
+        // Update the URL by adding a state parameter
+        let url = new URL(window.location.href);
+        url.searchParams.set("state", hex);
+        history.replaceState(null, null, url);
     });
+    // Check if the url has a state param
+    let url = new URL(window.location.href);
+    let state = url.searchParams.get("state");
+    if (state !== null) {
+        // Convert the hex to binary
+        let binary = parseInt(state, 16).toString(2);
+        // Pad it with zeros to 25 digits
+        binary = binary.padStart(25, "0");
+        // Split it into an array of 5 strings of 5 digits
+        let board = binary.match(/.{5}/g);
+        // Split each block into an array of booleans
+        board = board.map(function(row) { return row.split("").map(function(cell) { return cell === "1"; }); });
+        // Loop through each row
+        $.each(board, function(i, row) {
+            // Loop through each cell
+            $.each(row, function(j, cell) {
+                // If the cell is 1, click it
+                if (cell) {
+                    // Do not click the cell if it's already clicked
+                    if (!$(".flex-row").eq(i).find(".flex-cell").eq(j).hasClass("chip")) {
+                        $(".flex-row").eq(i).find(".flex-cell").eq(j).click();
+                    }
+                }
+            });
+        });
+    }
     // Load our board from local storage
     let bingoStorage = JSON.parse(localStorage.getItem("bingo"));
-    if (bingoStorage !== null) {
+    // Only load from storage if we don't have a state param
+    if (bingoStorage !== null && state === null) {
         let board = bingoStorage[{{ seed }}];
         if (board !== undefined) {
             $.each(board, function(i, row) {
                 $.each(row, function(j, cell) {
                     if (cell) {
                         // Just click on the cell to toggle it
-                        $(".flex-row").eq(i).find(".flex-cell").eq(j).click();
+                        if (!$(".flex-row").eq(i).find(".flex-cell").eq(j).hasClass("chip")) {
+                            $(".flex-row").eq(i).find(".flex-cell").eq(j).click();
+                        }
                     }
                 });
             });
@@ -347,8 +387,12 @@
         if (confirm("Are you sure you want to clear ALL bingo boards?")) {
             // Clear the storage
             localStorage.removeItem("bingo");
+            // Remove the state param from the URL
+            let url = new URL(window.location.href);
+            url.searchParams.delete("state");
+            history.replaceState(null, null, url);
             // Reload the page
-            location.reload();
+            window.location.reload();
         }
     }
 
