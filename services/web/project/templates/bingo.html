@@ -164,6 +164,9 @@
     .flex-header .flex-cell.win:before {
         height: 1540%;
     }
+    .tooltip-inner {
+        color: white;
+    }
 
 </style>
 <body>
@@ -192,6 +195,22 @@
 </nav>
 <div class="container-fluid mt-3">
     <div class="row justify-content-center">
+        <div class="col-2">
+            <div class="card">
+                <div class="card-header">Info</div>
+                <div class="card-body">
+                    <p>This is a offline mode bingo card generator created by mja00!</p>
+                    <p>All squares claimed are automatically saved to local storage. You can use the buttons below to do actions.</p>
+                    <hr>
+                    <div class="d-grid gap-2">
+                        <a class="btn btn-danger" href="{{ url_for('bingo') }}">New Card</a>
+                        <button class="btn btn-danger" onclick="clearStorage()" data-bs-toggle="tooltip" data-bs-placement="top" title="Wipes all squares from all cards!">Clear All Cards</button>
+                        <button class="btn btn-success" onclick="saveCardNumber()" data-bs-toggle="tooltip" data-bs-placement="top" title="Saves the current card number!">Save Current Card</button>
+                        <button class="btn btn-success" onclick="loadCardNumber()" data-bs-toggle="tooltip" data-bs-placement="top" title="Loads your saved card number!">Load Saved Card</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="col-5">
             <div class="card">
                 <div class="card-header">Bingo Card #<a href="{{ url_for('bingo', seed=seed) }}">{{ seed }}</a> | <a href="{{ url_for('bingo') }}">New Card</a> | <a href="#" onclick="clearStorage()">Clear Storage</a></div>
@@ -227,6 +246,10 @@
         crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 <script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
     // Now for our bingo logic
     let chipColors = ["orange","green","blue","pink"]
     $(".flex-grid").on("click", ".flex-row .flex-cell", function() {
@@ -326,6 +349,21 @@
             localStorage.removeItem("bingo");
             // Reload the page
             location.reload();
+        }
+    }
+
+    function saveCardNumber() {
+        // Saves the card number in local storage so we can recall it
+        let cardNumber = {{ seed }};
+        localStorage.setItem("cardNumber", cardNumber);
+    }
+
+    function loadCardNumber() {
+        // Loads the card number from local storage
+        let cardNumber = localStorage.getItem("cardNumber");
+        if (cardNumber !== null) {
+            // Direct to the current page but with ?seed=cardNumber appended
+            window.location.href = window.location.href.split("?")[0] + "?seed=" + cardNumber;
         }
     }
 </script>
