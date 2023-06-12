@@ -205,7 +205,7 @@
                     <div class="d-grid gap-2">
                         <a class="btn btn-danger" href="{{ url_for('bingo') }}">New Card</a>
                         <button class="btn btn-danger" onclick="clearStorage()" data-bs-toggle="tooltip" data-bs-placement="top" title="Wipes all squares from all cards!">Clear All Cards</button>
-                        <button class="btn btn-success" onclick="saveCardNumber()" data-bs-toggle="tooltip" data-bs-placement="top" title="Saves the current card number!">Save Current Card</button>
+                        <button id="saveButton" class="btn btn-success" onclick="saveCardNumber()" data-bs-toggle="tooltip" data-bs-placement="top" title="Saves the current card number!">Save Current Card</button>
                         <button class="btn btn-success" onclick="loadCardNumber()" data-bs-toggle="tooltip" data-bs-placement="top" title="Loads your saved card number!">Load Saved Card</button>
                     </div>
                 </div>
@@ -356,6 +356,17 @@
         // Saves the card number in local storage so we can recall it
         let cardNumber = {{ seed }};
         localStorage.setItem("cardNumber", cardNumber);
+        // Update the text for the save button and disable it
+        $("#saveButton").text("Card number saved!");
+        $("#saveButton").prop("disabled", true);
+        // Also hide the tooltip for the save button
+        $("#saveButton").tooltip("hide");
+        // Wait like 5 seconds
+        setTimeout(function() {
+            // Reset the button text and enable it
+            $("#saveButton").text("Save Current Card");
+            $("#saveButton").prop("disabled", false);
+        }, 5000);
     }
 
     function loadCardNumber() {
