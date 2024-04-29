@@ -76,7 +76,8 @@ class LogFile:
         }
         self.supported_versions = [
             "1.20.4",
-            "1.20.5"
+            "1.20.5",
+            "1.20.6
         ]
         self.plugins = []
         self.mc_version = None
