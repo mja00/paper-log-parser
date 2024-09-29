@@ -123,7 +123,7 @@ def get_mc_manifest_and_cache_it():
 
 @app.route("/")
 def index():
-    version = "1.0.0"
+    version = "1.1.0"
     # check url params for a url arg
     url = request.args.get('url', None)
     if url:
