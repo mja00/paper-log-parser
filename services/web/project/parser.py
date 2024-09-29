@@ -403,7 +403,6 @@ class LogFile:
                 self.has_ambiguous_plugins = True
                 # Parse out the plugin name
                 matches = re.search(ambiguous_plugin_regex, line)
-                print(matches)
                 if matches:
                     # The 2nd match is the plugin name
                     plugin_name = matches.group(2)

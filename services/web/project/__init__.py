@@ -75,10 +75,10 @@ def generate_output_image(log_data, url):
 
     # About half way down the image we wanna list the server's flavor
     text_font = ImageFont.truetype("project/static/fonts/Roboto-Regular.ttf", 30)
-    flavor = log_data.flavor.split(" ")
-    server_jar = flavor[0]
-    flavor_version = " ".join(flavor[2:])
-    drawer.text((40, 180), f"{server_jar} server '{flavor_version}'", (255, 255, 255), font=text_font)
+    flavor_line = log_data.flavor_line
+    flavor = flavor_line.split("This server is running")[1].split(" version ")[0].strip()
+    version = flavor_line.split("version ")[1].split(" (")[0].strip()
+    drawer.text((40, 180), f"{flavor} server {version}", (255, 255, 255), font=text_font)
     # Add the plugin count
     drawer.text((40, 230), f"Using {len(log_data.plugins)} plugins", (255, 255, 255), font=text_font)
     if log_data.invalid_config:
