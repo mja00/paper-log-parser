@@ -12,7 +12,7 @@ from .constants import data_version_to_mc
 latest_paper_versions = {}
 
 # Constants
-ambiguous_plugin_regex = r"\[(\d\d:\d\d:\d\d)\] \[Server thread/ERROR\]: Ambiguous plugin name `([^']+)' for files `([^']+)' and `([^']+)' in `plugins'"
+ambiguous_plugin_regex = r"\[(\d\d:\d\d:\d\d)\] \[Server thread/ERROR\]: \[ModernPluginLoadingStrategy\] Ambiguous plugin name '([^']+)' for files '([^']+)' and '([^']+)' in 'plugins/\.paper-remapped'"
 attempted_downgrade_regex = r".*java\.lang\.RuntimeException: Server attempted to load chunk saved with newer version of minecraft! (\d+) > (\d+)"
 malware1_regex = r"at Updater.a\(:\d+\)"
 bad_config_regex = r"(\[(.*?)\]|java\.lang\.([a-zA-Z]+))"
@@ -75,9 +75,7 @@ class LogFile:
             "User-Agent": "Minecraft Latest.log Parser v1"
         }
         self.supported_versions = [
-            "1.20.4",
-            "1.20.5",
-            "1.20.6
+            "1.21.1"
         ]
         self.plugins = []
         self.mc_version = None
@@ -213,22 +211,34 @@ class LogFile:
                 return
 
     def get_mc_version(self):
-        block = self.flavor_line.split("(MC: ")[1]
-        self.mc_version = block.split(")")[0]
+        block = self.flavor_line.split("(Implementing API version ")[1]
+        self.mc_version = block.split("-")[0]
         if self.mc_version in self.supported_versions:
             self.supported = True
         return self.mc_version
 
     def get_server_flavor(self):
-        self.flavor = self.flavor_line.split("This server is running ")[1].split("(Implementing")[0].strip()
+        # Paper example: This server is running Paper version 1.21.1-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.1-R0.1-SNAPSHOT)
+        # So we need to grab the word Paper from the flavor line
+        self.flavor = self.flavor_line.split("This server is running ")[1].split(" version ")[0].strip()
         return self.flavor
 
     def get_paper_version(self):
         # Get the Flavor line and match against a regex string
         match = re.search(r"git-Paper-(\d+)", self.flavor)
+        # Line: [16:38:57] [ServerMain/INFO]: [bootstrap] Loading Paper 1.21.1-26-master@52ae4ad (2024-08-16T22:44:55Z) for Minecraft 1.21.1
+        # We want the 26 in the above example
+        match2 = re.search(r"Paper version \d+\.\d+\.\d+-(\d+)-master", self.flavor_line)
         if match:
             try:
                 self.paper_version = int(match.group(1))
+            except ValueError:
+                self.paper_version = None
+            self.running_paper = True
+        elif match2:
+            # We want the 2nd match, as the first is the mc version
+            try:
+                self.paper_version = int(match2.group(1))
             except ValueError:
                 self.paper_version = None
             self.running_paper = True
@@ -393,6 +403,7 @@ class LogFile:
                 self.has_ambiguous_plugins = True
                 # Parse out the plugin name
                 matches = re.search(ambiguous_plugin_regex, line)
+                print(matches)
                 if matches:
                     # The 2nd match is the plugin name
                     plugin_name = matches.group(2)
