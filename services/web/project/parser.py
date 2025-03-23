@@ -75,7 +75,6 @@ class LogFile:
             "User-Agent": "Minecraft Latest.log Parser v1"
         }
         self.supported_versions = [
-            "1.21.3",
             "1.21.4"
         ]
         self.plugins = []
@@ -134,6 +133,8 @@ class LogFile:
         self.mock_config = ""
         self.proxy_flavor = ""
         self.using_proxy = False
+        self.players = []
+        self.invalid_players = []
 
     def run_checks(self):
         self.get_host_from_url()
@@ -154,6 +155,8 @@ class LogFile:
         self.check_for_attempted_downgrade()
         self.check_for_malware()
         self.check_config()
+        self.get_players()
+        self.validate_players()
 
     def get_host_from_url(self):
         # Parse the host from the given url
@@ -229,7 +232,7 @@ class LogFile:
         match = re.search(r"git-Paper-(\d+)", self.flavor)
         # Line: [16:38:57] [ServerMain/INFO]: [bootstrap] Loading Paper 1.21.1-26-master@52ae4ad (2024-08-16T22:44:55Z) for Minecraft 1.21.1
         # We want the 26 in the above example
-        match2 = re.search(r"Paper version \d+\.\d+\.\d+-(\d+)-master", self.flavor_line)
+        match2 = re.search(r"Paper version \d+\.\d+\.\d+-(\d+)-(master|main)", self.flavor_line)
         if match:
             try:
                 self.paper_version = int(match.group(1))
@@ -343,6 +346,38 @@ class LogFile:
         if "Paper version" in self.flavor and "git-Paper" in self.flavor:
             self.running_paper = True
             return True
+        
+    def get_players(self):
+        # Line: [12:52:55] [User Authenticator #3/INFO]: UUID of player rexawais is 02dc6ed7-0704-493c-9616-d1952369623c
+        for line in self.lines:
+            # Check if the line matches the regex
+            match = re.search(r"UUID of player (.*) is (.*)", line)
+            if match:
+                player_info = {
+                    "username": match.group(1),
+                    "uuid": match.group(2)
+                }
+                # Add it to the list of players, if it's not already in there
+                if player_info not in self.players:
+                    self.players.append(player_info)
+    
+    def validate_players(self):
+        for player in self.players:
+            # Check against playerdb.co
+            url = f"https://playerdb.co/api/player/minecraft/{player['uuid']}"
+            resp = requests.get(url, headers=self.headers)
+            if resp.status_code == 200:
+                data = resp.json()
+                data = data["data"]["player"]
+                # Check if the player username matches the username in the player info
+                if data["username"] != player["username"]:
+                    print(f"{Fore.RED}Player {player['username']} has an invalid UUID. {player['uuid']} does not match {data['username']}{Fore.RESET}")
+                    self.invalid_players.append(player)
+                else:
+                    print(f"{Fore.GREEN}Player {player['username']} has a valid UUID. {player['uuid']} matches {data['username']}{Fore.RESET}")
+            else:
+                print(f"{Fore.RED}Player {player['username']} has an invalid UUID.{Fore.RESET}")
+                self.invalid_players.append(player)
 
     def check_for_pirated_plugins(self):
         lines_checked = 0
@@ -525,7 +560,7 @@ class LogFile:
 
     def get_report_as_string(self):
         output = []
-        color = Fore.GREEN if self.supported else Fore.RED
+        color = Fore.GREEN if self.supported else Fore.REDz
         output.append(f"{color}Minecraft Version: {self.mc_version}{Fore.RESET}")
         color = Fore.GREEN if self.running_paper else Fore.RED
         output.append(f"{color}Server Flavor: {self.flavor}{Fore.RESET}")
@@ -540,6 +575,12 @@ class LogFile:
         if self.attempting_to_downgrade:
             output.append(
                 f"{Fore.RED}Server is attempting to downgrade. This is not supported! You're going from {self.downgraded_versions[0]} to {self.downgraded_versions[1]}{Fore.RESET}")
+        if len(self.invalid_players) > 0:
+            output.append(f"{Fore.RED}=============================={Fore.RESET}")
+            output.append(f"{Fore.RED}The following players have invalid UUIDs: {Fore.RESET}")
+            for player in self.invalid_players:
+                output.append(f"{Fore.RED}{player['username']} - {player['uuid']}{Fore.RESET}")
+            output.append(f"{Fore.RED}These UUIDs either do not exist, or are for different usernames.{Fore.RESET}")
         output.append(f"{Fore.GREEN}============PLUGINS============{Fore.RESET}")
         for line in self.output_plugins_for_report():
             output.append(line)
