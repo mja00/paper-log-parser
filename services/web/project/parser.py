@@ -346,7 +346,7 @@ class LogFile:
         if "Paper version" in self.flavor and "git-Paper" in self.flavor:
             self.running_paper = True
             return True
-        
+
     def get_players(self):
         # Line: [12:52:55] [User Authenticator #3/INFO]: UUID of player rexawais is 02dc6ed7-0704-493c-9616-d1952369623c
         for line in self.lines:
@@ -360,7 +360,7 @@ class LogFile:
                 # Add it to the list of players, if it's not already in there
                 if player_info not in self.players:
                     self.players.append(player_info)
-    
+
     def validate_players(self):
         for player in self.players:
             # Check against playerdb.co
