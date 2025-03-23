@@ -32,3 +32,4 @@ Temporary Items
 services/web/project/static/parses/
 
 services/web/project/static/mc_manifest.json
+.venv/
