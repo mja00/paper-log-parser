@@ -1,7 +1,8 @@
 import { Fore } from "./ansi";
 import { getMcFromDataVersion, MAX_LOG_LENGTH } from "./constants";
 
-const USER_AGENT = "Minecraft Latest.log Parser v1";
+// Paper's v3 API strictly requires a User-Agent that identifies the app + a contact.
+const USER_AGENT = "paper-log-parser/2.1 (+https://github.com/mja00/paper-log-parser)";
 const FETCH_TIMEOUT_MS = 10_000;
 // Cap on playerdb.co lookups + their concurrency, to stay under the Worker
 // subrequest limit (50/req free, 1000 paid) on logs with many players.
@@ -19,7 +20,9 @@ const serverPluginRegex = /\[(.*)\](?:|:) Loading server plugin (.*) v(.*)/;
 const pluginRegex = /\[(.*)\] Loading (.*) v(.*)/;
 const uuidRegex = /UUID of player (.*) is (.*)/;
 const paperVersion1Regex = /git-Paper-(\d+)/;
-const paperVersion2Regex = /Paper version \d+\.\d+\.\d+-(\d+)-(master|main)/;
+// Build number after the MC version, e.g. "26.2-36-dev", "26.1.2-63-main", "1.21.4-26-master".
+const paperVersion2Regex = /Paper version [\d.]+-(\d+)-/;
+const startingVersionRegex = /Starting minecraft server version (\S+)/;
 const pirateRegexes: RegExp[] = [
   // Common leak message
   /\[\d{2}:\d{2}:\d{2}\] \[Server thread\/INFO\]: \[[\w]+\] \[[\w]+\] \[[\w]+\] Leaked by [\w]+ @ [A-Za-z.]+/,
@@ -47,7 +50,6 @@ const PIRATE_GIVEAWAYS = [
   "mined.to",
 ];
 const IGNORED_EXCEPTIONS = ["UnknownDependencyException", "CoercionFailedException"];
-const SUPPORTED_VERSIONS = ["1.21.4"];
 
 // Render a value the way Python's f-strings would (True/False/None), so the
 // report output is byte-identical to the (bug-patched) Python implementation.
@@ -121,7 +123,6 @@ export class LogFile {
   latestPaperVersion: number | null = null;
   flavor: string | null = null;
   flavorLine: string | null = null;
-  supported = false;
   lines: string[] = [];
   isOffline = false;
   weirdPluginsAcquired: Plugin[] = [];
@@ -253,12 +254,24 @@ export class LogFile {
   }
 
   private getMcVersion(): void {
+    // Prefer the clean "Starting minecraft server version <v>" line (both old and new schemes).
+    let count = 0;
+    for (const line of this.lines) {
+      const match = startingVersionRegex.exec(line);
+      if (match) {
+        this.mcVersion = match[1];
+        return;
+      }
+      count += 1;
+      if (count > this.maxLines) break;
+    }
+    // Fallback: parse the flavor line's "Implementing API version" token. The suffix changed from
+    // `-R0.1-SNAPSHOT` (1.21.x) to `.build.<n>-<status>` (26.x), so strip at `.build.` or first `-`.
     if (this.flavorLine === null) return;
     const block = this.flavorLine.split("(Implementing API version ")[1];
-    this.mcVersion = block.split("-")[0];
-    if (SUPPORTED_VERSIONS.includes(this.mcVersion)) {
-      this.supported = true;
-    }
+    if (block === undefined) return;
+    const token = block.split(")")[0];
+    this.mcVersion = token.includes(".build.") ? token.split(".build.")[0] : token.split("-")[0];
   }
 
   private getServerFlavor(): void {
@@ -283,14 +296,20 @@ export class LogFile {
 
   private async getFromApi(): Promise<number | null> {
     if (this.mcVersion === null) return null;
-    const apiUrl = `https://api.papermc.io/v2/projects/paper/versions/${this.mcVersion}`;
-    // PaperMC 404s for unknown versions; cf-cache successful responses for 30 min.
+    // Paper v3 "Fill" API (v2 was disabled 2026-07-01). Builds are returned newest-first.
+    const apiUrl = `https://fill.papermc.io/v3/projects/paper/versions/${this.mcVersion}/builds`;
+    // 404s for unknown/EOL versions; cf-cache successful responses for 30 min.
     const resp = await fetchWithUa(apiUrl, { cf: { cacheTtl: 1800, cacheEverything: true } });
-    if (resp.status === 200) {
-      const data = (await resp.json()) as { builds: number[] };
-      return data.builds[data.builds.length - 1] ?? null;
-    }
-    return null;
+    if (resp.status !== 200) return null;
+    const data = (await resp.json()) as unknown;
+    // Defensive: accept a bare array or a { builds: [...] } wrapper, and either build objects
+    // (with numeric `id`) or plain build numbers.
+    const builds = Array.isArray(data) ? data : (data as { builds?: unknown[] }).builds;
+    const first = builds?.[0];
+    if (first === undefined) return null;
+    if (typeof first === "number") return first;
+    const id = (first as { id?: number }).id;
+    return typeof id === "number" ? id : null;
   }
 
   private async getLatestPaperVersion(): Promise<number | null> {
@@ -557,13 +576,20 @@ export class LogFile {
 
   getReportAsString(): string[] {
     const output: string[] = [];
-    // Bug fix: legacy parser used `Fore.REDz` here, which crashed on every
-    // non-supported version. Corrected to Fore.RED.
-    let color = this.supported ? Fore.GREEN : Fore.RED;
+    // "supported" is now self-updating: green when Paper's v3 API publishes builds for the parsed
+    // version (a null latest = unknown/EOL version, or a lookup failure — both read as red).
+    // (Legacy code used `Fore.REDz` here, which crashed on every unsupported version.)
+    const supported = this.latestPaperVersion !== null;
+    let color = supported ? Fore.GREEN : Fore.RED;
     output.push(`${color}Minecraft Version: ${pyStr(this.mcVersion)}${Fore.RESET}`);
     color = this.runningPaper ? Fore.GREEN : Fore.RED;
     output.push(`${color}Server Flavor: ${pyStr(this.flavor)}${Fore.RESET}`);
-    color = this.paperVersion === this.latestPaperVersion ? Fore.GREEN : Fore.RED;
+    // Green only when we could confirm the latest build AND it matches; an unknown latest
+    // (null) can't be confirmed up-to-date, so it's red.
+    color =
+      this.latestPaperVersion !== null && this.paperVersion === this.latestPaperVersion
+        ? Fore.GREEN
+        : Fore.RED;
     output.push(`${color}Paper Version: ${pyStr(this.paperVersion)}${Fore.RESET}`);
     color = !this.isOffline ? Fore.GREEN : Fore.RED;
     output.push(`${color}Offline Mode: ${pyStr(this.isOffline)}${Fore.RESET}`);

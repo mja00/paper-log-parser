@@ -1,7 +1,9 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { readFileSync, readdirSync } from "node:fs";
+import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { LogFile, splitLines } from "../src/worker/parser";
+import { Fore } from "../src/worker/ansi";
+import { getMcFromDataVersion } from "../src/worker/constants";
 import { generateCard } from "../src/client/lib/bingo";
 
 const FIXED_PAPER_BUILD = 999;
@@ -13,7 +15,11 @@ const FLAVOR_LINE =
   "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)";
 
 describe("LogFile report — golden parity with bug-patched Python", () => {
-  const fixtures = readdirSync(fixturesDir).filter((f) => f.endsWith(".log"));
+  // Only old-format fixtures have a Python-generated golden; modern (26.x) logs are asserted
+  // explicitly below since the legacy Python oracle can't parse them.
+  const fixtures = readdirSync(fixturesDir).filter(
+    (f) => f.endsWith(".log") && existsSync(join(goldenDir, f.replace(".log", ".json"))),
+  );
 
   for (const fixture of fixtures) {
     it(fixture, () => {
@@ -25,8 +31,11 @@ describe("LogFile report — golden parity with bug-patched Python", () => {
       const log = new LogFile("");
       log.lines = splitLines(text);
       log.analyze();
-      // Match the harness's stubbed latest build so the Paper Version line is deterministic.
-      log.latestPaperVersion = FIXED_PAPER_BUILD;
+      // "supported" now derives from latestPaperVersion. The golden colors were captured with
+      // 1.21.4 as supported → non-null build. Reproduce null (red) where Paper wouldn't return a
+      // build: the unsupported-version fixture, and no-flavor logs (no version to look up).
+      const unsupported = fixture === "non-supported-version.log" || log.mcVersion === null;
+      log.latestPaperVersion = unsupported ? null : FIXED_PAPER_BUILD;
 
       expect(log.getReportAsString()).toEqual(golden);
     });
@@ -59,8 +68,15 @@ describe("LogFile network pipeline (mocked fetch)", () => {
         if (url.includes("playerdb.co") && url.includes(uuidInvalid)) {
           return new Response(JSON.stringify({ data: { player: { username: "SomeoneElse" } } }));
         }
-        if (url.includes("api.papermc.io")) {
-          return new Response(JSON.stringify({ builds: [100, 101, 102] }));
+        if (url.includes("fill.papermc.io")) {
+          // v3 returns build objects newest-first.
+          return new Response(
+            JSON.stringify([
+              { id: 102, channel: "STABLE" },
+              { id: 101, channel: "STABLE" },
+              { id: 100, channel: "STABLE" },
+            ]),
+          );
         }
         return new Response("", { status: 404 });
       }),
@@ -107,6 +123,54 @@ describe("performance — large log", () => {
     log.analyze();
     const elapsed = performance.now() - start;
     expect(elapsed).toBeLessThan(2000);
+  });
+});
+
+describe("modern Paper (26.x) support", () => {
+  it("parses the 26.2 log (new version scheme + build format)", () => {
+    const text = readFileSync(join(fixturesDir, "paper-modern-26.2.log"), "utf-8");
+    const log = new LogFile("");
+    log.lines = splitLines(text);
+    log.analyze();
+
+    expect(log.mcVersion).toBe("26.2");
+    expect(log.paperVersion).toBe(36);
+    expect(log.flavor).toBe("Paper");
+    expect(log.runningPaper).toBe(true);
+    expect(log.isOffline).toBe(true);
+    const names = log.plugins.map((p) => p.name);
+    expect(names).toContain("ViaVersion");
+    expect(names).toContain("ViaBackwards");
+
+    // Latest build 40 (real) > running build 36 → red; version is published → supported/green.
+    log.latestPaperVersion = 40;
+    const report = log.getReportAsString();
+    expect(report[0]).toBe(`${Fore.GREEN}Minecraft Version: 26.2${Fore.RESET}`);
+    expect(report[2]).toBe(`${Fore.RED}Paper Version: 36${Fore.RESET}`);
+  });
+
+  it("falls back to the API-version token when no 'Starting' line is present", () => {
+    const log = new LogFile("");
+    log.lines = [
+      "[14:55:23] [Server thread/INFO]: This server is running Paper version 26.1.2-63-main@711c5de (2026-05-11T08:20:02Z) (Implementing API version 26.1.2.build.63-stable)",
+    ];
+    log.analyze();
+    expect(log.mcVersion).toBe("26.1.2");
+    expect(log.paperVersion).toBe(63);
+  });
+
+  it("maps modern data versions and reports a downgrade", () => {
+    expect(getMcFromDataVersion("4903")).toBe("26.2");
+    expect(getMcFromDataVersion("4671")).toBe("1.21.11");
+    expect(getMcFromDataVersion("99999")).toBe("99999"); // graceful fallback
+
+    const log = new LogFile("");
+    log.lines = [
+      "java.lang.RuntimeException: Server attempted to load chunk saved with newer version of minecraft! 4903 > 4189",
+    ];
+    log.analyze();
+    expect(log.attemptingToDowngrade).toBe(true);
+    expect(log.downgradedVersions).toEqual(["26.2", "1.21.4"]);
   });
 });
 

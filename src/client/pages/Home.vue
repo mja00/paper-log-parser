@@ -2,7 +2,7 @@
 import { onMounted, ref } from "vue";
 import LogOutput from "../components/LogOutput.vue";
 
-const version = "2.0.0";
+const version = "2.1.0";
 
 const logUrl = ref("");
 const outputLines = ref<string[]>([]);

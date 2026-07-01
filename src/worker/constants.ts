@@ -1,6 +1,19 @@
 // Maps Minecraft "data version" integers to human-readable version strings.
 // Ported verbatim from the legacy services/web/project/constants.py.
 export const dataVersionToMc: Record<number, string> = {
+  // Release data versions 1.21.5–26.2 (verified against minecraft.wiki). The YY.D.H scheme
+  // (26.1, 26.2) replaced 1.21.x after 1.21.11.
+  4903: "26.2",
+  4790: "26.1.2",
+  4788: "26.1.1",
+  4786: "26.1",
+  4671: "1.21.11",
+  4556: "1.21.10",
+  4554: "1.21.9",
+  4440: "1.21.8",
+  4438: "1.21.7",
+  4435: "1.21.6",
+  4325: "1.21.5",
   4323: "1.21.5-rc1",
   4321: "1.21.5-pre3",
   4320: "1.21.5-pre1",
