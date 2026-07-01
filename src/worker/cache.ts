@@ -1,7 +1,7 @@
-import { LogFile } from "./parser";
+import { LogFile, type Findings } from "./parser";
 
-// Snapshot of the fields the OG card and meta-tag injection need, so /og and
-// meta.ts never re-parse a URL that /parse already handled.
+// Snapshot of the fields the OG card and meta-tag injection need, so /og and meta.ts never
+// re-parse a URL that /parse already handled.
 export interface OgSnapshot {
   url: string;
   isOffline: boolean;
@@ -18,11 +18,27 @@ export interface OgSnapshot {
 
 export interface ParseResult {
   lineCount: number;
-  output: string[];
+  findings: Findings;
   og: OgSnapshot;
 }
 
 const PARSE_TTL_SECONDS = 300;
+
+function ogFromFindings(url: string, findings: Findings): OgSnapshot {
+  return {
+    url,
+    isOffline: findings.offline.isOffline,
+    hasMalware: findings.malware.detected,
+    hasPiratedPlugins: findings.pirated.detected,
+    usingProxy: findings.offline.usingProxy,
+    proxyFlavor: findings.offline.proxyFlavor,
+    flavorLine: findings.flavorLine,
+    pluginCount: findings.plugins.length,
+    invalidConfig: findings.invalidConfig !== null,
+    invalidConfigLocations: findings.invalidConfig?.locations ?? [],
+    exceptionCount: findings.exceptions.length,
+  };
+}
 
 async function sha256Hex(input: string): Promise<string> {
   const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(input));
@@ -36,28 +52,15 @@ async function cacheKey(url: string): Promise<Request> {
 async function computeParse(url: string): Promise<ParseResult> {
   const logFile = new LogFile(url);
   await logFile.runChecks();
-  const output = logFile.lines.length === 0 ? [] : logFile.getReportAsString();
   return {
     lineCount: logFile.lines.length,
-    output,
-    og: {
-      url,
-      isOffline: logFile.isOffline,
-      hasMalware: logFile.hasMalware,
-      hasPiratedPlugins: logFile.hasPiratedPlugins,
-      usingProxy: logFile.usingProxy,
-      proxyFlavor: logFile.proxyFlavor,
-      flavorLine: logFile.flavorLine,
-      pluginCount: logFile.plugins.length,
-      invalidConfig: logFile.invalidConfig,
-      invalidConfigLocations: logFile.invalidConfigLocations,
-      exceptionCount: logFile.exceptions.length,
-    },
+    findings: logFile.findings,
+    og: ogFromFindings(url, logFile.findings),
   };
 }
 
-// Parse a log URL once and share the result across /parse, /og, and meta.ts via
-// the Cache API. Exceptions propagate (and are NOT cached) so /parse can 500.
+// Parse a log URL once and share the result across /parse, /og, and meta.ts via the Cache API.
+// Exceptions propagate (and are NOT cached) so /parse can 500.
 export async function parse(url: string): Promise<ParseResult> {
   const cache = caches.default;
   const key = await cacheKey(url);

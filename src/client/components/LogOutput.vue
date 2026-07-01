@@ -1,25 +1,27 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { VList } from "virtua/vue";
-import { ansiColorParse } from "../lib/ansi";
+import type { Findings } from "../../worker/parser/types";
+import { buildReport, SEVERITY_COLORS } from "../lib/report";
 
-const props = defineProps<{ lines: string[] }>();
+const props = defineProps<{ findings: Findings }>();
 
-// Pre-parse each ANSI line to HTML once; virtua only mounts visible rows.
-const renderedLines = computed(() => props.lines.map((line) => ansiColorParse(line)));
+// virtua only mounts visible rows; the report is a flat list of severity-tagged items.
+const items = computed(() => buildReport(props.findings));
 </script>
 
 <template>
   <VList
-    :data="renderedLines"
+    :data="items"
     class="output"
   >
     <template #default="{ item }">
-      <!-- item is HTML-escaped in ansiColorParse before color tags are added (vue/no-v-html disabled for this file) -->
+      <!-- Text is bound via interpolation (Vue-escaped), so raw log content is safe — no v-html. -->
       <pre
         class="output-line"
-        v-html="item"
-      />
+        :class="{ 'output-header': item.kind === 'header' }"
+        :style="{ color: SEVERITY_COLORS[item.severity] }"
+      >{{ item.text }}</pre>
     </template>
   </VList>
 </template>
@@ -37,5 +39,10 @@ const renderedLines = computed(() => props.lines.map((line) => ansiColorParse(li
   word-break: break-word;
   color: white;
   font-family: var(--bs-font-monospace, monospace);
+}
+.output-header {
+  margin-top: 12px;
+  font-weight: bold;
+  text-decoration: underline;
 }
 </style>

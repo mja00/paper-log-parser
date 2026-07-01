@@ -1,0 +1,552 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`analyze() — structured findings snapshots > ambiguous.log 1`] = `
+{
+  "ambiguous": {
+    "detected": true,
+    "plugins": [
+      {
+        "pluginFilenames": [
+          "plugins/Foo-1.0.jar",
+          "plugins/Foo-2.0.jar",
+        ],
+        "pluginName": "Foo",
+      },
+    ],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "latestPaperVersion": null,
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "paperVersion": 26,
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "plugins": [],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+}
+`;
+
+exports[`analyze() — structured findings snapshots > config-coercion.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": {
+    "invalidType": "String",
+    "locations": [
+      "server",
+      "max-players",
+    ],
+    "validType": "Integer",
+  },
+  "invalidPlayers": [],
+  "latestPaperVersion": null,
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "paperVersion": 26,
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "plugins": [],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+}
+`;
+
+exports[`analyze() — structured findings snapshots > downgrade.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": {
+    "from": "1.21.4",
+    "to": "1.21.1",
+  },
+  "exceptions": [
+    {
+      "line": "[16:38:58] [Server thread/ERROR]: java.lang.RuntimeException: Server attempted to load chunk saved with newer version of minecraft! 4189 > 3955",
+      "lineNumber": 1,
+    },
+  ],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "latestPaperVersion": null,
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "paperVersion": 26,
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "plugins": [],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+}
+`;
+
+exports[`analyze() — structured findings snapshots > malware.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "latestPaperVersion": null,
+  "malware": {
+    "count": 1,
+    "detected": true,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "paperVersion": 26,
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "plugins": [],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+}
+`;
+
+exports[`analyze() — structured findings snapshots > missing-dep.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "latestPaperVersion": null,
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [
+    "ProtocolLib Please download and install these",
+  ],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "paperVersion": 26,
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "plugins": [],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+}
+`;
+
+exports[`analyze() — structured findings snapshots > no-flavor.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": null,
+  "flavorLine": null,
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "latestPaperVersion": null,
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": null,
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "paperVersion": null,
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "plugins": [],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": false,
+}
+`;
+
+exports[`analyze() — structured findings snapshots > non-supported-version.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.20.4-400-master@abcd123 (2024-01-01T00:00:00Z) (Implementing API version 1.20.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "latestPaperVersion": null,
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.20.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "paperVersion": 400,
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "plugins": [
+    {
+      "name": "EssentialsX",
+      "severity": "ok",
+      "version": "2.20.0",
+    },
+  ],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+}
+`;
+
+exports[`analyze() — structured findings snapshots > offline-cracked.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "latestPaperVersion": null,
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": true,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "paperVersion": 26,
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "plugins": [
+    {
+      "name": "AuthMe",
+      "severity": "error",
+      "version": "5.6.0",
+    },
+  ],
+  "possiblyCracked": {
+    "cracked": true,
+    "plugins": [
+      {
+        "name": "AuthMe",
+        "severity": "error",
+        "version": "5.6.0",
+      },
+    ],
+  },
+  "runningPaper": true,
+}
+`;
+
+exports[`analyze() — structured findings snapshots > offline-proxy.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "latestPaperVersion": null,
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "BungeeCord",
+    "usingProxy": true,
+  },
+  "paperVersion": 26,
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "plugins": [],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+}
+`;
+
+exports[`analyze() — structured findings snapshots > paper-basic.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "latestPaperVersion": null,
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "paperVersion": 26,
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "plugins": [
+    {
+      "name": "AuthMe",
+      "severity": "error",
+      "version": "5.6.0",
+    },
+    {
+      "name": "ViaVersion",
+      "severity": "warning",
+      "version": "4.9.0",
+    },
+    {
+      "name": "EssentialsX",
+      "severity": "ok",
+      "version": "2.20.0",
+    },
+  ],
+  "possiblyCracked": {
+    "cracked": true,
+    "plugins": [
+      {
+        "name": "AuthMe",
+        "severity": "error",
+        "version": "5.6.0",
+      },
+    ],
+  },
+  "runningPaper": true,
+}
+`;
+
+exports[`analyze() — structured findings snapshots > paper-modern-26.2.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": "Paper",
+  "flavorLine": "[14:55:23] [Server thread/INFO]: This server is running Paper version 26.2-36-dev/26.2@747c984 (2026-06-27T14:43:11Z) (Implementing API version 26.2.build.36-alpha)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "latestPaperVersion": null,
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "26.2",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": true,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "paperVersion": 36,
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "plugins": [
+    {
+      "name": "ViaVersion",
+      "severity": "warning",
+      "version": "5.10.0",
+    },
+    {
+      "name": "ViaBackwards",
+      "severity": "warning",
+      "version": "5.10.0",
+    },
+    {
+      "name": "PerfSell",
+      "severity": "ok",
+      "version": "1.2.2",
+    },
+  ],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+}
+`;
+
+exports[`analyze() — structured findings snapshots > pirated.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "latestPaperVersion": null,
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "paperVersion": 26,
+  "pirated": {
+    "detected": true,
+    "lines": [
+      "[06:10:18] [Server thread/INFO]: [LifestealCore] [Premium] [Build] Leaked by someone @ leaksite.net",
+    ],
+  },
+  "players": [],
+  "plugins": [],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+}
+`;

@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import LogOutput from "../components/LogOutput.vue";
+import type { Findings } from "../../worker/parser/types";
 
 const version = "2.1.0";
 
 const logUrl = ref("");
-const outputLines = ref<string[]>([]);
+const findings = ref<Findings | null>(null);
 const errorMessage = ref("");
 const outputHeader = ref("Output");
 const isParsing = ref(false);
@@ -22,15 +23,15 @@ async function parse() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ logUrl: url }),
     });
-    const data = (await resp.json()) as { success: boolean; output?: string[]; error?: string };
-    if (data.success && data.output) {
-      outputLines.value = data.output;
+    const data = (await resp.json()) as { success: boolean; findings?: Findings; error?: string };
+    if (data.success && data.findings) {
+      findings.value = data.findings;
     } else {
-      outputLines.value = [];
+      findings.value = null;
       errorMessage.value = data.error ?? "Unknown error";
     }
   } catch {
-    outputLines.value = [];
+    findings.value = null;
     errorMessage.value = "Failed to reach the parser.";
   } finally {
     outputHeader.value = `Output - ${url} - ${new Date().toLocaleString()}`;
@@ -195,8 +196,8 @@ onMounted(() => {
               {{ errorMessage }}
             </p>
             <LogOutput
-              v-else
-              :lines="outputLines"
+              v-else-if="findings"
+              :findings="findings"
             />
           </div>
         </div>

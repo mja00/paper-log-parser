@@ -62,7 +62,7 @@ app.post("/parse", async (c) => {
   if (result.lineCount === 0) {
     return c.json({ error: "No log lines found. Most likely caused by an unsupported URL.", success: false }, 400);
   }
-  return c.json({ output: result.output, success: true }, 200);
+  return c.json({ findings: result.findings, success: true }, 200);
 });
 
 // Redirect to the dedicated version-age site (matches the legacy /age/<version> route).

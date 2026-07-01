@@ -2,7 +2,8 @@
 import { describe, it, expect, beforeAll } from "vitest";
 import { mount } from "@vue/test-utils";
 import LogOutput from "../src/client/components/LogOutput.vue";
-import { ansiColorParse } from "../src/client/lib/ansi";
+import { buildReport } from "../src/client/lib/report";
+import { newFindings } from "../src/worker/parser/types";
 
 beforeAll(() => {
   // virtua measures elements via ResizeObserver, which happy-dom lacks.
@@ -15,31 +16,46 @@ beforeAll(() => {
   }
 });
 
-describe("ansiColorParse", () => {
-  it("maps ANSI color codes to the Minecraft hex palette", () => {
-    expect(ansiColorParse("\x1b[32mgreen\x1b[39m")).toBe(
-      '<code style="color: #55FF55; padding-left: 2px;">green</code>',
-    );
-    expect(ansiColorParse("\x1b[31mred\x1b[39m")).toContain("#FF5555");
+describe("buildReport", () => {
+  it("marks a supported, up-to-date Paper server as ok", () => {
+    const f = newFindings();
+    f.mcVersion = "1.21.4";
+    f.flavor = "Paper";
+    f.runningPaper = true;
+    f.paperVersion = 100;
+    f.latestPaperVersion = 100;
+    const items = buildReport(f);
+    expect(items.find((i) => i.text.startsWith("Minecraft Version"))?.severity).toBe("ok");
+    expect(items.find((i) => i.text.startsWith("Server Flavor"))?.severity).toBe("ok");
+    expect(items.find((i) => i.text.startsWith("Paper Version"))?.severity).toBe("ok");
   });
 
-  it("HTML-escapes log content before adding color tags", () => {
-    const out = ansiColorParse("\x1b[31m<script>alert(1)</script>\x1b[39m");
-    expect(out).toContain("&lt;script&gt;");
-    expect(out).not.toContain("<script>");
+  it("flags unsupported version, offline mode, and bad plugins as errors", () => {
+    const f = newFindings();
+    f.offline.isOffline = true;
+    f.plugins = [{ name: "AuthMe", version: "5.6", severity: "error" }];
+    const items = buildReport(f);
+    // latestPaperVersion is null (unknown/EOL) → unsupported → error.
+    expect(items.find((i) => i.text.startsWith("Minecraft Version"))?.severity).toBe("error");
+    expect(items.find((i) => i.text.startsWith("Offline Mode"))?.severity).toBe("error");
+    expect(items.some((i) => i.text === "AuthMe v5.6" && i.severity === "error")).toBe(true);
   });
 
-  it("handles bold and italic toggles", () => {
-    expect(ansiColorParse("\x1b[1mbold\x1b[22m")).toBe("<b>bold</b>");
-    expect(ansiColorParse("\x1b[3mital\x1b[23m")).toBe("<i>ital</i>");
+  it("renders raw log content as plain text (no markup)", () => {
+    const f = newFindings();
+    f.pirated.detected = true;
+    f.pirated.lines = ["<script>alert(1)</script>"];
+    const items = buildReport(f);
+    // The raw line is carried verbatim as data; Vue escapes it at render time.
+    expect(items.some((i) => i.text === "<script>alert(1)</script>")).toBe(true);
   });
 });
 
 describe("LogOutput.vue", () => {
   it("mounts without error and hosts the virtua list", async () => {
-    const wrapper = mount(LogOutput, {
-      props: { lines: ["\x1b[32mhello\x1b[39m", "\x1b[31mworld\x1b[39m"] },
-    });
+    const f = newFindings();
+    f.plugins = [{ name: "TestPlugin", version: "1.0", severity: "ok" }];
+    const wrapper = mount(LogOutput, { props: { findings: f } });
     await wrapper.vm.$nextTick();
     expect(wrapper.find(".output").exists()).toBe(true);
   });
