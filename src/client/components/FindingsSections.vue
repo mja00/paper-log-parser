@@ -3,6 +3,7 @@ import { computed } from "vue";
 import type { Findings } from "../../worker/parser/types";
 import { SEVERITY_COLORS } from "../lib/report";
 import TooltipCard from "./TooltipCard.vue";
+import ExceptionsPanel from "./ExceptionsPanel.vue";
 import Icon from "./Icon.vue";
 
 // Conditional detail panels. Each renders only when its finding is present, so a clean log
@@ -155,30 +156,10 @@ const missingDeps = computed(() =>
       </div>
     </TooltipCard>
 
-    <TooltipCard
+    <ExceptionsPanel
       v-if="f.exceptions.length > 0"
-      eyebrow="Stack traces"
-      title="Exceptions"
-      :count="f.exceptions.length"
-      class="md:col-span-2"
-    >
-      <template #icon>
-        <Icon
-          name="bolt"
-          :style="{ color: SEVERITY_COLORS.warning }"
-        />
-      </template>
-      <ul class="max-h-64 space-y-1 overflow-y-auto font-mono text-xs">
-        <li
-          v-for="ex in f.exceptions"
-          :key="ex.lineNumber"
-          class="break-words"
-        >
-          <span class="text-muted">Line {{ ex.lineNumber }}:</span>
-          <span :style="{ color: SEVERITY_COLORS.warning }"> {{ ex.line }}</span>
-        </li>
-      </ul>
-    </TooltipCard>
+      :exceptions="f.exceptions"
+    />
 
     <TooltipCard
       v-if="f.invalidConfig"
