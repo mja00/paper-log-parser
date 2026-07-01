@@ -1,63 +1,30 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import type { ExceptionInfo } from "../../worker/parser/types";
+import type { ExceptionTrace } from "../../worker/parser/types";
 import { SEVERITY_COLORS } from "../lib/report";
 import TooltipCard from "./TooltipCard.vue";
 import Icon from "./Icon.vue";
 
-const props = defineProps<{ exceptions: ExceptionInfo[] }>();
+const props = defineProps<{ exceptions: ExceptionTrace[] }>();
 
-interface ParsedException {
-  type: string;
-  message: string;
-  lineNumber: number;
-  isCause: boolean;
+const traces = computed(() => props.exceptions);
+
+function frameCount(trace: ExceptionTrace): number {
+  return trace.throwables.reduce((n, t) => n + t.frames.length, 0);
 }
 
-interface ExceptionGroup {
-  root: ParsedException;
-  causes: ParsedException[];
+// Where a repeated trace was seen — a few line numbers, then an ellipsis.
+function seenAt(lineNumbers: number[]): string {
+  const shown = lineNumbers.slice(0, 6).join(", ");
+  return lineNumbers.length > 6 ? `${shown}…` : shown;
 }
-
-// Drop the `[time] [thread/LEVEL]:` log prefix so the throwable itself leads.
-function stripPrefix(line: string): string {
-  return line.replace(/^.*?\]:\s*/, "").trim();
-}
-
-// Pull the throwable's short type and message out of a captured line.
-function parseException(raw: string, lineNumber: number): ParsedException {
-  let content = stripPrefix(raw);
-  const isCause = content.startsWith("Caused by:");
-  if (isCause) content = content.slice("Caused by:".length).trim();
-
-  const match = content.match(/([\w.$]+(?:Exception|Error|Throwable))(?::\s*(.*))?/);
-  if (match) {
-    const type = match[1].split(".").pop() ?? match[1];
-    return { type, message: (match[2] ?? "").trim(), lineNumber, isCause };
-  }
-  return { type: "Exception", message: content, lineNumber, isCause };
-}
-
-// "Caused by:" lines fold into the preceding throwable as its cause chain.
-const groups = computed<ExceptionGroup[]>(() => {
-  const out: ExceptionGroup[] = [];
-  for (const exception of props.exceptions) {
-    const parsed = parseException(exception.line, exception.lineNumber);
-    if (parsed.isCause && out.length > 0) {
-      out[out.length - 1].causes.push(parsed);
-    } else {
-      out.push({ root: parsed, causes: [] });
-    }
-  }
-  return out;
-});
 </script>
 
 <template>
   <TooltipCard
     eyebrow="Stack traces"
     title="Exceptions"
-    :count="exceptions.length"
+    :count="traces.length"
     class="md:col-span-2"
   >
     <template #icon>
@@ -67,9 +34,9 @@ const groups = computed<ExceptionGroup[]>(() => {
       />
     </template>
 
-    <ul class="max-h-72 space-y-2 overflow-y-auto pr-1">
+    <ul class="max-h-96 space-y-2 overflow-y-auto pr-1">
       <li
-        v-for="(group, i) in groups"
+        v-for="(trace, i) in traces"
         :key="i"
         class="rounded border-l-2 bg-black/20 py-1.5 pl-3 pr-2"
         :style="{ borderColor: SEVERITY_COLORS.warning }"
@@ -78,18 +45,26 @@ const groups = computed<ExceptionGroup[]>(() => {
           <span
             class="font-mono text-sm font-semibold"
             :style="{ color: SEVERITY_COLORS.warning }"
-          >{{ group.root.type }}</span>
-          <span class="ml-auto shrink-0 font-mono text-xs text-muted">line {{ group.root.lineNumber }}</span>
+          >{{ trace.throwables[0].type }}</span>
+          <span
+            v-if="trace.count > 1"
+            class="rounded bg-white/10 px-1.5 font-mono text-[11px] text-fg"
+            :title="`Seen ${trace.count} times`"
+          >×{{ trace.count }}</span>
+          <span class="ml-auto shrink-0 font-mono text-xs text-muted">
+            {{ trace.count === 1 ? `line ${trace.lineNumbers[0]}` : `${trace.count} occurrences` }}
+          </span>
         </div>
         <p
-          v-if="group.root.message"
+          v-if="trace.throwables[0].message"
           class="mt-0.5 break-words font-mono text-xs text-fg"
         >
-          {{ group.root.message }}
+          {{ trace.throwables[0].message }}
         </p>
 
+        <!-- Cause chain summary: type + message per link, frames hidden in the disclosure below. -->
         <div
-          v-for="(cause, j) in group.causes"
+          v-for="(cause, j) in trace.throwables.slice(1)"
           :key="j"
           class="mt-1.5 border-l border-hair pl-2"
         >
@@ -105,7 +80,67 @@ const groups = computed<ExceptionGroup[]>(() => {
             {{ cause.message }}
           </p>
         </div>
+
+        <details
+          v-if="frameCount(trace) > 0"
+          class="mt-1.5"
+        >
+          <summary class="inline-flex cursor-pointer items-center gap-1 font-mono text-[11px] text-accent">
+            <Icon
+              name="chevron"
+              class="chev text-[10px] transition-transform"
+            />
+            {{ frameCount(trace) }} frames
+          </summary>
+          <div class="mt-1 space-y-1.5">
+            <div
+              v-for="(throwable, k) in trace.throwables"
+              :key="k"
+            >
+              <p
+                v-if="trace.throwables.length > 1"
+                class="font-mono text-[10px] text-muted"
+              >
+                {{ throwable.type }}
+              </p>
+              <ol class="space-y-0.5">
+                <li
+                  v-for="(frame, f) in throwable.frames"
+                  :key="f"
+                  class="break-words pl-3 font-mono text-[11px] text-muted"
+                >
+                  {{ frame }}
+                </li>
+                <li
+                  v-if="throwable.truncated > 0"
+                  class="pl-3 font-mono text-[11px] text-muted/70"
+                >
+                  … {{ throwable.truncated }} more
+                </li>
+              </ol>
+            </div>
+          </div>
+        </details>
+
+        <p
+          v-if="trace.count > 1"
+          class="mt-1 font-mono text-[11px] text-muted"
+        >
+          Seen at lines {{ seenAt(trace.lineNumbers) }}
+        </p>
       </li>
     </ul>
   </TooltipCard>
 </template>
+
+<style scoped>
+summary {
+  list-style: none;
+}
+summary::-webkit-details-marker {
+  display: none;
+}
+details[open] .chev {
+  transform: rotate(90deg);
+}
+</style>

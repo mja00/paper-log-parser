@@ -36,7 +36,8 @@ function ogFromFindings(url: string, findings: Findings): OgSnapshot {
     pluginCount: findings.plugins.length,
     invalidConfig: findings.invalidConfig !== null,
     invalidConfigLocations: findings.invalidConfig?.locations ?? [],
-    exceptionCount: findings.exceptions.length,
+    // Total occurrences across all traces, matching the OG card's "Encountered N exceptions".
+    exceptionCount: findings.exceptions.reduce((sum, trace) => sum + trace.count, 0),
   };
 }
 

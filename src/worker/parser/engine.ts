@@ -13,7 +13,13 @@ function matchesPrefilter(line: string, prefilter: Check["prefilter"]): boolean 
 // dropped from the active set. Derived checks then resolve cross-field state (version, cracked…).
 export function analyzeLines(lines: string[]): Findings {
   const findings = newFindings();
-  const ctx: ScanContext = { lines, findings, pluginsClosed: false, startingVersion: null };
+  const ctx: ScanContext = {
+    lines,
+    findings,
+    pluginsClosed: false,
+    startingVersion: null,
+    exceptionsConsumedThrough: -1,
+  };
   const active = [...LINE_CHECKS];
 
   for (let i = 0; i < lines.length && i <= MAX_LOG_LENGTH; i++) {

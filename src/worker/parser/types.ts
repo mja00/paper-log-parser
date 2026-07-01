@@ -20,9 +20,22 @@ export interface AmbiguousPlugin {
   pluginFilenames: string[];
 }
 
-export interface ExceptionInfo {
-  line: string;
-  lineNumber: number;
+// One throwable in a trace: its short class name, message, `at …` frames, and any `… N more`
+// truncation count.
+export interface Throwable {
+  type: string;
+  message: string;
+  frames: string[];
+  truncated: number;
+}
+
+// A full stack trace: the root throwable followed by its `Caused by:`/`Suppressed:` chain.
+// Identical traces (same types + frames, ignoring message) collapse into one, `count` tracks how
+// many occurred and `lineNumbers` where each root header was seen.
+export interface ExceptionTrace {
+  throwables: Throwable[];
+  count: number;
+  lineNumbers: number[];
 }
 
 export interface InvalidConfig {
@@ -50,7 +63,7 @@ export interface Findings {
   ambiguous: { detected: boolean; plugins: AmbiguousPlugin[] };
   // A single missing dep is a bare string; multiple are grouped as a string[] (from one log line).
   missingDependencies: (string | string[])[];
-  exceptions: ExceptionInfo[];
+  exceptions: ExceptionTrace[];
   pirated: { detected: boolean; lines: string[] };
   invalidConfig: InvalidConfig | null;
 }
@@ -78,13 +91,16 @@ export function newFindings(): Findings {
   };
 }
 
-// Shared state threaded through the single scanning pass. `startingVersion` and `pluginsClosed`
-// are scratch used during the pass (never serialized); the report reads `findings`.
+// Shared state threaded through the single scanning pass. `startingVersion`, `pluginsClosed`, and
+// `exceptionsConsumedThrough` are scratch used during the pass (never serialized); the report reads
+// `findings`. `exceptionsConsumedThrough` is the last line index folded into a captured trace, so
+// the exceptions check skips continuation lines it already consumed via look-ahead.
 export interface ScanContext {
   lines: string[];
   findings: Findings;
   pluginsClosed: boolean;
   startingVersion: string | null;
+  exceptionsConsumedThrough: number;
 }
 
 // A line-scanning check. `prefilter` is a cheap substring gate (a superset of what the check's

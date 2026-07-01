@@ -105,8 +105,100 @@ exports[`analyze() — structured findings snapshots > downgrade.log 1`] = `
   },
   "exceptions": [
     {
-      "line": "[16:38:58] [Server thread/ERROR]: java.lang.RuntimeException: Server attempted to load chunk saved with newer version of minecraft! 4189 > 3955",
-      "lineNumber": 1,
+      "count": 1,
+      "lineNumbers": [
+        1,
+      ],
+      "throwables": [
+        {
+          "frames": [],
+          "message": "Server attempted to load chunk saved with newer version of minecraft! 4189 > 3955",
+          "truncated": 0,
+          "type": "RuntimeException",
+        },
+      ],
+    },
+  ],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "latestPaperVersion": null,
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "paperVersion": 26,
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "plugins": [],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+}
+`;
+
+exports[`analyze() — structured findings snapshots > exceptions.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [
+    {
+      "count": 1,
+      "lineNumbers": [
+        1,
+      ],
+      "throwables": [
+        {
+          "frames": [
+            "at net.minecraft.world.level.Level.tickEntity(Level.java:812)",
+            "at net.minecraft.server.MinecraftServer.tickServer(MinecraftServer.java:1523)",
+          ],
+          "message": "Ticking entity",
+          "truncated": 0,
+          "type": "ReportedException",
+        },
+        {
+          "frames": [
+            "at com.example.plugin.Handler.onTick(Handler.java:88)",
+          ],
+          "message": "Cannot invoke "World.getName()" because "w" is null",
+          "truncated": 3,
+          "type": "NullPointerException",
+        },
+      ],
+    },
+    {
+      "count": 2,
+      "lineNumbers": [
+        7,
+        9,
+      ],
+      "throwables": [
+        {
+          "frames": [
+            "at com.example.plugin.Zone.enter(Zone.java:22)",
+          ],
+          "message": "zone alpha",
+          "truncated": 0,
+          "type": "IllegalStateException",
+        },
+      ],
     },
   ],
   "flavor": "Paper",

@@ -1,0 +1,12 @@
+[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)
+[16:38:58] [Server thread/ERROR]: net.minecraft.server.ReportedException: Ticking entity
+[16:38:58] [Server thread/ERROR]: 	at net.minecraft.world.level.Level.tickEntity(Level.java:812)
+[16:38:58] [Server thread/ERROR]: 	at net.minecraft.server.MinecraftServer.tickServer(MinecraftServer.java:1523)
+[16:38:58] [Server thread/ERROR]: Caused by: java.lang.NullPointerException: Cannot invoke "World.getName()" because "w" is null
+[16:38:58] [Server thread/ERROR]: 	at com.example.plugin.Handler.onTick(Handler.java:88)
+[16:38:58] [Server thread/ERROR]: 	... 3 more
+[16:39:01] [Server thread/ERROR]: java.lang.IllegalStateException: zone alpha
+[16:39:01] [Server thread/ERROR]: 	at com.example.plugin.Zone.enter(Zone.java:22)
+[16:39:02] [Server thread/ERROR]: java.lang.IllegalStateException: zone bravo
+[16:39:02] [Server thread/ERROR]: 	at com.example.plugin.Zone.enter(Zone.java:22)
+[16:38:59] [Server thread/INFO]: Preparing level "world"
