@@ -1,0 +1,13 @@
+[
+  "\u001b[32mMinecraft Version: 1.21.4\u001b[39m",
+  "\u001b[32mServer Flavor: Paper\u001b[39m",
+  "\u001b[31mPaper Version: 26\u001b[39m",
+  "\u001b[32mOffline Mode: False\u001b[39m",
+  "\u001b[32mMalware Detected: False\u001b[39m",
+  "\u001b[31mServer is attempting to downgrade. This is not supported! You're going from 1.21.4 to 1.21.1\u001b[39m",
+  "\u001b[32m============PLUGINS============\u001b[39m",
+  "\u001b[32m==============================",
+  "\u001b[36mServer has exceptions. The following exceptions were found: \u001b[39m",
+  "\u001b[36mLine 1: \u001b[33m[16:38:58] [Server thread/ERROR]: java.lang.RuntimeException: Server attempted to load chunk saved with newer version of minecraft! 4189 > 3955\u001b[39m",
+  "\u001b[32m==============================\u001b[39m"
+]

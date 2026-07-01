@@ -1,0 +1,5 @@
+[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)
+[16:38:58] [Server thread/WARN]: **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+[16:38:58] [Server thread/WARN]: The server will make no attempt to authenticate usernames.
+[16:38:58] [Server thread/WARN]: While this makes it possible to use BungeeCord or Velocity, it also opens up the ability for hackers to connect with any username they choose.
+[16:38:59] [Server thread/INFO]: Preparing level "world"

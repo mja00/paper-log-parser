@@ -1,0 +1,12 @@
+[
+  "\u001b[32mMinecraft Version: 1.21.4\u001b[39m",
+  "\u001b[32mServer Flavor: Paper\u001b[39m",
+  "\u001b[31mPaper Version: 26\u001b[39m",
+  "\u001b[32mOffline Mode: False\u001b[39m",
+  "\u001b[32mMalware Detected: False\u001b[39m",
+  "\u001b[32m============PLUGINS============\u001b[39m",
+  "\u001b[33m==========AMBIGUOUS PLUGINS==========\u001b[39m",
+  "\u001b[33mPlugin Name: Foo",
+  "\u001b[33mPlugin Filenames: ['plugins/Foo-1.0.jar', 'plugins/Foo-2.0.jar']",
+  "\u001b[32m==============================\u001b[39m"
+]

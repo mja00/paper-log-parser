@@ -1,0 +1,3 @@
+[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)
+org.spongepowered.configurate.serialize.CoercionFailedException: Could not coerce [server, max-players] of type java.lang.Integer to java.lang.String
+[16:38:59] [Server thread/INFO]: Preparing level "world"

@@ -33,3 +33,15 @@ services/web/project/static/parses/
 
 services/web/project/static/mc_manifest.json
 .venv/
+
+# Node / Workers
+node_modules/
+dist/
+.wrangler/
+*.local
+.dev.vars
+*.tsbuildinfo
+
+# Python caches (from the golden-generation harness)
+__pycache__/
+test/_patched_parser.py
