@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+/* Monocraft: the pixel display face. Signature use only — verdict headline + short eyebrows. */
+@font-face {
+  font-family: "Monocraft";
+  src: url("./fonts/Monocraft.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+/* Design tokens. Chrome is obsidian blue-black; severity colors mirror SEVERITY_COLORS in
+   lib/report.ts (Minecraft formatting codes) so CSS utilities and JS agree. */
+@theme {
+  --color-ink: #0e0f14;
+  --color-surface: #161822;
+  --color-panel: #180a26;
+  --color-hair: #262a36;
+  --color-fg: #e7eaf0;
+  --color-muted: #9aa2b1;
+  --color-accent: #8b5cf6;
+  --color-accent-deep: #3b1178;
+
+  --color-ok: #55ff55;
+  --color-warning: #ffff55;
+  --color-error: #ff5555;
+  --color-info: #55ffff;
+  --color-neutral: #ffffff;
+
+  --font-display: "Monocraft", ui-monospace, monospace;
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    margin: 0;
+    background-color: var(--color-ink);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  /* Zero-specificity so components can't accidentally clobber the keyboard focus ring. */
+  :where(a, button, input, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
+
+/* The signature card border: a purple gradient frame evoking a Minecraft item-tooltip. Applied
+   via a wrapping element so the gradient sits behind a solid panel fill. */
+@utility tooltip-frame {
+  border: 2px solid transparent;
+  border-radius: 6px;
+  background:
+    linear-gradient(var(--color-panel), var(--color-panel)) padding-box,
+    linear-gradient(180deg, var(--color-accent), var(--color-accent-deep)) border-box;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

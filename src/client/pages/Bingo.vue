@@ -151,123 +151,127 @@ onMounted(initBoard);
 </script>
 
 <template>
-  <div class="container-fluid mt-3">
-    <div class="row justify-content-center">
-      <div class="col-md-3 col-lg-2">
-        <div class="card">
-          <div class="card-header">
-            Info
-          </div>
-          <div class="card-body">
-            <p>This is a offline mode bingo card generator created by mja00!</p>
-            <p>
-              All squares claimed are automatically saved to local storage. You can use the buttons below to do actions.
-            </p>
-            <hr>
-            <div class="d-grid gap-2">
-              <button
-                class="btn btn-danger"
-                @click="newCard"
-              >
-                New Card
-              </button>
-              <button
-                class="btn btn-danger"
-                title="Wipes all squares from all cards!"
-                @click="clearStorage"
-              >
-                Clear All Cards
-              </button>
-              <button
-                id="saveButton"
-                class="btn btn-success"
-                :disabled="saveDisabled"
-                title="Saves the current card number!"
-                @click="saveCardNumber"
-              >
-                {{ saveLabel }}
-              </button>
-              <button
-                class="btn btn-success"
-                title="Loads your saved card number!"
-                @click="loadCardNumber"
-              >
-                Load Saved Card
-              </button>
-            </div>
-          </div>
+  <main class="mx-auto max-w-5xl px-4 py-8">
+    <div class="grid gap-4 lg:grid-cols-[280px_1fr] lg:items-start">
+      <div class="tooltip-frame px-4 py-3">
+        <p class="font-display text-[10px] uppercase tracking-[0.2em] text-accent">
+          Offline-mode bingo
+        </p>
+        <h1 class="mt-1 text-base font-semibold text-fg">
+          Excuse card
+        </h1>
+        <p class="mt-2 text-sm text-muted">
+          A bingo card generator for offline-mode excuses, by mja00. Claimed squares save to your
+          browser automatically.
+        </p>
+        <hr class="my-3 border-hair">
+        <div class="grid gap-2">
+          <button
+            type="button"
+            class="rounded border border-hair px-3 py-1.5 font-mono text-sm text-fg transition-colors hover:border-accent hover:text-accent"
+            @click="newCard"
+          >
+            New card
+          </button>
+          <button
+            type="button"
+            class="rounded border border-error/40 px-3 py-1.5 font-mono text-sm text-error transition-colors hover:bg-error/10"
+            title="Wipes all squares from all cards!"
+            @click="clearStorage"
+          >
+            Clear all cards
+          </button>
+          <button
+            id="saveButton"
+            type="button"
+            class="rounded bg-accent px-3 py-1.5 font-mono text-sm font-semibold text-ink transition hover:bg-accent/85 disabled:opacity-60"
+            :disabled="saveDisabled"
+            title="Saves the current card number!"
+            @click="saveCardNumber"
+          >
+            {{ saveLabel }}
+          </button>
+          <button
+            type="button"
+            class="rounded border border-hair px-3 py-1.5 font-mono text-sm text-fg transition-colors hover:border-accent hover:text-accent"
+            title="Loads your saved card number!"
+            @click="loadCardNumber"
+          >
+            Load saved card
+          </button>
         </div>
       </div>
-      <div class="col-md-7 col-lg-5">
-        <div class="card">
-          <div class="card-header">
-            Bingo Card #<RouterLink :to="{ path: '/bingo', query: { seed: String(seed) } }">
-              {{ seed }}
-            </RouterLink>
-          </div>
-          <div class="card-body">
-            <div class="flex-grid">
-              <div class="flex-header">
-                <div
-                  class="flex-cell"
-                  :class="{ win: diagDown }"
-                >
-                  P
-                </div>
-                <div class="flex-cell">
-                  A
-                </div>
-                <div class="flex-cell">
-                  P
-                </div>
-                <div class="flex-cell">
-                  E
-                </div>
-                <div
-                  class="flex-cell"
-                  :class="{ win: diagUp }"
-                >
-                  R
-                </div>
+      <div class="tooltip-frame px-4 py-3">
+        <p class="mb-3 font-mono text-sm text-muted">
+          Bingo card #<RouterLink
+            :to="{ path: '/bingo', query: { seed: String(seed) } }"
+            class="text-accent hover:underline"
+          >
+            {{ seed }}
+          </RouterLink>
+        </p>
+        <div class="overflow-x-auto">
+          <div class="flex-grid">
+            <div class="flex-header">
+              <div
+                class="flex-cell"
+                :class="{ win: diagDown }"
+              >
+                P
+              </div>
+              <div class="flex-cell">
+                A
+              </div>
+              <div class="flex-cell">
+                P
+              </div>
+              <div class="flex-cell">
+                E
               </div>
               <div
-                v-for="(row, i) in rows"
-                :key="i"
-                class="flex-row"
-                :class="{ win: rowWin[i] }"
+                class="flex-cell"
+                :class="{ win: diagUp }"
               >
-                <div
-                  v-for="(square, j) in row"
-                  :key="j"
-                  class="flex-cell"
-                  :class="[
-                    { chip: marked[i][j], win: i === 0 && colWin[j] },
-                    marked[i][j] ? colors[i][j] : '',
-                  ]"
-                  @click="toggleCell(i, j)"
+                R
+              </div>
+            </div>
+            <div
+              v-for="(row, i) in rows"
+              :key="i"
+              class="flex-row"
+              :class="{ win: rowWin[i] }"
+            >
+              <div
+                v-for="(square, j) in row"
+                :key="j"
+                class="flex-cell"
+                :class="[
+                  { chip: marked[i][j], win: i === 0 && colWin[j] },
+                  marked[i][j] ? colors[i][j] : '',
+                ]"
+                @click="toggleCell(i, j)"
+              >
+                <span
+                  v-if="square === 'Free'"
+                  class="free-space"
                 >
-                  <span
-                    v-if="square === 'Free'"
-                    class="free-space"
+                  <img
+                    src="https://github.com/EterNityCH/paperchan/blob/main/Paper%20Chan%20Emojis/Emoji%20paperOhhh.png?raw=true"
+                    alt="Paperchan"
+                    width="100"
+                    height="100"
                   >
-                    <img
-                      src="https://cdn.discordapp.com/emojis/1018366673423695872.webp?size=128&quality=lossless"
-                      alt="Paperchan"
-                      width="100"
-                      height="100"
-                    >
-                  </span>
-                  <template v-else>
-                    {{ square }}
-                  </template>
-                </div>
+                </span>
+                <template v-else>
+                  {{ square }}
+                </template>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </main>
 </template>
 
 <style scoped>

@@ -1,12 +1,6 @@
-// Builds a flat, severity-tagged view model from the parser's structured Findings. Replaces the
-// legacy ANSI string report + ansiColorParse — the worker now emits data, the client owns styling.
+// Client-side view-model helpers over the parser's structured Findings — severity colors, the
+// top-line verdict, and the status-tile row. The worker emits data; the client owns styling.
 import type { Findings, Severity } from "../../worker/parser/types";
-
-export interface ReportItem {
-  kind: "header" | "entry";
-  text: string;
-  severity: Severity;
-}
 
 export const SEVERITY_COLORS: Record<Severity, string> = {
   ok: "#55FF55",
@@ -16,79 +10,96 @@ export const SEVERITY_COLORS: Record<Severity, string> = {
   neutral: "#FFFFFF",
 };
 
-function yesNo(value: boolean): string {
-  return value ? "Yes" : "No";
+// A null latest build means Paper publishes nothing for this version (unknown/EOL) → not supported.
+// Shared so the status tiles and verdict can't disagree.
+export function isSupported(f: Findings): boolean {
+  return f.latestPaperVersion !== null;
 }
 
-export function buildReport(f: Findings): ReportItem[] {
-  const items: ReportItem[] = [];
-  const entry = (text: string, severity: Severity): void => {
-    items.push({ kind: "entry", text, severity });
-  };
-  const header = (text: string, severity: Severity = "neutral"): void => {
-    items.push({ kind: "header", text, severity });
-  };
+export function isPaperUpToDate(f: Findings): boolean {
+  return f.latestPaperVersion !== null && f.paperVersion === f.latestPaperVersion;
+}
 
-  // A null latest build means Paper publishes nothing for this version (unknown/EOL) → not supported.
-  const supported = f.latestPaperVersion !== null;
-  entry(`Minecraft Version: ${f.mcVersion ?? "Unknown"}`, supported ? "ok" : "error");
-  entry(`Server Flavor: ${f.flavor ?? "Unknown"}`, f.runningPaper ? "ok" : "error");
-  const paperUpToDate = f.latestPaperVersion !== null && f.paperVersion === f.latestPaperVersion;
-  entry(`Paper Version: ${f.paperVersion ?? "Unknown"}`, paperUpToDate ? "ok" : "error");
-  entry(`Offline Mode: ${yesNo(f.offline.isOffline)}`, f.offline.isOffline ? "error" : "ok");
-  if (f.offline.usingProxy) entry(`Using ${f.offline.proxyFlavor} proxy`, "info");
-  entry(`Malware Detected: ${yesNo(f.malware.detected)}`, f.malware.detected ? "error" : "ok");
+export interface Verdict {
+  status: Severity;
+  headline: string;
+  // Count of things worth a look — drives the "· N issues found" subtitle.
+  issueCount: number;
+}
 
-  if (f.downgrade) {
-    entry(
-      `Server is attempting to downgrade from ${f.downgrade.from} to ${f.downgrade.to} — this is not supported!`,
-      "error",
-    );
-  }
+export interface StatusTile {
+  label: string;
+  value: string;
+  severity: Severity;
+  note?: string;
+}
 
-  if (f.invalidPlayers.length > 0) {
-    header("Invalid player UUIDs", "error");
-    for (const player of f.invalidPlayers) entry(`${player.username} — ${player.uuid}`, "error");
-    entry("These UUIDs either do not exist, or are for different usernames.", "error");
-  }
+// Tallies distinct problem signals. Per-item categories (plugins in error, exceptions, invalid
+// players, missing deps) count individually; boolean categories count once.
+export function countIssues(f: Findings): number {
+  let n = 0;
+  if (f.malware.detected) n++;
+  if (f.offline.isOffline) n++;
+  if (f.possiblyCracked.cracked) n++;
+  if (f.pirated.detected) n++;
+  if (!isSupported(f)) n++;
+  if (!f.runningPaper) n++;
+  if (isSupported(f) && !isPaperUpToDate(f)) n++;
+  if (f.downgrade) n++;
+  if (f.invalidConfig) n++;
+  if (f.ambiguous.detected) n++;
+  n += f.invalidPlayers.length;
+  n += f.exceptions.length;
+  n += f.missingDependencies.length;
+  n += f.plugins.filter((p) => p.severity === "error").length;
+  return n;
+}
 
-  header("Plugins");
-  for (const plugin of f.plugins) entry(`${plugin.name} v${plugin.version}`, plugin.severity);
+// The single top-line signal. Worst-first: the first matching condition wins the headline.
+export function buildVerdict(f: Findings): Verdict {
+  const issueCount = countIssues(f);
+  const pick = (status: Severity, headline: string): Verdict => ({ status, headline, issueCount });
 
-  if (f.ambiguous.detected) {
-    header("Ambiguous plugins", "warning");
-    for (const plugin of f.ambiguous.plugins) {
-      entry(`${plugin.pluginName}: ${plugin.pluginFilenames.join(", ")}`, "warning");
-    }
-  }
+  if (f.malware.detected) return pick("error", "Malware detected");
+  if (f.pirated.detected || f.possiblyCracked.cracked) return pick("error", "Possibly cracked");
+  if (f.offline.isOffline) return pick("error", "Offline mode");
+  if (!isSupported(f)) return pick("error", "Unsupported version");
+  if (!f.runningPaper) return pick("warning", "Not running Paper");
+  if (!isPaperUpToDate(f)) return pick("warning", "Paper is outdated");
+  if (issueCount > 0) return pick("warning", "Issues found");
+  return pick("ok", "Server looks healthy");
+}
 
-  if (f.missingDependencies.length > 0) {
-    header("Missing dependencies", "info");
-    for (const dependency of f.missingDependencies) {
-      entry(Array.isArray(dependency) ? dependency.join(", ") : dependency, "info");
-    }
-  }
-
-  if (f.possiblyCracked.cracked) {
-    header("Possibly cracked — these plugins suggest it", "info");
-    for (const plugin of f.possiblyCracked.plugins) entry(`${plugin.name} v${plugin.version}`, plugin.severity);
-  }
-
-  if (f.pirated.detected) {
-    header("Pirated plugins — these lines suggest it", "info");
-    for (const line of f.pirated.lines) entry(line, "info");
-  }
-
-  if (f.exceptions.length > 0) {
-    header("Exceptions", "info");
-    for (const exception of f.exceptions) entry(`Line ${exception.lineNumber}: ${exception.line}`, "warning");
-  }
-
-  if (f.invalidConfig) {
-    header("Invalid config", "error");
-    const path = f.invalidConfig.locations.join(".");
-    entry(`At ${path}: expected ${f.invalidConfig.validType}, got ${f.invalidConfig.invalidType}`, "error");
-  }
-
-  return items;
+// The at-a-glance tile row shown above the detail sections.
+export function buildStatusTiles(f: Findings): StatusTile[] {
+  return [
+    {
+      label: "Minecraft",
+      value: f.mcVersion ?? "Unknown",
+      severity: isSupported(f) ? "ok" : "error",
+      note: isSupported(f) ? undefined : "unsupported",
+    },
+    {
+      label: "Flavor",
+      value: f.flavor ?? "Unknown",
+      severity: f.runningPaper ? "ok" : "error",
+    },
+    {
+      label: "Paper build",
+      value: f.paperVersion !== null ? `#${f.paperVersion}` : "Unknown",
+      severity: isPaperUpToDate(f) ? "ok" : "error",
+      note: !isPaperUpToDate(f) && f.latestPaperVersion !== null ? `latest #${f.latestPaperVersion}` : undefined,
+    },
+    {
+      label: "Mode",
+      value: f.offline.isOffline ? "Offline" : "Online",
+      severity: f.offline.isOffline ? "error" : "ok",
+      note: f.offline.usingProxy ? `${f.offline.proxyFlavor} proxy` : undefined,
+    },
+    {
+      label: "Malware",
+      value: f.malware.detected ? `${f.malware.count} hit${f.malware.count === 1 ? "" : "s"}` : "Clean",
+      severity: f.malware.detected ? "error" : "ok",
+    },
+  ];
 }
