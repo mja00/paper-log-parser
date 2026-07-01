@@ -36,10 +36,15 @@ export class LogFile {
     this.findings = analyzeLines(this.lines);
   }
 
-  // Network-dependent checks (playerdb validation + latest Paper build).
+  // Network-dependent checks. Player validation and the Paper-build lookup are independent, so
+  // run them concurrently to save a round-trip.
   async validate(): Promise<void> {
-    this.findings.invalidPlayers = await validatePlayers(this.findings.players);
-    this.findings.latestPaperVersion = await getLatestPaperVersion(this.findings.mcVersion);
+    const [invalidPlayers, latestPaperVersion] = await Promise.all([
+      validatePlayers(this.findings.players),
+      getLatestPaperVersion(this.findings.mcVersion),
+    ]);
+    this.findings.invalidPlayers = invalidPlayers;
+    this.findings.latestPaperVersion = latestPaperVersion;
   }
 
   private getHostFromUrl(): void {

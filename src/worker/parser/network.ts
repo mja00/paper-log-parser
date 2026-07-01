@@ -66,7 +66,11 @@ export async function fetchLogText(url: string, host: string): Promise<string> {
 
 async function isPlayerInvalid(player: PlayerInfo): Promise<boolean> {
   try {
-    const resp = await fetchWithUa(`https://playerdb.co/api/player/minecraft/${player.uuid}`);
+    // Edge-cache successful lookups for 30 min (players recur across a server's logs); never cache
+    // error responses, so a transient 429 can't pin a player as "invalid".
+    const resp = await fetchWithUa(`https://playerdb.co/api/player/minecraft/${player.uuid}`, {
+      cf: { cacheEverything: true, cacheTtlByStatus: { "200-299": 1800, "400-599": 0 } },
+    });
     if (resp.status === 200) {
       const data = (await resp.json()) as { data: { player: { username: string } } };
       // Non-matching username indicates a cracked/fake UUID.
