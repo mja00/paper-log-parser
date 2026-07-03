@@ -47,8 +47,18 @@ function recomputeWins(): void {
   diagUp.value = marked.value.every((_row, i) => marked.value[i][SIZE - 1 - i]);
 }
 
+// Corrupted or legacy `bingo` values must not throw and break the board; fall back to empty.
+function readStore(): Record<string, boolean[][]> {
+  try {
+    const raw = localStorage.getItem("bingo");
+    return raw ? (JSON.parse(raw) as Record<string, boolean[][]>) : {};
+  } catch {
+    return {};
+  }
+}
+
 function persist(): void {
-  const store = JSON.parse(localStorage.getItem("bingo") ?? "{}") as Record<string, boolean[][]>;
+  const store = readStore();
   store[seed.value] = marked.value;
   localStorage.setItem("bingo", JSON.stringify(store));
 }
@@ -100,8 +110,7 @@ function initBoard(): void {
   if (typeof stateHex === "string" && stateHex.length > 0) {
     restoreFromState(stateHex);
   } else {
-    const store = JSON.parse(localStorage.getItem("bingo") ?? "null") as Record<string, boolean[][]> | null;
-    const saved = store?.[seed.value];
+    const saved = readStore()[seed.value];
     if (saved) applyMarks(saved);
   }
   recomputeWins();
@@ -249,7 +258,13 @@ onMounted(initBoard);
                   { chip: marked[i][j], win: i === 0 && colWin[j] },
                   marked[i][j] ? colors[i][j] : '',
                 ]"
+                role="button"
+                tabindex="0"
+                :aria-pressed="marked[i][j]"
+                :aria-label="square"
                 @click="toggleCell(i, j)"
+                @keydown.enter.prevent="toggleCell(i, j)"
+                @keydown.space.prevent="toggleCell(i, j)"
               >
                 <span
                   v-if="square === 'Free'"

@@ -41,7 +41,9 @@ function parseThrowable(content: string): Throwable {
 // driver doesn't re-open a trace on a `Caused by:` line (which also contains "Exception").
 export const exceptionsCheck: Check = {
   id: "exceptions",
-  prefilter: "Exception",
+  // Superset of the THROWABLE regex's suffixes so `…Error`/`…Throwable` headers (e.g.
+  // OutOfMemoryError) reach onLine, not just `…Exception`.
+  prefilter: ["Exception", "Error", "Throwable"],
   onLine(line, index, ctx) {
     if (index <= ctx.exceptionsConsumedThrough) return;
 

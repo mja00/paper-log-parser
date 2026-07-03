@@ -42,7 +42,12 @@ const listHeight = computed(() => `${Math.min(Math.max(filtered.value.length, 1)
     </template>
 
     <div class="mb-2 flex flex-wrap items-center gap-2">
+      <label
+        for="pluginFilter"
+        class="sr-only"
+      >Filter plugins</label>
       <input
+        id="pluginFilter"
         v-model="query"
         type="text"
         placeholder="Filter plugins…"

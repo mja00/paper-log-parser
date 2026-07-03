@@ -66,6 +66,9 @@ export function buildVerdict(f: Findings): Verdict {
   if (!isSupported(f)) return pick("error", "Unsupported version");
   if (!f.runningPaper) return pick("warning", "Not running Paper");
   if (!isPaperUpToDate(f)) return pick("warning", "Paper is outdated");
+  // A downgrade means the world was saved by a newer MC version than the server runs — loading it
+  // risks corruption, so it outranks the generic "Issues found" fallback.
+  if (f.downgrade) return pick("error", "Version downgrade");
   if (issueCount > 0) return pick("warning", "Issues found");
   return pick("ok", "Server looks healthy");
 }
@@ -82,12 +85,14 @@ export function buildStatusTiles(f: Findings): StatusTile[] {
     {
       label: "Flavor",
       value: f.flavor ?? "Unknown",
-      severity: f.runningPaper ? "ok" : "error",
+      // Mirror the verdict: unsupported is the only error; not-running-Paper is a warning.
+      severity: !isSupported(f) ? "error" : f.runningPaper ? "ok" : "warning",
     },
     {
       label: "Paper build",
       value: f.paperVersion !== null ? `#${f.paperVersion}` : "Unknown",
-      severity: isPaperUpToDate(f) ? "ok" : "error",
+      // A supported-but-outdated build is a warning; only an unsupported version is an error.
+      severity: !isSupported(f) ? "error" : isPaperUpToDate(f) ? "ok" : "warning",
       note: !isPaperUpToDate(f) && f.latestPaperVersion !== null ? `latest #${f.latestPaperVersion}` : undefined,
     },
     {

@@ -19,11 +19,15 @@ async function parse() {
   isParsing.value = true;
   errorMessage.value = "";
   const url = logUrl.value;
+  // A stalled /parse must not pin the spinner forever; abort after a bounded wait.
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 30000);
   try {
     const resp = await fetch("/parse", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ logUrl: url }),
+      signal: controller.signal,
     });
     const data = (await resp.json()) as { success: boolean; findings?: Findings; error?: string };
     if (data.success && data.findings) {
@@ -34,8 +38,11 @@ async function parse() {
     }
   } catch {
     findings.value = null;
-    errorMessage.value = "Failed to reach the parser.";
+    errorMessage.value = controller.signal.aborted
+      ? "The parser timed out. Please try again."
+      : "Failed to reach the parser.";
   } finally {
+    clearTimeout(timeout);
     parsedUrl.value = url;
     parsedAt.value = new Date().toLocaleString();
     // Reflect the parsed URL in the address bar (enables shareable embeds).
