@@ -9,9 +9,16 @@ export const BAD_PLUGINS = [
   "ClearLagg",
   "FastClearLag",
   "PlugMan",
+  // Same hot-reload hazard as PlugMan.
+  "PlugManX",
   "Skript",
+  // Long-abandoned permission managers.
+  "PermissionsEx",
+  "GroupManager",
+  // Placebo "anti-lag" tooling.
+  "LagAssist",
 ];
-export const MEH_PLUGINS = ["ViaVersion", "ProtocolLib", "ViaBackwards", "ViaRewind"];
+export const MEH_PLUGINS = ["ViaVersion", "ProtocolLib", "ViaBackwards", "ViaRewind", "FastLogin"];
 // Plugins whose presence suggests a cracked/offline server.
 export const WEIRD_PLUGINS = ["AuthMe", "nLogin", "SkinsRestorer"];
 
