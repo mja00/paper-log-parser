@@ -1,0 +1,16 @@
+[16:38:57] [ServerMain/INFO]: Starting minecraft server version 1.21.4
+[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)
+[16:38:58] [Server thread/INFO]: [EssentialsX] Loading EssentialsX v2.20.0
+[16:38:58] [Server thread/INFO]: [WorldEdit] Loading WorldEdit v7.3.0
+[16:38:58] [Server thread/WARN]: Legacy plugin AncientChat v1.0 does not specify an api-version.
+[16:38:58] [Server thread/ERROR]: Could not load 'plugins/broken.jar' in folder 'plugins'
+[16:38:58] [Server thread/ERROR]: org.bukkit.plugin.InvalidDescriptionException: Invalid plugin.yml
+[16:38:59] [Server thread/INFO]: Preparing level "world"
+[16:39:01] [Server thread/ERROR]: Error occurred while enabling EssentialsX v2.20.0 (Is it up to date?)
+[16:39:01] [Server thread/ERROR]: java.lang.NullPointerException: Cannot invoke method on null object
+[16:39:01] [Server thread/ERROR]: 	at com.earth2me.essentials.EssentialsX.onEnable(EssentialsX.java:210)
+[16:39:01] [Server thread/ERROR]: 	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:264)
+[16:39:20] [Server thread/INFO]: Done (21.532s)! For help, type "help"
+[16:41:07] [Server thread/ERROR]: Exception in thread "Server thread" java.lang.IllegalStateException: Chunk not loaded
+[16:41:07] [Server thread/ERROR]: 	at com.sk89q.worldedit.bukkit.WorldEditPlugin.onCommand(WorldEditPlugin.java:401)
+[16:41:07] [Server thread/ERROR]: 	at org.bukkit.command.SimpleCommandMap.dispatch(SimpleCommandMap.java:152)

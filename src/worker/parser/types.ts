@@ -36,6 +36,16 @@ export interface ExceptionTrace {
   throwables: Throwable[];
   count: number;
   lineNumbers: number[];
+  // Best-effort: loaded plugins whose name tokens appear in the trace's frame packages.
+  suspectedPlugins: string[];
+}
+
+export interface PluginError {
+  plugin: string;
+  version: string | null;
+  phase: "enabling" | "disabling" | "loading";
+  count: number;
+  lineNumbers: number[];
 }
 
 export interface InvalidConfig {
@@ -74,6 +84,9 @@ export interface Findings {
   };
   // `count` is raw line hits (a trace's `Caused by:` OOM line counts too); `kinds` is deduped.
   oom: { detected: boolean; kinds: string[]; count: number; lineNumbers: number[] };
+  pluginErrors: PluginError[];
+  // Pre-1.13 plugins flagged by Bukkit's "does not specify an api-version" warning.
+  legacyPlugins: { name: string; version: string | null }[];
   javaEnv: {
     javaVersion: string | null;
     javaMajor: number | null;
@@ -124,6 +137,8 @@ export function newFindings(): Findings {
       worldCorruption: { count: 0, samples: [], lineNumbers: [] },
     },
     oom: { detected: false, kinds: [], count: 0, lineNumbers: [] },
+    pluginErrors: [],
+    legacyPlugins: [],
     javaEnv: {
       javaVersion: null,
       javaMajor: null,

@@ -28,6 +28,7 @@ exports[`analyze() — structured findings snapshots > ambiguous.log 1`] = `
     "vmWarnings": [],
   },
   "latestPaperVersion": null,
+  "legacyPlugins": [],
   "malware": {
     "count": 0,
     "detected": false,
@@ -66,6 +67,7 @@ exports[`analyze() — structured findings snapshots > ambiguous.log 1`] = `
     "lines": [],
   },
   "players": [],
+  "pluginErrors": [],
   "plugins": [],
   "possiblyCracked": {
     "cracked": false,
@@ -104,6 +106,7 @@ exports[`analyze() — structured findings snapshots > cant-keep-up.log 1`] = `
     "vmWarnings": [],
   },
   "latestPaperVersion": null,
+  "legacyPlugins": [],
   "malware": {
     "count": 0,
     "detected": false,
@@ -142,6 +145,7 @@ exports[`analyze() — structured findings snapshots > cant-keep-up.log 1`] = `
     "lines": [],
   },
   "players": [],
+  "pluginErrors": [],
   "plugins": [
     {
       "name": "EssentialsX",
@@ -193,6 +197,7 @@ exports[`analyze() — structured findings snapshots > config-coercion.log 1`] =
     "vmWarnings": [],
   },
   "latestPaperVersion": null,
+  "legacyPlugins": [],
   "malware": {
     "count": 0,
     "detected": false,
@@ -231,6 +236,7 @@ exports[`analyze() — structured findings snapshots > config-coercion.log 1`] =
     "lines": [],
   },
   "players": [],
+  "pluginErrors": [],
   "plugins": [],
   "possiblyCracked": {
     "cracked": false,
@@ -265,6 +271,7 @@ exports[`analyze() — structured findings snapshots > downgrade.log 1`] = `
       "lineNumbers": [
         1,
       ],
+      "suspectedPlugins": [],
       "throwables": [
         {
           "frames": [],
@@ -287,6 +294,7 @@ exports[`analyze() — structured findings snapshots > downgrade.log 1`] = `
     "vmWarnings": [],
   },
   "latestPaperVersion": null,
+  "legacyPlugins": [],
   "malware": {
     "count": 0,
     "detected": false,
@@ -325,6 +333,7 @@ exports[`analyze() — structured findings snapshots > downgrade.log 1`] = `
     "lines": [],
   },
   "players": [],
+  "pluginErrors": [],
   "plugins": [],
   "possiblyCracked": {
     "cracked": false,
@@ -363,6 +372,7 @@ exports[`analyze() — structured findings snapshots > eula.log 1`] = `
     "vmWarnings": [],
   },
   "latestPaperVersion": null,
+  "legacyPlugins": [],
   "malware": {
     "count": 0,
     "detected": false,
@@ -401,6 +411,7 @@ exports[`analyze() — structured findings snapshots > eula.log 1`] = `
     "lines": [],
   },
   "players": [],
+  "pluginErrors": [],
   "plugins": [],
   "possiblyCracked": {
     "cracked": false,
@@ -432,6 +443,7 @@ exports[`analyze() — structured findings snapshots > exceptions.log 1`] = `
       "lineNumbers": [
         1,
       ],
+      "suspectedPlugins": [],
       "throwables": [
         {
           "frames": [
@@ -458,6 +470,7 @@ exports[`analyze() — structured findings snapshots > exceptions.log 1`] = `
         7,
         9,
       ],
+      "suspectedPlugins": [],
       "throwables": [
         {
           "frames": [
@@ -482,6 +495,7 @@ exports[`analyze() — structured findings snapshots > exceptions.log 1`] = `
     "vmWarnings": [],
   },
   "latestPaperVersion": null,
+  "legacyPlugins": [],
   "malware": {
     "count": 0,
     "detected": false,
@@ -520,6 +534,7 @@ exports[`analyze() — structured findings snapshots > exceptions.log 1`] = `
     "lines": [],
   },
   "players": [],
+  "pluginErrors": [],
   "plugins": [],
   "possiblyCracked": {
     "cracked": false,
@@ -560,6 +575,7 @@ exports[`analyze() — structured findings snapshots > java-old.log 1`] = `
     ],
   },
   "latestPaperVersion": null,
+  "legacyPlugins": [],
   "malware": {
     "count": 0,
     "detected": false,
@@ -598,6 +614,7 @@ exports[`analyze() — structured findings snapshots > java-old.log 1`] = `
     "lines": [],
   },
   "players": [],
+  "pluginErrors": [],
   "plugins": [],
   "possiblyCracked": {
     "cracked": false,
@@ -636,6 +653,7 @@ exports[`analyze() — structured findings snapshots > malware.log 1`] = `
     "vmWarnings": [],
   },
   "latestPaperVersion": null,
+  "legacyPlugins": [],
   "malware": {
     "count": 1,
     "detected": true,
@@ -674,6 +692,7 @@ exports[`analyze() — structured findings snapshots > malware.log 1`] = `
     "lines": [],
   },
   "players": [],
+  "pluginErrors": [],
   "plugins": [],
   "possiblyCracked": {
     "cracked": false,
@@ -712,6 +731,7 @@ exports[`analyze() — structured findings snapshots > missing-dep.log 1`] = `
     "vmWarnings": [],
   },
   "latestPaperVersion": null,
+  "legacyPlugins": [],
   "malware": {
     "count": 0,
     "detected": false,
@@ -752,6 +772,7 @@ exports[`analyze() — structured findings snapshots > missing-dep.log 1`] = `
     "lines": [],
   },
   "players": [],
+  "pluginErrors": [],
   "plugins": [],
   "possiblyCracked": {
     "cracked": false,
@@ -790,6 +811,7 @@ exports[`analyze() — structured findings snapshots > no-flavor.log 1`] = `
     "vmWarnings": [],
   },
   "latestPaperVersion": null,
+  "legacyPlugins": [],
   "malware": {
     "count": 0,
     "detected": false,
@@ -828,6 +850,7 @@ exports[`analyze() — structured findings snapshots > no-flavor.log 1`] = `
     "lines": [],
   },
   "players": [],
+  "pluginErrors": [],
   "plugins": [],
   "possiblyCracked": {
     "cracked": false,
@@ -866,6 +889,7 @@ exports[`analyze() — structured findings snapshots > non-supported-version.log
     "vmWarnings": [],
   },
   "latestPaperVersion": null,
+  "legacyPlugins": [],
   "malware": {
     "count": 0,
     "detected": false,
@@ -904,6 +928,7 @@ exports[`analyze() — structured findings snapshots > non-supported-version.log
     "lines": [],
   },
   "players": [],
+  "pluginErrors": [],
   "plugins": [
     {
       "name": "EssentialsX",
@@ -948,6 +973,7 @@ exports[`analyze() — structured findings snapshots > offline-cracked.log 1`] =
     "vmWarnings": [],
   },
   "latestPaperVersion": null,
+  "legacyPlugins": [],
   "malware": {
     "count": 0,
     "detected": false,
@@ -986,6 +1012,7 @@ exports[`analyze() — structured findings snapshots > offline-cracked.log 1`] =
     "lines": [],
   },
   "players": [],
+  "pluginErrors": [],
   "plugins": [
     {
       "name": "AuthMe",
@@ -1036,6 +1063,7 @@ exports[`analyze() — structured findings snapshots > offline-proxy.log 1`] = `
     "vmWarnings": [],
   },
   "latestPaperVersion": null,
+  "legacyPlugins": [],
   "malware": {
     "count": 0,
     "detected": false,
@@ -1074,6 +1102,7 @@ exports[`analyze() — structured findings snapshots > offline-proxy.log 1`] = `
     "lines": [],
   },
   "players": [],
+  "pluginErrors": [],
   "plugins": [],
   "possiblyCracked": {
     "cracked": false,
@@ -1105,6 +1134,7 @@ exports[`analyze() — structured findings snapshots > oom.log 1`] = `
       "lineNumbers": [
         6,
       ],
+      "suspectedPlugins": [],
       "throwables": [
         {
           "frames": [
@@ -1130,6 +1160,7 @@ exports[`analyze() — structured findings snapshots > oom.log 1`] = `
       "lineNumbers": [
         12,
       ],
+      "suspectedPlugins": [],
       "throwables": [
         {
           "frames": [],
@@ -1152,6 +1183,7 @@ exports[`analyze() — structured findings snapshots > oom.log 1`] = `
     "vmWarnings": [],
   },
   "latestPaperVersion": null,
+  "legacyPlugins": [],
   "malware": {
     "count": 0,
     "detected": false,
@@ -1196,6 +1228,7 @@ exports[`analyze() — structured findings snapshots > oom.log 1`] = `
     "lines": [],
   },
   "players": [],
+  "pluginErrors": [],
   "plugins": [
     {
       "name": "EssentialsX",
@@ -1240,6 +1273,7 @@ exports[`analyze() — structured findings snapshots > paper-basic.log 1`] = `
     "vmWarnings": [],
   },
   "latestPaperVersion": null,
+  "legacyPlugins": [],
   "malware": {
     "count": 0,
     "detected": false,
@@ -1278,6 +1312,7 @@ exports[`analyze() — structured findings snapshots > paper-basic.log 1`] = `
     "lines": [],
   },
   "players": [],
+  "pluginErrors": [],
   "plugins": [
     {
       "name": "AuthMe",
@@ -1338,6 +1373,7 @@ exports[`analyze() — structured findings snapshots > paper-modern-26.2.log 1`]
     "vmWarnings": [],
   },
   "latestPaperVersion": null,
+  "legacyPlugins": [],
   "malware": {
     "count": 0,
     "detected": false,
@@ -1376,6 +1412,7 @@ exports[`analyze() — structured findings snapshots > paper-modern-26.2.log 1`]
     "lines": [],
   },
   "players": [],
+  "pluginErrors": [],
   "plugins": [
     {
       "name": "ViaVersion",
@@ -1430,6 +1467,7 @@ exports[`analyze() — structured findings snapshots > pirated.log 1`] = `
     "vmWarnings": [],
   },
   "latestPaperVersion": null,
+  "legacyPlugins": [],
   "malware": {
     "count": 0,
     "detected": false,
@@ -1470,6 +1508,7 @@ exports[`analyze() — structured findings snapshots > pirated.log 1`] = `
     ],
   },
   "players": [],
+  "pluginErrors": [],
   "plugins": [],
   "possiblyCracked": {
     "cracked": false,
@@ -1488,7 +1527,7 @@ exports[`analyze() — structured findings snapshots > pirated.log 1`] = `
 }
 `;
 
-exports[`analyze() — structured findings snapshots > port-bind.log 1`] = `
+exports[`analyze() — structured findings snapshots > plugin-errors.log 1`] = `
 {
   "ambiguous": {
     "detected": false,
@@ -1499,14 +1538,55 @@ exports[`analyze() — structured findings snapshots > port-bind.log 1`] = `
     {
       "count": 1,
       "lineNumbers": [
-        4,
+        6,
       ],
+      "suspectedPlugins": [],
       "throwables": [
         {
           "frames": [],
-          "message": "Address already in use: bind",
+          "message": "Invalid plugin.yml",
           "truncated": 0,
-          "type": "BindException",
+          "type": "InvalidDescriptionException",
+        },
+      ],
+    },
+    {
+      "count": 1,
+      "lineNumbers": [
+        9,
+      ],
+      "suspectedPlugins": [
+        "EssentialsX",
+      ],
+      "throwables": [
+        {
+          "frames": [
+            "at com.earth2me.essentials.EssentialsX.onEnable(EssentialsX.java:210)",
+            "at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:264)",
+          ],
+          "message": "Cannot invoke method on null object",
+          "truncated": 0,
+          "type": "NullPointerException",
+        },
+      ],
+    },
+    {
+      "count": 1,
+      "lineNumbers": [
+        13,
+      ],
+      "suspectedPlugins": [
+        "WorldEdit",
+      ],
+      "throwables": [
+        {
+          "frames": [
+            "at com.sk89q.worldedit.bukkit.WorldEditPlugin.onCommand(WorldEditPlugin.java:401)",
+            "at org.bukkit.command.SimpleCommandMap.dispatch(SimpleCommandMap.java:152)",
+          ],
+          "message": "Chunk not loaded",
+          "truncated": 0,
+          "type": "IllegalStateException",
         },
       ],
     },
@@ -1523,6 +1603,12 @@ exports[`analyze() — structured findings snapshots > port-bind.log 1`] = `
     "vmWarnings": [],
   },
   "latestPaperVersion": null,
+  "legacyPlugins": [
+    {
+      "name": "AncientChat",
+      "version": "1.0",
+    },
+  ],
   "malware": {
     "count": 0,
     "detected": false,
@@ -1561,6 +1647,131 @@ exports[`analyze() — structured findings snapshots > port-bind.log 1`] = `
     "lines": [],
   },
   "players": [],
+  "pluginErrors": [
+    {
+      "count": 1,
+      "lineNumbers": [
+        6,
+      ],
+      "phase": "loading",
+      "plugin": "plugins/broken.jar",
+      "version": null,
+    },
+    {
+      "count": 1,
+      "lineNumbers": [
+        9,
+      ],
+      "phase": "enabling",
+      "plugin": "EssentialsX",
+      "version": "2.20.0",
+    },
+  ],
+  "plugins": [
+    {
+      "name": "EssentialsX",
+      "severity": "ok",
+      "version": "2.20.0",
+    },
+    {
+      "name": "WorldEdit",
+      "severity": "ok",
+      "version": "7.3.0",
+    },
+  ],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
+}
+`;
+
+exports[`analyze() — structured findings snapshots > port-bind.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [
+    {
+      "count": 1,
+      "lineNumbers": [
+        4,
+      ],
+      "suspectedPlugins": [],
+      "throwables": [
+        {
+          "frames": [],
+          "message": "Address already in use: bind",
+          "truncated": 0,
+          "type": "BindException",
+        },
+      ],
+    },
+  ],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
+  "latestPaperVersion": null,
+  "legacyPlugins": [],
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
+  "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "pluginErrors": [],
   "plugins": [],
   "possiblyCracked": {
     "cracked": false,
@@ -1599,6 +1810,7 @@ exports[`analyze() — structured findings snapshots > watchdog-crash.log 1`] = 
     "vmWarnings": [],
   },
   "latestPaperVersion": null,
+  "legacyPlugins": [],
   "malware": {
     "count": 0,
     "detected": false,
@@ -1640,6 +1852,7 @@ exports[`analyze() — structured findings snapshots > watchdog-crash.log 1`] = 
     "lines": [],
   },
   "players": [],
+  "pluginErrors": [],
   "plugins": [
     {
       "name": "EssentialsX",
@@ -1684,6 +1897,7 @@ exports[`analyze() — structured findings snapshots > world-corruption.log 1`] 
     "vmWarnings": [],
   },
   "latestPaperVersion": null,
+  "legacyPlugins": [],
   "malware": {
     "count": 0,
     "detected": false,
@@ -1722,6 +1936,7 @@ exports[`analyze() — structured findings snapshots > world-corruption.log 1`] 
     "lines": [],
   },
   "players": [],
+  "pluginErrors": [],
   "plugins": [],
   "possiblyCracked": {
     "cracked": false,

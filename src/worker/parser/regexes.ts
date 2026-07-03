@@ -18,6 +18,11 @@ export const oomRegex = /java\.lang\.OutOfMemoryError(?::\s*(.+))?/;
 export const unsupportedJavaRegex = /Unsupported Java detected \((\d+)(?:\.\d+)?\)(?:\. Only up to Java (\d+) is supported)?/;
 export const requiresJavaRegex = /requires (?:running the server with|at least) Java (\d+)/;
 export const javaVersionRegex = /Java [Vv]ersion:?\s*"?(\d+(?:[._]\d+)*)/;
+// Bukkit: "Error occurred while enabling MyPlugin v1.2.3 (Is it up to date?)" — non-greedy name,
+// \S+ version so the trailing parenthetical stays out of the capture.
+export const pluginErrorRegex = /Error occurred while (enabling|disabling) (.+?) v(\S+)/;
+export const couldNotLoadPluginRegex = /Could not load '([^']+)' in folder 'plugins'/;
+export const legacyPluginRegex = /Legacy plugin (.+?)(?: v(\S+))? does not specify an api-version/;
 // World/region corruption signals. Only "wrong location" is verified verbatim; the rest are kept
 // loose and the matched lines are surfaced raw as evidence.
 export const corruptionRegexes: RegExp[] = [

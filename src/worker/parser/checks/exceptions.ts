@@ -71,6 +71,6 @@ export const exceptionsCheck: Check = {
     }
 
     ctx.exceptionsConsumedThrough = lastConsumed;
-    ctx.findings.exceptions.push({ throwables, count: 1, lineNumbers: [index] });
+    ctx.findings.exceptions.push({ throwables, count: 1, lineNumbers: [index], suspectedPlugins: [] });
   },
 };

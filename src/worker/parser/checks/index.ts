@@ -15,6 +15,7 @@ import { portBindCheck, eulaCheck } from "./startup";
 import { oomCheck } from "./oom";
 import { worldCorruptionCheck } from "./corruption";
 import { javaCheck } from "./java";
+import { pluginErrorsCheck, legacyPluginsCheck } from "./plugin-errors";
 
 // The registry. Adding a check = one file + one entry here. Line checks write independent Findings
 // fields, so their order is irrelevant; cross-field resolution lives in the derived checks.
@@ -37,6 +38,8 @@ export const LINE_CHECKS: Check[] = [
   oomCheck,
   worldCorruptionCheck,
   javaCheck,
+  pluginErrorsCheck,
+  legacyPluginsCheck,
 ];
 
 export { DERIVED_CHECKS } from "./derived";
