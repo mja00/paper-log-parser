@@ -1,0 +1,22 @@
+[16:38:57] [ServerMain/INFO]: Starting minecraft server version 1.21.4
+[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)
+[16:38:58] [Server thread/INFO]: [EssentialsX] Loading EssentialsX v2.20.0
+[16:38:59] [Server thread/INFO]: Preparing level "world"
+[16:39:20] [Server thread/INFO]: Done (21.532s)! For help, type "help"
+[16:52:10] [Paper Watchdog Thread/ERROR]: --- DO NOT REPORT THIS TO PAPER - THIS IS NOT A BUG OR A CRASH  - git-Paper-26 (MC: 1.21.4) ---
+[16:52:10] [Paper Watchdog Thread/ERROR]: The server has not responded for 10 seconds! Creating thread dump
+[16:52:10] [Paper Watchdog Thread/ERROR]: ------------------------------
+[16:52:10] [Paper Watchdog Thread/ERROR]: Server thread dump (Look for plugins here before reporting to Paper!):
+[16:52:10] [Paper Watchdog Thread/ERROR]: ------------------------------
+[16:52:10] [Paper Watchdog Thread/ERROR]: Current Thread: Server thread
+[16:52:10] [Paper Watchdog Thread/ERROR]: 	PID: 47 | Suspended: false | Native: false | State: RUNNABLE
+[16:52:10] [Paper Watchdog Thread/ERROR]: 	Stack:
+[16:52:10] [Paper Watchdog Thread/ERROR]: 		net.minecraft.server.level.ServerLevel.tick(ServerLevel.java:512)
+[16:52:10] [Paper Watchdog Thread/ERROR]: 		net.minecraft.server.MinecraftServer.tickChildren(MinecraftServer.java:1560)
+[16:52:10] [Paper Watchdog Thread/ERROR]: ------------------------------
+[16:53:15] [Paper Watchdog Thread/ERROR]: --- DO NOT REPORT THIS TO PAPER - THIS IS NOT A BUG OR A CRASH  - git-Paper-26 (MC: 1.21.4) ---
+[16:53:15] [Paper Watchdog Thread/ERROR]: The server has not responded for 60 seconds! Creating thread dump
+[16:53:15] [Paper Watchdog Thread/ERROR]: ------------------------------
+[16:53:15] [Paper Watchdog Thread/ERROR]: Server thread dump (Look for plugins here before reporting to Paper!):
+[16:53:15] [Paper Watchdog Thread/ERROR]: ------------------------------
+[16:53:16] [Server Watchdog/FATAL]: Considering it to be crashed, server will forcibly shutdown.

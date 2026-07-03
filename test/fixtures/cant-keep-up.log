@@ -1,0 +1,8 @@
+[16:38:57] [ServerMain/INFO]: Starting minecraft server version 1.21.4
+[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)
+[16:38:58] [Server thread/INFO]: [EssentialsX] Loading EssentialsX v2.20.0
+[16:38:59] [Server thread/INFO]: Preparing level "world"
+[16:39:20] [Server thread/INFO]: Done (21.532s)! For help, type "help"
+[16:45:01] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2500ms or 50 ticks behind
+[16:47:44] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 9307ms or 186 ticks behind
+[16:52:03] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 26579ms or 531 ticks behind

@@ -66,6 +66,19 @@ export interface Findings {
   exceptions: ExceptionTrace[];
   pirated: { detected: boolean; lines: string[] };
   invalidConfig: InvalidConfig | null;
+  performance: {
+    // One "event" per watchdog banner sighting (the banner prints once per dump).
+    watchdog: {
+      crashCount: number;
+      maxUnresponsiveSeconds: number | null;
+      // The vanilla watchdog's "Considering it to be crashed, server will forcibly shutdown."
+      forcedShutdown: boolean;
+      hasThreadDump: boolean;
+      lineNumbers: number[];
+    };
+    // Aggregates only — this line can appear thousands of times in a laggy server's log.
+    cantKeepUp: { count: number; totalMsBehind: number; totalTicksSkipped: number; maxMsBehind: number };
+  };
 }
 
 export function newFindings(): Findings {
@@ -88,6 +101,16 @@ export function newFindings(): Findings {
     exceptions: [],
     pirated: { detected: false, lines: [] },
     invalidConfig: null,
+    performance: {
+      watchdog: {
+        crashCount: 0,
+        maxUnresponsiveSeconds: null,
+        forcedShutdown: false,
+        hasThreadDump: false,
+        lineNumbers: [],
+      },
+      cantKeepUp: { count: 0, totalMsBehind: 0, totalTicksSkipped: 0, maxMsBehind: 0 },
+    },
   };
 }
 
@@ -101,6 +124,8 @@ export interface ScanContext {
   pluginsClosed: boolean;
   startingVersion: string | null;
   exceptionsConsumedThrough: number;
+  // Line index of the last watchdog banner, so nearby banner repeats collapse into one event.
+  lastWatchdogBanner: number;
 }
 
 // A line-scanning check. `prefilter` is a cheap substring gate (a superset of what the check's

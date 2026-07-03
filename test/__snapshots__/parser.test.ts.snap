@@ -33,12 +33,87 @@ exports[`analyze() — structured findings snapshots > ambiguous.log 1`] = `
     "usingProxy": false,
   },
   "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
   "pirated": {
     "detected": false,
     "lines": [],
   },
   "players": [],
   "plugins": [],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+}
+`;
+
+exports[`analyze() — structured findings snapshots > cant-keep-up.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "latestPaperVersion": null,
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 3,
+      "maxMsBehind": 26579,
+      "totalMsBehind": 38386,
+      "totalTicksSkipped": 767,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "plugins": [
+    {
+      "name": "EssentialsX",
+      "severity": "ok",
+      "version": "2.20.0",
+    },
+  ],
   "possiblyCracked": {
     "cracked": false,
     "plugins": [],
@@ -79,6 +154,21 @@ exports[`analyze() — structured findings snapshots > config-coercion.log 1`] =
     "usingProxy": false,
   },
   "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
   "pirated": {
     "detected": false,
     "lines": [],
@@ -136,6 +226,21 @@ exports[`analyze() — structured findings snapshots > downgrade.log 1`] = `
     "usingProxy": false,
   },
   "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
   "pirated": {
     "detected": false,
     "lines": [],
@@ -218,6 +323,21 @@ exports[`analyze() — structured findings snapshots > exceptions.log 1`] = `
     "usingProxy": false,
   },
   "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
   "pirated": {
     "detected": false,
     "lines": [],
@@ -257,6 +377,21 @@ exports[`analyze() — structured findings snapshots > malware.log 1`] = `
     "usingProxy": false,
   },
   "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
   "pirated": {
     "detected": false,
     "lines": [],
@@ -298,6 +433,21 @@ exports[`analyze() — structured findings snapshots > missing-dep.log 1`] = `
     "usingProxy": false,
   },
   "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
   "pirated": {
     "detected": false,
     "lines": [],
@@ -337,6 +487,21 @@ exports[`analyze() — structured findings snapshots > no-flavor.log 1`] = `
     "usingProxy": false,
   },
   "paperVersion": null,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
   "pirated": {
     "detected": false,
     "lines": [],
@@ -376,6 +541,21 @@ exports[`analyze() — structured findings snapshots > non-supported-version.log
     "usingProxy": false,
   },
   "paperVersion": 400,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
   "pirated": {
     "detected": false,
     "lines": [],
@@ -421,6 +601,21 @@ exports[`analyze() — structured findings snapshots > offline-cracked.log 1`] =
     "usingProxy": false,
   },
   "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
   "pirated": {
     "detected": false,
     "lines": [],
@@ -472,6 +667,21 @@ exports[`analyze() — structured findings snapshots > offline-proxy.log 1`] = `
     "usingProxy": true,
   },
   "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
   "pirated": {
     "detected": false,
     "lines": [],
@@ -511,6 +721,21 @@ exports[`analyze() — structured findings snapshots > paper-basic.log 1`] = `
     "usingProxy": false,
   },
   "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
   "pirated": {
     "detected": false,
     "lines": [],
@@ -572,6 +797,21 @@ exports[`analyze() — structured findings snapshots > paper-modern-26.2.log 1`]
     "usingProxy": false,
   },
   "paperVersion": 36,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
   "pirated": {
     "detected": false,
     "lines": [],
@@ -627,6 +867,21 @@ exports[`analyze() — structured findings snapshots > pirated.log 1`] = `
     "usingProxy": false,
   },
   "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
   "pirated": {
     "detected": true,
     "lines": [
@@ -635,6 +890,69 @@ exports[`analyze() — structured findings snapshots > pirated.log 1`] = `
   },
   "players": [],
   "plugins": [],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+}
+`;
+
+exports[`analyze() — structured findings snapshots > watchdog-crash.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "latestPaperVersion": null,
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 2,
+      "forcedShutdown": true,
+      "hasThreadDump": true,
+      "lineNumbers": [
+        6,
+        17,
+      ],
+      "maxUnresponsiveSeconds": 60,
+    },
+  },
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "plugins": [
+    {
+      "name": "EssentialsX",
+      "severity": "ok",
+      "version": "2.20.0",
+    },
+  ],
   "possiblyCracked": {
     "cracked": false,
     "plugins": [],

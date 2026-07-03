@@ -19,6 +19,7 @@ export function analyzeLines(lines: string[]): Findings {
     pluginsClosed: false,
     startingVersion: null,
     exceptionsConsumedThrough: -1,
+    lastWatchdogBanner: -100,
   };
   const active = [...LINE_CHECKS];
 

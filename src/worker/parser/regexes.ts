@@ -13,6 +13,8 @@ export const paperVersion1Regex = /git-Paper-(\d+)/;
 // Build number after the MC version, e.g. "26.2-36-dev", "26.1.2-63-main", "1.21.4-26-master".
 export const paperVersion2Regex = /Paper version [\d.]+-(\d+)-/;
 export const startingVersionRegex = /Starting minecraft server version (\S+)/;
+export const watchdogUnresponsiveRegex = /The server has not responded for (\d+) seconds/;
+export const cantKeepUpRegex = /Can't keep up! Is the server overloaded\? Running (\d+)ms or (\d+) ticks behind/;
 
 export const pirateRegexes: RegExp[] = [
   // Common leak message
