@@ -20,6 +20,13 @@ exports[`analyze() — structured findings snapshots > ambiguous.log 1`] = `
   "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
   "invalidConfig": null,
   "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
   "latestPaperVersion": null,
   "malware": {
     "count": 0,
@@ -89,6 +96,13 @@ exports[`analyze() — structured findings snapshots > cant-keep-up.log 1`] = `
   "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
   "invalidConfig": null,
   "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
   "latestPaperVersion": null,
   "malware": {
     "count": 0,
@@ -171,6 +185,13 @@ exports[`analyze() — structured findings snapshots > config-coercion.log 1`] =
     "validType": "Integer",
   },
   "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
   "latestPaperVersion": null,
   "malware": {
     "count": 0,
@@ -258,6 +279,13 @@ exports[`analyze() — structured findings snapshots > downgrade.log 1`] = `
   "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
   "invalidConfig": null,
   "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
   "latestPaperVersion": null,
   "malware": {
     "count": 0,
@@ -327,6 +355,13 @@ exports[`analyze() — structured findings snapshots > eula.log 1`] = `
   "flavorLine": null,
   "invalidConfig": null,
   "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": null,
+    "vmWarnings": [],
+  },
   "latestPaperVersion": null,
   "malware": {
     "count": 0,
@@ -439,6 +474,13 @@ exports[`analyze() — structured findings snapshots > exceptions.log 1`] = `
   "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
   "invalidConfig": null,
   "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
   "latestPaperVersion": null,
   "malware": {
     "count": 0,
@@ -496,6 +538,84 @@ exports[`analyze() — structured findings snapshots > exceptions.log 1`] = `
 }
 `;
 
+exports[`analyze() — structured findings snapshots > java-old.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": null,
+  "flavorLine": null,
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": 8,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 17,
+    "vmWarnings": [
+      "OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended",
+    ],
+  },
+  "latestPaperVersion": null,
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": null,
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
+  "paperVersion": null,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "plugins": [],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": false,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
+}
+`;
+
 exports[`analyze() — structured findings snapshots > malware.log 1`] = `
 {
   "ambiguous": {
@@ -508,6 +628,13 @@ exports[`analyze() — structured findings snapshots > malware.log 1`] = `
   "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
   "invalidConfig": null,
   "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
   "latestPaperVersion": null,
   "malware": {
     "count": 1,
@@ -577,6 +704,13 @@ exports[`analyze() — structured findings snapshots > missing-dep.log 1`] = `
   "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
   "invalidConfig": null,
   "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
   "latestPaperVersion": null,
   "malware": {
     "count": 0,
@@ -648,6 +782,13 @@ exports[`analyze() — structured findings snapshots > no-flavor.log 1`] = `
   "flavorLine": null,
   "invalidConfig": null,
   "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": null,
+    "vmWarnings": [],
+  },
   "latestPaperVersion": null,
   "malware": {
     "count": 0,
@@ -717,6 +858,13 @@ exports[`analyze() — structured findings snapshots > non-supported-version.log
   "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.20.4-400-master@abcd123 (2024-01-01T00:00:00Z) (Implementing API version 1.20.4-R0.1-SNAPSHOT)",
   "invalidConfig": null,
   "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 17,
+    "vmWarnings": [],
+  },
   "latestPaperVersion": null,
   "malware": {
     "count": 0,
@@ -792,6 +940,13 @@ exports[`analyze() — structured findings snapshots > offline-cracked.log 1`] =
   "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
   "invalidConfig": null,
   "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
   "latestPaperVersion": null,
   "malware": {
     "count": 0,
@@ -873,6 +1028,13 @@ exports[`analyze() — structured findings snapshots > offline-proxy.log 1`] = `
   "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
   "invalidConfig": null,
   "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
   "latestPaperVersion": null,
   "malware": {
     "count": 0,
@@ -982,6 +1144,13 @@ exports[`analyze() — structured findings snapshots > oom.log 1`] = `
   "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
   "invalidConfig": null,
   "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
   "latestPaperVersion": null,
   "malware": {
     "count": 0,
@@ -1063,6 +1232,13 @@ exports[`analyze() — structured findings snapshots > paper-basic.log 1`] = `
   "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
   "invalidConfig": null,
   "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
   "latestPaperVersion": null,
   "malware": {
     "count": 0,
@@ -1154,6 +1330,13 @@ exports[`analyze() — structured findings snapshots > paper-modern-26.2.log 1`]
   "flavorLine": "[14:55:23] [Server thread/INFO]: This server is running Paper version 26.2-36-dev/26.2@747c984 (2026-06-27T14:43:11Z) (Implementing API version 26.2.build.36-alpha)",
   "invalidConfig": null,
   "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 25,
+    "vmWarnings": [],
+  },
   "latestPaperVersion": null,
   "malware": {
     "count": 0,
@@ -1239,6 +1422,13 @@ exports[`analyze() — structured findings snapshots > pirated.log 1`] = `
   "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
   "invalidConfig": null,
   "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
   "latestPaperVersion": null,
   "malware": {
     "count": 0,
@@ -1325,6 +1515,13 @@ exports[`analyze() — structured findings snapshots > port-bind.log 1`] = `
   "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
   "invalidConfig": null,
   "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
   "latestPaperVersion": null,
   "malware": {
     "count": 0,
@@ -1394,6 +1591,13 @@ exports[`analyze() — structured findings snapshots > watchdog-crash.log 1`] = 
   "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
   "invalidConfig": null,
   "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
   "latestPaperVersion": null,
   "malware": {
     "count": 0,
@@ -1472,6 +1676,13 @@ exports[`analyze() — structured findings snapshots > world-corruption.log 1`] 
   "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
   "invalidConfig": null,
   "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
   "latestPaperVersion": null,
   "malware": {
     "count": 0,

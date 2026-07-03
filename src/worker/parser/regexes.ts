@@ -15,6 +15,9 @@ export const paperVersion2Regex = /Paper version [\d.]+-(\d+)-/;
 export const startingVersionRegex = /Starting minecraft server version (\S+)/;
 export const watchdogUnresponsiveRegex = /The server has not responded for (\d+) seconds/;
 export const oomRegex = /java\.lang\.OutOfMemoryError(?::\s*(.+))?/;
+export const unsupportedJavaRegex = /Unsupported Java detected \((\d+)(?:\.\d+)?\)(?:\. Only up to Java (\d+) is supported)?/;
+export const requiresJavaRegex = /requires (?:running the server with|at least) Java (\d+)/;
+export const javaVersionRegex = /Java [Vv]ersion:?\s*"?(\d+(?:[._]\d+)*)/;
 // World/region corruption signals. Only "wrong location" is verified verbatim; the rest are kept
 // loose and the matched lines are surfaced raw as evidence.
 export const corruptionRegexes: RegExp[] = [

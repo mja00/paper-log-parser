@@ -74,6 +74,15 @@ export interface Findings {
   };
   // `count` is raw line hits (a trace's `Caused by:` OOM line counts too); `kinds` is deduped.
   oom: { detected: boolean; kinds: string[]; count: number; lineNumbers: number[] };
+  javaEnv: {
+    javaVersion: string | null;
+    javaMajor: number | null;
+    // Minimum for the detected MC version (or the log's own "requires Java N" statement).
+    requiredJavaMajor: number | null;
+    // From "Only up to Java N is supported" — the running Java is too NEW for this build.
+    maxSupportedJavaMajor: number | null;
+    vmWarnings: string[];
+  };
   performance: {
     // One "event" per watchdog banner sighting (the banner prints once per dump).
     watchdog: {
@@ -115,6 +124,13 @@ export function newFindings(): Findings {
       worldCorruption: { count: 0, samples: [], lineNumbers: [] },
     },
     oom: { detected: false, kinds: [], count: 0, lineNumbers: [] },
+    javaEnv: {
+      javaVersion: null,
+      javaMajor: null,
+      requiredJavaMajor: null,
+      maxSupportedJavaMajor: null,
+      vmWarnings: [],
+    },
     performance: {
       watchdog: {
         crashCount: 0,
