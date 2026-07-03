@@ -64,11 +64,11 @@ export function buildVerdict(f: Findings): Verdict {
   if (f.pirated.detected || f.possiblyCracked.cracked) return pick("error", "Possibly cracked");
   if (f.offline.isOffline) return pick("error", "Offline mode");
   if (!isSupported(f)) return pick("error", "Unsupported version");
+  // A downgrade means the world was saved by a newer MC version than the server runs — loading it
+  // risks corruption, so this error outranks the not-Paper/outdated warnings below.
+  if (f.downgrade) return pick("error", "Version downgrade");
   if (!f.runningPaper) return pick("warning", "Not running Paper");
   if (!isPaperUpToDate(f)) return pick("warning", "Paper is outdated");
-  // A downgrade means the world was saved by a newer MC version than the server runs — loading it
-  // risks corruption, so it outranks the generic "Issues found" fallback.
-  if (f.downgrade) return pick("error", "Version downgrade");
   if (issueCount > 0) return pick("warning", "Issues found");
   return pick("ok", "Server looks healthy");
 }
