@@ -1,5 +1,3 @@
-/.env.prod
-/.env.prod.db
 /.idea/
 
 # MacOS Ignores
@@ -29,10 +27,6 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
-services/web/project/static/parses/
-
-services/web/project/static/mc_manifest.json
-.venv/
 
 # Node / Workers
 node_modules/
@@ -41,7 +35,3 @@ dist/
 *.local
 .dev.vars
 *.tsbuildinfo
-
-# Python caches (from the golden-generation harness)
-__pycache__/
-test/_patched_parser.py
