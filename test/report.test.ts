@@ -1,6 +1,11 @@
 import { describe, it, expect } from "vitest";
 import { buildVerdict, buildStatusTiles, countIssues } from "../src/client/lib/report";
-import { newFindings } from "../src/worker/parser/types";
+import { newFindings, type ExceptionTrace, type Throwable } from "../src/worker/parser/types";
+
+function trace(type: string): ExceptionTrace {
+  const throwable: Throwable = { type, message: "boom", frames: [], truncated: 0 };
+  return { throwables: [throwable], count: 1, lineNumbers: [1], suspectedPlugins: [] };
+}
 
 describe("buildStatusTiles", () => {
   it("marks a supported, up-to-date Paper server as ok", () => {
@@ -58,8 +63,90 @@ describe("buildVerdict", () => {
     const f = newFindings();
     f.offline.isOffline = true;
     f.plugins = [{ name: "AuthMe", version: "5.6", severity: "error" }];
-    f.exceptions = [{ line: "boom", lineNumber: 1 }];
+    f.exceptions = [trace("NullPointerException")];
     // offline + unsupported (null latest) + not-paper + 1 error plugin + 1 exception = 5
     expect(countIssues(f)).toBe(5);
+  });
+
+  it("ranks crash-class errors above version hygiene, oom first", () => {
+    const f = newFindings();
+    f.oom.detected = true;
+    f.performance.watchdog.crashCount = 1;
+    f.startup.portBindFailure = true;
+    expect(buildVerdict(f).headline).toBe("Out of memory");
+    f.oom.detected = false;
+    expect(buildVerdict(f).headline).toBe("Server crashed");
+    f.performance.watchdog.crashCount = 0;
+    expect(buildVerdict(f).headline).toBe("Port already in use");
+  });
+
+  it("flags java too old as an error verdict", () => {
+    const f = newFindings();
+    f.runningPaper = true;
+    f.paperVersion = 100;
+    f.latestPaperVersion = 100;
+    f.javaEnv.javaMajor = 8;
+    f.javaEnv.requiredJavaMajor = 21;
+    expect(buildVerdict(f).headline).toBe("Java too old");
+  });
+
+  it("reports severe lag as a warning once errors are ruled out", () => {
+    const f = newFindings();
+    f.runningPaper = true;
+    f.paperVersion = 100;
+    f.latestPaperVersion = 100;
+    f.performance.cantKeepUp = { count: 20, totalMsBehind: 40000, totalTicksSkipped: 800, maxMsBehind: 9000 };
+    const v = buildVerdict(f);
+    expect(v.status).toBe("warning");
+    expect(v.headline).toBe("Severe lag");
+  });
+
+  it("does not double-count oom-rooted exception traces", () => {
+    const f = newFindings();
+    f.runningPaper = true;
+    f.paperVersion = 100;
+    f.latestPaperVersion = 100;
+    f.oom.detected = true;
+    f.exceptions = [trace("OutOfMemoryError"), trace("NullPointerException")];
+    // oom (1) + non-oom exception (1) = 2; the OOM trace itself is excluded.
+    expect(countIssues(f)).toBe(2);
+  });
+});
+
+describe("new status tiles", () => {
+  it("shows an ok java tile when compatible", () => {
+    const f = newFindings();
+    f.javaEnv.javaMajor = 21;
+    f.javaEnv.requiredJavaMajor = 21;
+    const java = buildStatusTiles(f).find((t) => t.label === "Java");
+    expect(java?.value).toBe("Java 21");
+    expect(java?.severity).toBe("ok");
+  });
+
+  it("flags too-old java with the required version note", () => {
+    const f = newFindings();
+    f.javaEnv.javaMajor = 8;
+    f.javaEnv.requiredJavaMajor = 21;
+    const java = buildStatusTiles(f).find((t) => t.label === "Java");
+    expect(java?.severity).toBe("error");
+    expect(java?.note).toBe("needs ≥ 21");
+  });
+
+  it("summarizes lag on the lag tile", () => {
+    const f = newFindings();
+    f.performance.cantKeepUp = { count: 3, totalMsBehind: 38386, totalTicksSkipped: 767, maxMsBehind: 26579 };
+    const lag = buildStatusTiles(f).find((t) => t.label === "Lag");
+    expect(lag?.value).toBe("767 ticks behind");
+    expect(lag?.severity).toBe("warning");
+  });
+
+  it("shows crashed on the lag tile when the watchdog fired", () => {
+    const f = newFindings();
+    f.performance.watchdog.crashCount = 2;
+    f.performance.watchdog.maxUnresponsiveSeconds = 60;
+    const lag = buildStatusTiles(f).find((t) => t.label === "Lag");
+    expect(lag?.value).toBe("Crashed");
+    expect(lag?.severity).toBe("error");
+    expect(lag?.note).toBe("unresponsive 60s");
   });
 });

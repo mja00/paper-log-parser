@@ -56,6 +56,20 @@ function seenAt(lineNumbers: number[]): string {
           </span>
         </div>
         <p
+          v-if="trace.suspectedPlugins.length > 0"
+          class="mt-0.5 font-mono text-[11px] text-muted"
+        >
+          possibly caused by
+          <span
+            v-for="(name, p) in trace.suspectedPlugins"
+            :key="name"
+            :style="{ color: SEVERITY_COLORS.info }"
+          >{{ name }}<span
+            v-if="p < trace.suspectedPlugins.length - 1"
+            class="text-muted"
+          >, </span></span>
+        </p>
+        <p
           v-if="trace.throwables[0].message"
           class="mt-0.5 break-words font-mono text-xs text-fg"
         >

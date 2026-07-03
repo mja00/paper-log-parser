@@ -20,6 +20,29 @@ export function isPaperUpToDate(f: Findings): boolean {
   return f.latestPaperVersion !== null && f.paperVersion === f.latestPaperVersion;
 }
 
+// Aggregate skipped ticks above this reads as sustained lag rather than a one-off hiccup.
+export const SEVERE_LAG_TICKS = 200;
+
+// "old" = below the version's minimum; "new" = above what this build supports (Paper refused to
+// start and printed "Only up to Java N is supported").
+export function javaIncompatibility(f: Findings): "old" | "new" | null {
+  const { javaMajor, requiredJavaMajor, maxSupportedJavaMajor } = f.javaEnv;
+  if (javaMajor !== null && maxSupportedJavaMajor !== null && javaMajor > maxSupportedJavaMajor) return "new";
+  if (javaMajor !== null && requiredJavaMajor !== null && javaMajor < requiredJavaMajor) return "old";
+  return null;
+}
+
+export function hasWatchdogCrash(f: Findings): boolean {
+  return f.performance.watchdog.crashCount > 0 || f.performance.watchdog.forcedShutdown;
+}
+
+// OOM traces are deliberately double-captured (dedicated field + full trace); exclude them from
+// the exceptions tally when OOM is already counted so one crash isn't two issues.
+export function nonOomExceptions(f: Findings): Findings["exceptions"] {
+  if (!f.oom.detected) return f.exceptions;
+  return f.exceptions.filter((e) => !e.throwables.some((t) => t.type === "OutOfMemoryError"));
+}
+
 export interface Verdict {
   status: Severity;
   headline: string;
@@ -48,8 +71,17 @@ export function countIssues(f: Findings): number {
   if (f.downgrade) n++;
   if (f.invalidConfig) n++;
   if (f.ambiguous.detected) n++;
+  if (f.oom.detected) n++;
+  if (hasWatchdogCrash(f)) n++;
+  if (f.performance.cantKeepUp.count > 0) n++;
+  if (f.startup.portBindFailure) n++;
+  if (f.startup.eulaNotAccepted) n++;
+  if (f.startup.worldCorruption.count > 0) n++;
+  if (javaIncompatibility(f) !== null) n++;
+  if (f.legacyPlugins.length > 0) n++;
+  n += f.pluginErrors.length;
   n += f.invalidPlayers.length;
-  n += f.exceptions.length;
+  n += nonOomExceptions(f).length;
   n += f.missingDependencies.length;
   n += f.plugins.filter((p) => p.severity === "error").length;
   return n;
@@ -63,12 +95,21 @@ export function buildVerdict(f: Findings): Verdict {
   if (f.malware.detected) return pick("error", "Malware detected");
   if (f.pirated.detected || f.possiblyCracked.cracked) return pick("error", "Possibly cracked");
   if (f.offline.isOffline) return pick("error", "Offline mode");
+  // Hard failures: these are why the log was pasted, so they outrank version hygiene.
+  if (f.oom.detected) return pick("error", "Out of memory");
+  if (hasWatchdogCrash(f)) return pick("error", "Server crashed");
+  if (f.startup.portBindFailure) return pick("error", "Port already in use");
+  if (f.startup.eulaNotAccepted) return pick("error", "EULA not accepted");
+  if (f.startup.worldCorruption.count > 0) return pick("error", "World corruption suspected");
   if (!isSupported(f)) return pick("error", "Unsupported version");
   // A downgrade means the world was saved by a newer MC version than the server runs — loading it
   // risks corruption, so this error outranks the not-Paper/outdated warnings below.
   if (f.downgrade) return pick("error", "Version downgrade");
+  if (javaIncompatibility(f) === "old") return pick("error", "Java too old");
+  if (javaIncompatibility(f) === "new") return pick("error", "Java too new for this build");
   if (!f.runningPaper) return pick("warning", "Not running Paper");
   if (!isPaperUpToDate(f)) return pick("warning", "Paper is outdated");
+  if (f.performance.cantKeepUp.totalTicksSkipped > SEVERE_LAG_TICKS) return pick("warning", "Severe lag");
   if (issueCount > 0) return pick("warning", "Issues found");
   return pick("ok", "Server looks healthy");
 }
@@ -105,6 +146,35 @@ export function buildStatusTiles(f: Findings): StatusTile[] {
       label: "Malware",
       value: f.malware.detected ? `${f.malware.count} hit${f.malware.count === 1 ? "" : "s"}` : "Clean",
       severity: f.malware.detected ? "error" : "ok",
+    },
+    {
+      label: "Java",
+      value: f.javaEnv.javaMajor !== null ? `Java ${f.javaEnv.javaMajor}` : "Unknown",
+      severity: javaIncompatibility(f) !== null ? "error" : f.javaEnv.javaMajor !== null ? "ok" : "neutral",
+      note:
+        javaIncompatibility(f) === "old" && f.javaEnv.requiredJavaMajor !== null
+          ? `needs ≥ ${f.javaEnv.requiredJavaMajor}`
+          : javaIncompatibility(f) === "new" && f.javaEnv.maxSupportedJavaMajor !== null
+            ? `build supports ≤ ${f.javaEnv.maxSupportedJavaMajor}`
+            : undefined,
+    },
+    {
+      label: "Lag",
+      value: hasWatchdogCrash(f)
+        ? "Crashed"
+        : f.performance.cantKeepUp.count > 0
+          ? `${f.performance.cantKeepUp.totalTicksSkipped} ticks behind`
+          : "Stable",
+      severity: hasWatchdogCrash(f)
+        ? "error"
+        : f.performance.cantKeepUp.totalTicksSkipped > SEVERE_LAG_TICKS
+          ? "warning"
+          : f.performance.cantKeepUp.count > 0
+            ? "info"
+            : "ok",
+      note: f.performance.watchdog.maxUnresponsiveSeconds !== null
+        ? `unresponsive ${f.performance.watchdog.maxUnresponsiveSeconds}s`
+        : undefined,
     },
   ];
 }
