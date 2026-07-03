@@ -14,6 +14,14 @@ export const paperVersion1Regex = /git-Paper-(\d+)/;
 export const paperVersion2Regex = /Paper version [\d.]+-(\d+)-/;
 export const startingVersionRegex = /Starting minecraft server version (\S+)/;
 export const watchdogUnresponsiveRegex = /The server has not responded for (\d+) seconds/;
+export const oomRegex = /java\.lang\.OutOfMemoryError(?::\s*(.+))?/;
+// World/region corruption signals. Only "wrong location" is verified verbatim; the rest are kept
+// loose and the matched lines are surfaced raw as evidence.
+export const corruptionRegexes: RegExp[] = [
+  /Chunk file at -?\d+,-?\d+ is in the wrong location/,
+  /Failed to (?:read|store|load) chunk/,
+  /(?:RegionFile|[Rr]egion file).*(?:truncated|corrupt|invalid)/,
+];
 export const cantKeepUpRegex = /Can't keep up! Is the server overloaded\? Running (\d+)ms or (\d+) ticks behind/;
 
 export const pirateRegexes: RegExp[] = [

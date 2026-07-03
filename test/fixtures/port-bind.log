@@ -1,0 +1,6 @@
+[16:38:57] [ServerMain/INFO]: Starting minecraft server version 1.21.4
+[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)
+[16:38:58] [Server thread/INFO]: Starting Minecraft server on *:25565
+[16:38:58] [Server thread/WARN]: **** FAILED TO BIND TO PORT!
+[16:38:58] [Server thread/WARN]: The exception was: java.net.BindException: Address already in use: bind
+[16:38:58] [Server thread/WARN]: Perhaps a server is already running on that port?

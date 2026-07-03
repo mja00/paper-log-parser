@@ -1,4 +1,5 @@
 import type { Check, Throwable } from "../types";
+import { stripPrefix } from "./util";
 
 // Exceptions that are noise or handled by their own checks, so they don't clutter the report.
 const IGNORED_EXCEPTIONS = ["UnknownDependencyException", "CoercionFailedException"];
@@ -7,12 +8,6 @@ const IGNORED_EXCEPTIONS = ["UnknownDependencyException", "CoercionFailedExcepti
 const THROWABLE = /([\w.$]+(?:Exception|Error|Throwable))(?::\s*(.*))?/;
 // A trace almost never exceeds this many continuation lines; caps look-ahead on malformed logs.
 const MAX_TRACE_LINES = 400;
-
-// Drop the `[time] [thread/LEVEL]:` log prefix so the throwable itself leads. Stack traces printed
-// straight to stdout have no prefix, so a non-match returns the trimmed line unchanged.
-function stripPrefix(line: string): string {
-  return line.replace(/^.*?\]:\s*/, "").trim();
-}
 
 // `... N more` collapses frames shared with the enclosing trace; capture N, else null.
 function moreCount(content: string): number | null {

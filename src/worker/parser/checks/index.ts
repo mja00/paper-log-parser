@@ -11,6 +11,9 @@ import { malwareCheck } from "./malware";
 import { configCheck } from "./config";
 import { playersCheck } from "./players";
 import { watchdogCheck, cantKeepUpCheck } from "./performance";
+import { portBindCheck, eulaCheck } from "./startup";
+import { oomCheck } from "./oom";
+import { worldCorruptionCheck } from "./corruption";
 
 // The registry. Adding a check = one file + one entry here. Line checks write independent Findings
 // fields, so their order is irrelevant; cross-field resolution lives in the derived checks.
@@ -28,6 +31,10 @@ export const LINE_CHECKS: Check[] = [
   playersCheck,
   watchdogCheck,
   cantKeepUpCheck,
+  portBindCheck,
+  eulaCheck,
+  oomCheck,
+  worldCorruptionCheck,
 ];
 
 export { DERIVED_CHECKS } from "./derived";

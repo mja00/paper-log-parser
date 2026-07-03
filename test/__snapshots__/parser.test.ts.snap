@@ -32,6 +32,12 @@ exports[`analyze() — structured findings snapshots > ambiguous.log 1`] = `
     "proxyFlavor": "",
     "usingProxy": false,
   },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
   "paperVersion": 26,
   "performance": {
     "cantKeepUp": {
@@ -59,6 +65,15 @@ exports[`analyze() — structured findings snapshots > ambiguous.log 1`] = `
     "plugins": [],
   },
   "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
 }
 `;
 
@@ -85,6 +100,12 @@ exports[`analyze() — structured findings snapshots > cant-keep-up.log 1`] = `
     "isOffline": false,
     "proxyFlavor": "",
     "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
   },
   "paperVersion": 26,
   "performance": {
@@ -119,6 +140,15 @@ exports[`analyze() — structured findings snapshots > cant-keep-up.log 1`] = `
     "plugins": [],
   },
   "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
 }
 `;
 
@@ -153,6 +183,12 @@ exports[`analyze() — structured findings snapshots > config-coercion.log 1`] =
     "proxyFlavor": "",
     "usingProxy": false,
   },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
   "paperVersion": 26,
   "performance": {
     "cantKeepUp": {
@@ -180,6 +216,15 @@ exports[`analyze() — structured findings snapshots > config-coercion.log 1`] =
     "plugins": [],
   },
   "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
 }
 `;
 
@@ -225,6 +270,12 @@ exports[`analyze() — structured findings snapshots > downgrade.log 1`] = `
     "proxyFlavor": "",
     "usingProxy": false,
   },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
   "paperVersion": 26,
   "performance": {
     "cantKeepUp": {
@@ -252,6 +303,84 @@ exports[`analyze() — structured findings snapshots > downgrade.log 1`] = `
     "plugins": [],
   },
   "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
+}
+`;
+
+exports[`analyze() — structured findings snapshots > eula.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": null,
+  "flavorLine": null,
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "latestPaperVersion": null,
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": null,
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
+  "paperVersion": null,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "plugins": [],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": false,
+  "startup": {
+    "eulaNotAccepted": true,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
 }
 `;
 
@@ -322,6 +451,12 @@ exports[`analyze() — structured findings snapshots > exceptions.log 1`] = `
     "proxyFlavor": "",
     "usingProxy": false,
   },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
   "paperVersion": 26,
   "performance": {
     "cantKeepUp": {
@@ -349,6 +484,15 @@ exports[`analyze() — structured findings snapshots > exceptions.log 1`] = `
     "plugins": [],
   },
   "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
 }
 `;
 
@@ -376,6 +520,12 @@ exports[`analyze() — structured findings snapshots > malware.log 1`] = `
     "proxyFlavor": "",
     "usingProxy": false,
   },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
   "paperVersion": 26,
   "performance": {
     "cantKeepUp": {
@@ -403,6 +553,15 @@ exports[`analyze() — structured findings snapshots > malware.log 1`] = `
     "plugins": [],
   },
   "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
 }
 `;
 
@@ -432,6 +591,12 @@ exports[`analyze() — structured findings snapshots > missing-dep.log 1`] = `
     "proxyFlavor": "",
     "usingProxy": false,
   },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
   "paperVersion": 26,
   "performance": {
     "cantKeepUp": {
@@ -459,6 +624,15 @@ exports[`analyze() — structured findings snapshots > missing-dep.log 1`] = `
     "plugins": [],
   },
   "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
 }
 `;
 
@@ -485,6 +659,12 @@ exports[`analyze() — structured findings snapshots > no-flavor.log 1`] = `
     "isOffline": false,
     "proxyFlavor": "",
     "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
   },
   "paperVersion": null,
   "performance": {
@@ -513,6 +693,15 @@ exports[`analyze() — structured findings snapshots > no-flavor.log 1`] = `
     "plugins": [],
   },
   "runningPaper": false,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
 }
 `;
 
@@ -539,6 +728,12 @@ exports[`analyze() — structured findings snapshots > non-supported-version.log
     "isOffline": false,
     "proxyFlavor": "",
     "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
   },
   "paperVersion": 400,
   "performance": {
@@ -573,6 +768,15 @@ exports[`analyze() — structured findings snapshots > non-supported-version.log
     "plugins": [],
   },
   "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
 }
 `;
 
@@ -599,6 +803,12 @@ exports[`analyze() — structured findings snapshots > offline-cracked.log 1`] =
     "isOffline": true,
     "proxyFlavor": "",
     "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
   },
   "paperVersion": 26,
   "performance": {
@@ -639,6 +849,15 @@ exports[`analyze() — structured findings snapshots > offline-cracked.log 1`] =
     ],
   },
   "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
 }
 `;
 
@@ -665,6 +884,12 @@ exports[`analyze() — structured findings snapshots > offline-proxy.log 1`] = `
     "isOffline": false,
     "proxyFlavor": "BungeeCord",
     "usingProxy": true,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
   },
   "paperVersion": 26,
   "performance": {
@@ -693,6 +918,136 @@ exports[`analyze() — structured findings snapshots > offline-proxy.log 1`] = `
     "plugins": [],
   },
   "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
+}
+`;
+
+exports[`analyze() — structured findings snapshots > oom.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [
+    {
+      "count": 1,
+      "lineNumbers": [
+        6,
+      ],
+      "throwables": [
+        {
+          "frames": [
+            "at net.minecraft.server.MinecraftServer.tickChildren(MinecraftServer.java:1560)",
+            "at net.minecraft.server.MinecraftServer.runServer(MinecraftServer.java:1301)",
+          ],
+          "message": "Failed to tick level",
+          "truncated": 0,
+          "type": "RuntimeException",
+        },
+        {
+          "frames": [
+            "at net.minecraft.world.level.chunk.LevelChunk.<init>(LevelChunk.java:112)",
+          ],
+          "message": "Java heap space",
+          "truncated": 2,
+          "type": "OutOfMemoryError",
+        },
+      ],
+    },
+    {
+      "count": 1,
+      "lineNumbers": [
+        12,
+      ],
+      "throwables": [
+        {
+          "frames": [],
+          "message": "GC overhead limit exceeded",
+          "truncated": 0,
+          "type": "OutOfMemoryError",
+        },
+      ],
+    },
+  ],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "latestPaperVersion": null,
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "oom": {
+    "count": 2,
+    "detected": true,
+    "kinds": [
+      "heap-space",
+      "gc-overhead",
+    ],
+    "lineNumbers": [
+      10,
+      13,
+    ],
+  },
+  "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "plugins": [
+    {
+      "name": "EssentialsX",
+      "severity": "ok",
+      "version": "2.20.0",
+    },
+  ],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
 }
 `;
 
@@ -719,6 +1074,12 @@ exports[`analyze() — structured findings snapshots > paper-basic.log 1`] = `
     "isOffline": false,
     "proxyFlavor": "",
     "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
   },
   "paperVersion": 26,
   "performance": {
@@ -769,6 +1130,15 @@ exports[`analyze() — structured findings snapshots > paper-basic.log 1`] = `
     ],
   },
   "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
 }
 `;
 
@@ -795,6 +1165,12 @@ exports[`analyze() — structured findings snapshots > paper-modern-26.2.log 1`]
     "isOffline": true,
     "proxyFlavor": "",
     "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
   },
   "paperVersion": 36,
   "performance": {
@@ -839,6 +1215,15 @@ exports[`analyze() — structured findings snapshots > paper-modern-26.2.log 1`]
     "plugins": [],
   },
   "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
 }
 `;
 
@@ -865,6 +1250,12 @@ exports[`analyze() — structured findings snapshots > pirated.log 1`] = `
     "isOffline": false,
     "proxyFlavor": "",
     "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
   },
   "paperVersion": 26,
   "performance": {
@@ -895,6 +1286,99 @@ exports[`analyze() — structured findings snapshots > pirated.log 1`] = `
     "plugins": [],
   },
   "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
+}
+`;
+
+exports[`analyze() — structured findings snapshots > port-bind.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [
+    {
+      "count": 1,
+      "lineNumbers": [
+        4,
+      ],
+      "throwables": [
+        {
+          "frames": [],
+          "message": "Address already in use: bind",
+          "truncated": 0,
+          "type": "BindException",
+        },
+      ],
+    },
+  ],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "latestPaperVersion": null,
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
+  "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "plugins": [],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": true,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
 }
 `;
 
@@ -921,6 +1405,12 @@ exports[`analyze() — structured findings snapshots > watchdog-crash.log 1`] = 
     "isOffline": false,
     "proxyFlavor": "",
     "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
   },
   "paperVersion": 26,
   "performance": {
@@ -958,5 +1448,93 @@ exports[`analyze() — structured findings snapshots > watchdog-crash.log 1`] = 
     "plugins": [],
   },
   "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
+}
+`;
+
+exports[`analyze() — structured findings snapshots > world-corruption.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "latestPaperVersion": null,
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
+  "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "plugins": [],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 4,
+      "lineNumbers": [
+        4,
+        5,
+        6,
+        7,
+      ],
+      "samples": [
+        "Chunk file at 38,1 is in the wrong location; relocating. (Expected 38, 1, got 38, 4)",
+        "Chunk file at -12,7 is in the wrong location; relocating. (Expected -12, 7, got -11, 7)",
+        "Failed to read chunk [14, -3]",
+        "Region file r.0.0.mca has truncated header: 512",
+      ],
+    },
+  },
 }
 `;

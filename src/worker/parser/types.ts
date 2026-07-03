@@ -66,6 +66,14 @@ export interface Findings {
   exceptions: ExceptionTrace[];
   pirated: { detected: boolean; lines: string[] };
   invalidConfig: InvalidConfig | null;
+  startup: {
+    portBindFailure: boolean;
+    eulaNotAccepted: boolean;
+    // Raw sample lines are kept as evidence — corruption phrasing varies a lot across versions.
+    worldCorruption: { count: number; samples: string[]; lineNumbers: number[] };
+  };
+  // `count` is raw line hits (a trace's `Caused by:` OOM line counts too); `kinds` is deduped.
+  oom: { detected: boolean; kinds: string[]; count: number; lineNumbers: number[] };
   performance: {
     // One "event" per watchdog banner sighting (the banner prints once per dump).
     watchdog: {
@@ -101,6 +109,12 @@ export function newFindings(): Findings {
     exceptions: [],
     pirated: { detected: false, lines: [] },
     invalidConfig: null,
+    startup: {
+      portBindFailure: false,
+      eulaNotAccepted: false,
+      worldCorruption: { count: 0, samples: [], lineNumbers: [] },
+    },
+    oom: { detected: false, kinds: [], count: 0, lineNumbers: [] },
     performance: {
       watchdog: {
         crashCount: 0,
