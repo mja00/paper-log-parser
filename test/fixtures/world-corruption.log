@@ -1,0 +1,8 @@
+[16:38:57] [ServerMain/INFO]: Starting minecraft server version 1.21.4
+[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)
+[16:38:59] [Server thread/INFO]: Preparing level "world"
+[16:39:02] [Server thread/WARN]: Chunk file at 38,1 is in the wrong location; relocating. (Expected 38, 1, got 38, 4)
+[16:39:03] [Server thread/WARN]: Chunk file at -12,7 is in the wrong location; relocating. (Expected -12, 7, got -11, 7)
+[16:39:05] [Server thread/ERROR]: Failed to read chunk [14, -3]
+[16:39:07] [Server thread/ERROR]: Region file r.0.0.mca has truncated header: 512
+[16:39:20] [Server thread/INFO]: Done (21.532s)! For help, type "help"

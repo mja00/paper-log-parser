@@ -1,0 +1,13 @@
+[16:38:57] [ServerMain/INFO]: Starting minecraft server version 1.21.4
+[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)
+[16:38:58] [Server thread/INFO]: [EssentialsX] Loading EssentialsX v2.20.0
+[16:38:59] [Server thread/INFO]: Preparing level "world"
+[16:39:20] [Server thread/INFO]: Done (21.532s)! For help, type "help"
+[16:52:10] [Server thread/ERROR]: Exception in server tick loop
+[16:52:10] [Server thread/ERROR]: java.lang.RuntimeException: Failed to tick level
+[16:52:10] [Server thread/ERROR]: 	at net.minecraft.server.MinecraftServer.tickChildren(MinecraftServer.java:1560)
+[16:52:10] [Server thread/ERROR]: 	at net.minecraft.server.MinecraftServer.runServer(MinecraftServer.java:1301)
+[16:52:10] [Server thread/ERROR]: Caused by: java.lang.OutOfMemoryError: Java heap space
+[16:52:10] [Server thread/ERROR]: 	at net.minecraft.world.level.chunk.LevelChunk.<init>(LevelChunk.java:112)
+[16:52:10] [Server thread/ERROR]: 	... 2 more
+[16:53:44] [Server thread/WARN]: java.lang.OutOfMemoryError: GC overhead limit exceeded

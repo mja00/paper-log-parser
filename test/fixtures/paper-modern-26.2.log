@@ -1,0 +1,8 @@
+[14:55:18] [ServerMain/INFO]: Starting minecraft server version 26.2
+[14:55:23] [Server thread/INFO]: This server is running Paper version 26.2-36-dev/26.2@747c984 (2026-06-27T14:43:11Z) (Implementing API version 26.2.build.36-alpha)
+[14:55:28] [Server thread/INFO]: [ViaVersion] Loading server plugin ViaVersion v5.10.0
+[14:55:28] [Server thread/INFO]: [ViaBackwards] Loading server plugin ViaBackwards v5.10.0
+[14:55:28] [Server thread/INFO]: [PerfSell] Loading server plugin PerfSell v1.2.2
+[14:55:33] [Server thread/WARN]: **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+[14:55:33] [Server thread/WARN]: The server will make no attempt to authenticate usernames.
+[14:55:40] [Server thread/INFO]: Preparing level "world"

@@ -1,5 +1,3 @@
-/.env.prod
-/.env.prod.db
 /.idea/
 
 # MacOS Ignores
@@ -29,7 +27,11 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
-services/web/project/static/parses/
 
-services/web/project/static/mc_manifest.json
-.venv/
+# Node / Workers
+node_modules/
+dist/
+.wrangler/
+*.local
+.dev.vars
+*.tsbuildinfo

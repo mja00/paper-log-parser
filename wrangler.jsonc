@@ -1,0 +1,20 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "paper-log-parser",
+  "main": "src/worker/index.ts",
+  "compatibility_date": "2026-06-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true
+  },
+  // custom_domain auto-provisions the DNS record + TLS cert; requires mart.fyi on this account.
+  "routes": [{ "pattern": "paper.mart.fyi", "custom_domain": true }],
+  "assets": {
+    "directory": "./dist/client",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    // Root navigation must hit the Worker so meta.ts can inject OG tags on ?url=.
+    // Hashed asset files and /bingo serve directly via the assets binding.
+    "run_worker_first": ["/", "/parse", "/og", "/age/*"]
+  }
+}

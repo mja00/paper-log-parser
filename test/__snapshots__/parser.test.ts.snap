@@ -1,0 +1,1966 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`analyze() — structured findings snapshots > ambiguous.log 1`] = `
+{
+  "ambiguous": {
+    "detected": true,
+    "plugins": [
+      {
+        "pluginFilenames": [
+          "plugins/Foo-1.0.jar",
+          "plugins/Foo-2.0.jar",
+        ],
+        "pluginName": "Foo",
+      },
+    ],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
+  "latestPaperVersion": null,
+  "legacyPlugins": [],
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
+  "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "pluginErrors": [],
+  "plugins": [],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
+}
+`;
+
+exports[`analyze() — structured findings snapshots > cant-keep-up.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
+  "latestPaperVersion": null,
+  "legacyPlugins": [],
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
+  "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 3,
+      "maxMsBehind": 26579,
+      "totalMsBehind": 38386,
+      "totalTicksSkipped": 767,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "pluginErrors": [],
+  "plugins": [
+    {
+      "name": "EssentialsX",
+      "severity": "ok",
+      "version": "2.20.0",
+    },
+  ],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
+}
+`;
+
+exports[`analyze() — structured findings snapshots > config-coercion.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": {
+    "invalidType": "String",
+    "locations": [
+      "server",
+      "max-players",
+    ],
+    "validType": "Integer",
+  },
+  "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
+  "latestPaperVersion": null,
+  "legacyPlugins": [],
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
+  "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "pluginErrors": [],
+  "plugins": [],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
+}
+`;
+
+exports[`analyze() — structured findings snapshots > downgrade.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": {
+    "from": "1.21.4",
+    "to": "1.21.1",
+  },
+  "exceptions": [
+    {
+      "count": 1,
+      "lineNumbers": [
+        1,
+      ],
+      "suspectedPlugins": [],
+      "throwables": [
+        {
+          "frames": [],
+          "message": "Server attempted to load chunk saved with newer version of minecraft! 4189 > 3955",
+          "truncated": 0,
+          "type": "RuntimeException",
+        },
+      ],
+    },
+  ],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
+  "latestPaperVersion": null,
+  "legacyPlugins": [],
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
+  "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "pluginErrors": [],
+  "plugins": [],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
+}
+`;
+
+exports[`analyze() — structured findings snapshots > eula.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": null,
+  "flavorLine": null,
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": null,
+    "vmWarnings": [],
+  },
+  "latestPaperVersion": null,
+  "legacyPlugins": [],
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": null,
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
+  "paperVersion": null,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "pluginErrors": [],
+  "plugins": [],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": false,
+  "startup": {
+    "eulaNotAccepted": true,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
+}
+`;
+
+exports[`analyze() — structured findings snapshots > exceptions.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [
+    {
+      "count": 1,
+      "lineNumbers": [
+        1,
+      ],
+      "suspectedPlugins": [],
+      "throwables": [
+        {
+          "frames": [
+            "at net.minecraft.world.level.Level.tickEntity(Level.java:812)",
+            "at net.minecraft.server.MinecraftServer.tickServer(MinecraftServer.java:1523)",
+          ],
+          "message": "Ticking entity",
+          "truncated": 0,
+          "type": "ReportedException",
+        },
+        {
+          "frames": [
+            "at com.example.plugin.Handler.onTick(Handler.java:88)",
+          ],
+          "message": "Cannot invoke "World.getName()" because "w" is null",
+          "truncated": 3,
+          "type": "NullPointerException",
+        },
+      ],
+    },
+    {
+      "count": 2,
+      "lineNumbers": [
+        7,
+        9,
+      ],
+      "suspectedPlugins": [],
+      "throwables": [
+        {
+          "frames": [
+            "at com.example.plugin.Zone.enter(Zone.java:22)",
+          ],
+          "message": "zone alpha",
+          "truncated": 0,
+          "type": "IllegalStateException",
+        },
+      ],
+    },
+  ],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
+  "latestPaperVersion": null,
+  "legacyPlugins": [],
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
+  "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "pluginErrors": [],
+  "plugins": [],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
+}
+`;
+
+exports[`analyze() — structured findings snapshots > java-old.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": null,
+  "flavorLine": null,
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": 8,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 17,
+    "vmWarnings": [
+      "OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended",
+    ],
+  },
+  "latestPaperVersion": null,
+  "legacyPlugins": [],
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": null,
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
+  "paperVersion": null,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "pluginErrors": [],
+  "plugins": [],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": false,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
+}
+`;
+
+exports[`analyze() — structured findings snapshots > malware.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
+  "latestPaperVersion": null,
+  "legacyPlugins": [],
+  "malware": {
+    "count": 1,
+    "detected": true,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
+  "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "pluginErrors": [],
+  "plugins": [],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
+}
+`;
+
+exports[`analyze() — structured findings snapshots > missing-dep.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
+  "latestPaperVersion": null,
+  "legacyPlugins": [],
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [
+    "ProtocolLib Please download and install these",
+  ],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
+  "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "pluginErrors": [],
+  "plugins": [],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
+}
+`;
+
+exports[`analyze() — structured findings snapshots > no-flavor.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": null,
+  "flavorLine": null,
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": null,
+    "vmWarnings": [],
+  },
+  "latestPaperVersion": null,
+  "legacyPlugins": [],
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": null,
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
+  "paperVersion": null,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "pluginErrors": [],
+  "plugins": [],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": false,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
+}
+`;
+
+exports[`analyze() — structured findings snapshots > non-supported-version.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.20.4-400-master@abcd123 (2024-01-01T00:00:00Z) (Implementing API version 1.20.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 17,
+    "vmWarnings": [],
+  },
+  "latestPaperVersion": null,
+  "legacyPlugins": [],
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.20.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
+  "paperVersion": 400,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "pluginErrors": [],
+  "plugins": [
+    {
+      "name": "EssentialsX",
+      "severity": "ok",
+      "version": "2.20.0",
+    },
+  ],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
+}
+`;
+
+exports[`analyze() — structured findings snapshots > offline-cracked.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
+  "latestPaperVersion": null,
+  "legacyPlugins": [],
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": true,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
+  "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "pluginErrors": [],
+  "plugins": [
+    {
+      "name": "AuthMe",
+      "severity": "error",
+      "version": "5.6.0",
+    },
+  ],
+  "possiblyCracked": {
+    "cracked": true,
+    "plugins": [
+      {
+        "name": "AuthMe",
+        "severity": "error",
+        "version": "5.6.0",
+      },
+    ],
+  },
+  "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
+}
+`;
+
+exports[`analyze() — structured findings snapshots > offline-proxy.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
+  "latestPaperVersion": null,
+  "legacyPlugins": [],
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "BungeeCord",
+    "usingProxy": true,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
+  "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "pluginErrors": [],
+  "plugins": [],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
+}
+`;
+
+exports[`analyze() — structured findings snapshots > oom.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [
+    {
+      "count": 1,
+      "lineNumbers": [
+        6,
+      ],
+      "suspectedPlugins": [],
+      "throwables": [
+        {
+          "frames": [
+            "at net.minecraft.server.MinecraftServer.tickChildren(MinecraftServer.java:1560)",
+            "at net.minecraft.server.MinecraftServer.runServer(MinecraftServer.java:1301)",
+          ],
+          "message": "Failed to tick level",
+          "truncated": 0,
+          "type": "RuntimeException",
+        },
+        {
+          "frames": [
+            "at net.minecraft.world.level.chunk.LevelChunk.<init>(LevelChunk.java:112)",
+          ],
+          "message": "Java heap space",
+          "truncated": 2,
+          "type": "OutOfMemoryError",
+        },
+      ],
+    },
+    {
+      "count": 1,
+      "lineNumbers": [
+        12,
+      ],
+      "suspectedPlugins": [],
+      "throwables": [
+        {
+          "frames": [],
+          "message": "GC overhead limit exceeded",
+          "truncated": 0,
+          "type": "OutOfMemoryError",
+        },
+      ],
+    },
+  ],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
+  "latestPaperVersion": null,
+  "legacyPlugins": [],
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "oom": {
+    "count": 2,
+    "detected": true,
+    "kinds": [
+      "heap-space",
+      "gc-overhead",
+    ],
+    "lineNumbers": [
+      10,
+      13,
+    ],
+  },
+  "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "pluginErrors": [],
+  "plugins": [
+    {
+      "name": "EssentialsX",
+      "severity": "ok",
+      "version": "2.20.0",
+    },
+  ],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
+}
+`;
+
+exports[`analyze() — structured findings snapshots > paper-basic.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
+  "latestPaperVersion": null,
+  "legacyPlugins": [],
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
+  "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "pluginErrors": [],
+  "plugins": [
+    {
+      "name": "AuthMe",
+      "severity": "error",
+      "version": "5.6.0",
+    },
+    {
+      "name": "ViaVersion",
+      "severity": "warning",
+      "version": "4.9.0",
+    },
+    {
+      "name": "EssentialsX",
+      "severity": "ok",
+      "version": "2.20.0",
+    },
+  ],
+  "possiblyCracked": {
+    "cracked": true,
+    "plugins": [
+      {
+        "name": "AuthMe",
+        "severity": "error",
+        "version": "5.6.0",
+      },
+    ],
+  },
+  "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
+}
+`;
+
+exports[`analyze() — structured findings snapshots > paper-modern-26.2.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": "Paper",
+  "flavorLine": "[14:55:23] [Server thread/INFO]: This server is running Paper version 26.2-36-dev/26.2@747c984 (2026-06-27T14:43:11Z) (Implementing API version 26.2.build.36-alpha)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 25,
+    "vmWarnings": [],
+  },
+  "latestPaperVersion": null,
+  "legacyPlugins": [],
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "26.2",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": true,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
+  "paperVersion": 36,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "pluginErrors": [],
+  "plugins": [
+    {
+      "name": "ViaVersion",
+      "severity": "warning",
+      "version": "5.10.0",
+    },
+    {
+      "name": "ViaBackwards",
+      "severity": "warning",
+      "version": "5.10.0",
+    },
+    {
+      "name": "PerfSell",
+      "severity": "ok",
+      "version": "1.2.2",
+    },
+  ],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
+}
+`;
+
+exports[`analyze() — structured findings snapshots > pirated.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
+  "latestPaperVersion": null,
+  "legacyPlugins": [],
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
+  "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
+  "pirated": {
+    "detected": true,
+    "lines": [
+      "[06:10:18] [Server thread/INFO]: [LifestealCore] [Premium] [Build] Leaked by someone @ leaksite.net",
+    ],
+  },
+  "players": [],
+  "pluginErrors": [],
+  "plugins": [],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
+}
+`;
+
+exports[`analyze() — structured findings snapshots > plugin-errors.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [
+    {
+      "count": 1,
+      "lineNumbers": [
+        6,
+      ],
+      "suspectedPlugins": [],
+      "throwables": [
+        {
+          "frames": [],
+          "message": "Invalid plugin.yml",
+          "truncated": 0,
+          "type": "InvalidDescriptionException",
+        },
+      ],
+    },
+    {
+      "count": 1,
+      "lineNumbers": [
+        9,
+      ],
+      "suspectedPlugins": [
+        "EssentialsX",
+      ],
+      "throwables": [
+        {
+          "frames": [
+            "at com.earth2me.essentials.EssentialsX.onEnable(EssentialsX.java:210)",
+            "at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:264)",
+          ],
+          "message": "Cannot invoke method on null object",
+          "truncated": 0,
+          "type": "NullPointerException",
+        },
+      ],
+    },
+    {
+      "count": 1,
+      "lineNumbers": [
+        13,
+      ],
+      "suspectedPlugins": [
+        "WorldEdit",
+      ],
+      "throwables": [
+        {
+          "frames": [
+            "at com.sk89q.worldedit.bukkit.WorldEditPlugin.onCommand(WorldEditPlugin.java:401)",
+            "at org.bukkit.command.SimpleCommandMap.dispatch(SimpleCommandMap.java:152)",
+          ],
+          "message": "Chunk not loaded",
+          "truncated": 0,
+          "type": "IllegalStateException",
+        },
+      ],
+    },
+  ],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
+  "latestPaperVersion": null,
+  "legacyPlugins": [
+    {
+      "name": "AncientChat",
+      "version": "1.0",
+    },
+  ],
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
+  "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "pluginErrors": [
+    {
+      "count": 1,
+      "lineNumbers": [
+        6,
+      ],
+      "phase": "loading",
+      "plugin": "plugins/broken.jar",
+      "version": null,
+    },
+    {
+      "count": 1,
+      "lineNumbers": [
+        9,
+      ],
+      "phase": "enabling",
+      "plugin": "EssentialsX",
+      "version": "2.20.0",
+    },
+  ],
+  "plugins": [
+    {
+      "name": "EssentialsX",
+      "severity": "ok",
+      "version": "2.20.0",
+    },
+    {
+      "name": "WorldEdit",
+      "severity": "ok",
+      "version": "7.3.0",
+    },
+  ],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
+}
+`;
+
+exports[`analyze() — structured findings snapshots > port-bind.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [
+    {
+      "count": 1,
+      "lineNumbers": [
+        4,
+      ],
+      "suspectedPlugins": [],
+      "throwables": [
+        {
+          "frames": [],
+          "message": "Address already in use: bind",
+          "truncated": 0,
+          "type": "BindException",
+        },
+      ],
+    },
+  ],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
+  "latestPaperVersion": null,
+  "legacyPlugins": [],
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
+  "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "pluginErrors": [],
+  "plugins": [],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": true,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
+}
+`;
+
+exports[`analyze() — structured findings snapshots > watchdog-crash.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
+  "latestPaperVersion": null,
+  "legacyPlugins": [],
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
+  "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 2,
+      "forcedShutdown": true,
+      "hasThreadDump": true,
+      "lineNumbers": [
+        6,
+        17,
+      ],
+      "maxUnresponsiveSeconds": 60,
+    },
+  },
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "pluginErrors": [],
+  "plugins": [
+    {
+      "name": "EssentialsX",
+      "severity": "ok",
+      "version": "2.20.0",
+    },
+  ],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 0,
+      "lineNumbers": [],
+      "samples": [],
+    },
+  },
+}
+`;
+
+exports[`analyze() — structured findings snapshots > world-corruption.log 1`] = `
+{
+  "ambiguous": {
+    "detected": false,
+    "plugins": [],
+  },
+  "downgrade": null,
+  "exceptions": [],
+  "flavor": "Paper",
+  "flavorLine": "[16:38:57] [Server thread/INFO]: This server is running Paper version 1.21.4-26-master@52ae4ad (2024-08-16T22:44:55Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)",
+  "invalidConfig": null,
+  "invalidPlayers": [],
+  "javaEnv": {
+    "javaMajor": null,
+    "javaVersion": null,
+    "maxSupportedJavaMajor": null,
+    "requiredJavaMajor": 21,
+    "vmWarnings": [],
+  },
+  "latestPaperVersion": null,
+  "legacyPlugins": [],
+  "malware": {
+    "count": 0,
+    "detected": false,
+  },
+  "mcVersion": "1.21.4",
+  "missingDependencies": [],
+  "offline": {
+    "isOffline": false,
+    "proxyFlavor": "",
+    "usingProxy": false,
+  },
+  "oom": {
+    "count": 0,
+    "detected": false,
+    "kinds": [],
+    "lineNumbers": [],
+  },
+  "paperVersion": 26,
+  "performance": {
+    "cantKeepUp": {
+      "count": 0,
+      "maxMsBehind": 0,
+      "totalMsBehind": 0,
+      "totalTicksSkipped": 0,
+    },
+    "watchdog": {
+      "crashCount": 0,
+      "forcedShutdown": false,
+      "hasThreadDump": false,
+      "lineNumbers": [],
+      "maxUnresponsiveSeconds": null,
+    },
+  },
+  "pirated": {
+    "detected": false,
+    "lines": [],
+  },
+  "players": [],
+  "pluginErrors": [],
+  "plugins": [],
+  "possiblyCracked": {
+    "cracked": false,
+    "plugins": [],
+  },
+  "runningPaper": true,
+  "startup": {
+    "eulaNotAccepted": false,
+    "portBindFailure": false,
+    "worldCorruption": {
+      "count": 4,
+      "lineNumbers": [
+        4,
+        5,
+        6,
+        7,
+      ],
+      "samples": [
+        "Chunk file at 38,1 is in the wrong location; relocating. (Expected 38, 1, got 38, 4)",
+        "Chunk file at -12,7 is in the wrong location; relocating. (Expected -12, 7, got -11, 7)",
+        "Failed to read chunk [14, -3]",
+        "Region file r.0.0.mca has truncated header: 512",
+      ],
+    },
+  },
+}
+`;
