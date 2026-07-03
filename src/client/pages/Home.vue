@@ -1,24 +1,24 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import FindingsReport from "../components/FindingsReport.vue";
-import Icon from "../components/Icon.vue";
+import LogInput from "../components/LogInput.vue";
 import type { Findings } from "../../worker/parser/types";
 import { SUPPORTED_HOSTS } from "../../worker/parser/hosts";
 
 const version = "2.1.0";
 
-const logUrl = ref("");
+const logInput = ref<InstanceType<typeof LogInput> | null>(null);
 const findings = ref<Findings | null>(null);
 const errorMessage = ref("");
+const noticeMessage = ref("");
 const parsedUrl = ref("");
 const parsedAt = ref("");
 const isParsing = ref(false);
 
-async function parse() {
+async function parse(url: string) {
   if (isParsing.value) return;
   isParsing.value = true;
   errorMessage.value = "";
-  const url = logUrl.value;
   // A stalled /parse must not pin the spinner forever; abort after a bounded wait.
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 30000);
@@ -56,8 +56,8 @@ async function parse() {
 onMounted(() => {
   const urlParam = new URL(window.location.href).searchParams.get("url");
   if (urlParam) {
-    logUrl.value = urlParam;
-    void parse();
+    logInput.value?.setUrl(urlParam);
+    void parse(urlParam);
   }
 });
 </script>
@@ -77,45 +77,22 @@ onMounted(() => {
         version, plugins, offline mode, malware, and more.
       </p>
 
-      <form
-        class="mt-6"
-        @submit.prevent="parse"
+      <div class="mt-6">
+        <LogInput
+          ref="logInput"
+          :busy="isParsing"
+          @submit="parse"
+          @notice="noticeMessage = $event"
+        />
+      </div>
+
+      <p
+        v-if="noticeMessage"
+        class="mt-3 font-mono text-xs"
+        :style="{ color: '#FFFF55' }"
       >
-        <div class="tooltip-frame flex items-center gap-2 px-3 py-2 text-left focus-within:border-accent">
-          <span
-            class="font-mono text-accent"
-            aria-hidden="true"
-          >&gt;</span>
-          <label
-            for="logUrl"
-            class="sr-only"
-          >Log URL</label>
-          <input
-            id="logUrl"
-            v-model="logUrl"
-            type="text"
-            name="logUrl"
-            placeholder="https://pastes.dev/rorythecat"
-            class="min-w-0 flex-1 bg-transparent font-mono text-sm text-fg placeholder:text-muted focus:outline-none"
-          >
-          <button
-            type="submit"
-            :disabled="isParsing"
-            class="flex shrink-0 items-center gap-1.5 rounded bg-accent px-3 py-1.5 font-mono text-sm font-semibold text-ink transition hover:bg-accent/85 disabled:opacity-60"
-          >
-            <span
-              v-if="isParsing"
-              class="h-3.5 w-3.5 animate-spin rounded-full border-2 border-ink/40 border-t-ink"
-              aria-hidden="true"
-            />
-            <Icon
-              v-else
-              name="scan"
-            />
-            <span>{{ isParsing ? "Scanning" : "Scan" }}</span>
-          </button>
-        </div>
-      </form>
+        {{ noticeMessage }}
+      </p>
 
       <p class="mt-3 flex flex-wrap items-center justify-center gap-1.5 text-xs text-muted">
         <span>Supported:</span>
