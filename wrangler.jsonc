@@ -7,6 +7,8 @@
   "observability": {
     "enabled": true
   },
+  // custom_domain auto-provisions the DNS record + TLS cert; requires mart.fyi on this account.
+  "routes": [{ "pattern": "paper.mart.fyi", "custom_domain": true }],
   "assets": {
     "directory": "./dist/client",
     "binding": "ASSETS",
