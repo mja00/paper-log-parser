@@ -3,9 +3,9 @@ import { onMounted, ref } from "vue";
 import FindingsReport from "../components/FindingsReport.vue";
 import Icon from "../components/Icon.vue";
 import type { Findings } from "../../worker/parser/types";
+import { SUPPORTED_HOSTS } from "../../worker/parser/hosts";
 
 const version = "2.1.0";
-const SUPPORTED_HOSTS = ["paste.gg", "pastes.dev", "mclo.gs", "pastebin.com"];
 
 const logUrl = ref("");
 const findings = ref<Findings | null>(null);

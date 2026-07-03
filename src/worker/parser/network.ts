@@ -1,4 +1,5 @@
 import type { PlayerInfo } from "./types";
+import { resolveRawUrl } from "./hosts";
 
 // Paper's v3 API strictly requires a User-Agent that identifies the app + a contact.
 const USER_AGENT = "paper-log-parser/2.1 (+https://github.com/mja00/paper-log-parser)";
@@ -31,36 +32,22 @@ async function extractPasteGgRawHref(resp: Response): Promise<string | null> {
 
 // Fetch a supported paste host and return its raw text (empty string for unsupported hosts).
 export async function fetchLogText(url: string, host: string): Promise<string> {
-  let resp: Response;
-  switch (host) {
-    case "paste.gg": {
-      if (!url.endsWith("raw")) {
-        const htmlResp = await fetchWithUa(url);
-        const rawHref = await extractPasteGgRawHref(htmlResp);
-        if (rawHref === null) return "";
-        resp = await fetchWithUa(`https://paste.gg${rawHref}`);
-      } else {
-        resp = await fetchWithUa(url);
-      }
-      break;
-    }
-    case "pastes.dev":
-      resp = await fetchWithUa(url.replace("pastes.dev", "api.pastes.dev"));
-      break;
-    case "api.pastes.dev":
+  // paste.gg needs an HTML scrape to find the raw link, so it can't be a pure URL rewrite.
+  if (host === "paste.gg") {
+    let resp: Response;
+    if (!url.endsWith("raw")) {
+      const htmlResp = await fetchWithUa(url);
+      const rawHref = await extractPasteGgRawHref(htmlResp);
+      if (rawHref === null) return "";
+      resp = await fetchWithUa(`https://paste.gg${rawHref}`);
+    } else {
       resp = await fetchWithUa(url);
-      break;
-    case "pastebin.com":
-      resp = await fetchWithUa(url.replace("pastebin.com", "pastebin.com/raw"));
-      break;
-    case "mclo.gs": {
-      const id = url.split("/").pop() ?? "";
-      resp = await fetchWithUa(`https://api.mclo.gs/1/raw/${id}`);
-      break;
     }
-    default:
-      return "";
+    return resp.text();
   }
+  const rawUrl = resolveRawUrl(url, host);
+  if (rawUrl === null) return "";
+  const resp = await fetchWithUa(rawUrl);
   return resp.text();
 }
 
