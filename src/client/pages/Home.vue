@@ -2,12 +2,16 @@
 import { onMounted, ref } from "vue";
 import FindingsReport from "../components/FindingsReport.vue";
 import LogInput from "../components/LogInput.vue";
+import RecentParses from "../components/RecentParses.vue";
 import type { Findings } from "../../worker/parser/types";
 import { SUPPORTED_HOSTS } from "../../worker/parser/hosts";
+import { buildVerdict } from "../lib/report";
+import { addHistoryEntry, clearHistory, loadHistory, type HistoryEntry } from "../lib/history";
 
 const version = "2.1.0";
 
 const logInput = ref<InstanceType<typeof LogInput> | null>(null);
+const history = ref<HistoryEntry[]>([]);
 const findings = ref<Findings | null>(null);
 const errorMessage = ref("");
 const noticeMessage = ref("");
@@ -32,6 +36,14 @@ async function parse(url: string) {
     const data = (await resp.json()) as { success: boolean; findings?: Findings; error?: string };
     if (data.success && data.findings) {
       findings.value = data.findings;
+      const verdict = buildVerdict(data.findings);
+      history.value = addHistoryEntry({
+        url,
+        parsedAt: Date.now(),
+        status: verdict.status,
+        headline: verdict.headline,
+        mcVersion: data.findings.mcVersion,
+      });
     } else {
       findings.value = null;
       errorMessage.value = data.error ?? "Unknown error";
@@ -53,7 +65,18 @@ async function parse(url: string) {
   }
 }
 
+function selectHistory(url: string) {
+  logInput.value?.setUrl(url);
+  void parse(url);
+}
+
+function onClearHistory() {
+  clearHistory();
+  history.value = [];
+}
+
 onMounted(() => {
+  history.value = loadHistory();
   const urlParam = new URL(window.location.href).searchParams.get("url");
   if (urlParam) {
     logInput.value?.setUrl(urlParam);
@@ -129,6 +152,16 @@ onMounted(() => {
       v-else
       class="mx-auto mt-10 max-w-2xl text-center text-sm text-muted"
     >
+      <div
+        v-if="history.length"
+        class="mb-8 text-left"
+      >
+        <RecentParses
+          :entries="history"
+          @select="selectHistory"
+          @clear="onClearHistory"
+        />
+      </div>
       <p>
         Tip: share a parsed report by adding <code class="font-mono text-fg">?url=</code> to this page's
         address, followed by the log URL.
